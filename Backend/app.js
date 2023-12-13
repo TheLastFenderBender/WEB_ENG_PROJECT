@@ -7,7 +7,7 @@ const app = express();
 const port = 3000;
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/WEB_ENG');
+mongoose.connect('mongodb://127.0.0.1:27017/Airline', { useNewUrlParser: true });
 mongoose.connection.once('open', () => { console.log('Connected to MongoDB Successfully') });
 
 app.use(cors());
