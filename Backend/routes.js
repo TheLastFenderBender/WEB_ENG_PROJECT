@@ -170,9 +170,6 @@ router.get('/aircrafts', function(req, res) {
     // View aircraft list
 });
 
-module.exports = router;
-
-
 // ~~~~~~~~~~~~~~~~~~~~~~~ 4.Super Admin Panel: ~~~~~~~~~~~~~~~~~~~~~~~
 
 
