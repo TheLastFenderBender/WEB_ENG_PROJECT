@@ -119,6 +119,59 @@ router.put('/user/:id', authenticate, (req, res) => {
 
 // ~~~~~~~~~~~~~~~~~~~~~~~ 3.Flight Management Panel: ~~~~~~~~~~~~~~~~~~~~~~~
 
+// Flight routes
+router.post('/flights', function(req, res) {
+    // Add new flight
+});
+
+router.put('/flights/:id', function(req, res) {
+    // Update flight information
+});
+
+router.delete('/flights/:id', function(req, res) {
+    // Delete flight
+});
+
+router.get('/flights', function(req, res) {
+    // View flight list
+});
+
+// Route routes
+router.post('/routes', function(req, res) {
+    // Add new route
+});
+
+router.put('/routes/:id', function(req, res) {
+    // Update route information
+});
+
+router.delete('/routes/:id', function(req, res) {
+    // Delete route
+});
+
+router.get('/routes', function(req, res) {
+    // View route list
+});
+
+// Aircraft routes
+router.post('/aircrafts', function(req, res) {
+    // Add new aircraft
+});
+
+router.put('/aircrafts/:id', function(req, res) {
+    // Update aircraft information
+});
+
+router.delete('/aircrafts/:id', function(req, res) {
+    // Delete aircraft
+});
+
+router.get('/aircrafts', function(req, res) {
+    // View aircraft list
+});
+
+module.exports = router;
+
 
 // ~~~~~~~~~~~~~~~~~~~~~~~ 4.Super Admin Panel: ~~~~~~~~~~~~~~~~~~~~~~~
 
