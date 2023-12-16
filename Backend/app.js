@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const User = require('./models/User');
+const bcrypt = require('bcrypt');
 const app = express();
 const port = 3000;
 
@@ -18,14 +19,22 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/', router);
 
+// Function to hash a password
+const hashPassword = async (password) => {
+    const saltRounds = 10;
+    return await bcrypt.hash(password, saltRounds);
+};
+
 // Manually create an admin user if not exists
 User.findOne({ username: 'admin' })
-    .then(existingAdmin => {
+    .then(async existingAdmin => {
         if (!existingAdmin) {
+            const hashedPassword = await hashPassword('adminPassword');
+
             const adminUser = new User({
                 username: 'admin',
                 email: 'admin@gmail.com',
-                password: 'adminPassword',
+                password: hashedPassword,
                 admin: true,
                 blocked: false,
             });
@@ -33,18 +42,19 @@ User.findOne({ username: 'admin' })
             return adminUser.save();
         }
     })
-    .then(() => {
+    .then(async () => {
         console.log('Admin user created or already exists');
 
         // Now, check if 'superadmin' exists
         return User.findOne({ username: 'superadmin' });
     })
-    .then(existingSuperAdmin => {
+    .then(async (existingSuperAdmin) => {
         if (!existingSuperAdmin) {
+            const hashedPassword = await hashPassword('superadminPassword');
             const superAdminUser = new User({
                 username: 'superadmin',
                 email: 'superadmin@gmail.com',
-                password: 'superadminPassword',
+                password: hashedPassword,
                 admin: true,
                 blocked: false,
             });
