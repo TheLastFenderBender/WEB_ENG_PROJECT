@@ -50,3 +50,11 @@
 .register-form input[type="submit"]:hover {
     background-color: #0056b3;
 }
+
+.gender-options {
+    display: flex;
+}
+
+.radio-label {
+    margin-right: 20px;
+}
