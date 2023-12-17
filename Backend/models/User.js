@@ -6,15 +6,16 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true },
     password: { type: String, required: true },
     admin: { type: Boolean, required: true, default: false },
+    superadmin: { type: Boolean, required: true, default: false },
     blocked: { type: Boolean, required: true, default: false },
     bookingHistory: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Booking',
     }],
-    gender: { type: String }, 
-    age: { type: Number }, 
-    countryCode: { type: String }, 
-    mobileNumber: { type: String }, 
+    gender: { type: String },
+    age: { type: Number },
+    countryCode: { type: String },
+    mobileNumber: { type: String },
 });
 
 const User = mongoose.model('User', userSchema);
