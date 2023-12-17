@@ -1,16 +1,22 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 .register-form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0 auto;
+    margin: 50px auto;
     padding: 20px;
-    max-width: 400px;
+    max-width: 500px;
     border: 1px solid #ccc;
     border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
 }
 
 .register-form button {
-    margin-left: 35%;
     margin-top: 10px;
     padding: 10px;
     border: none;
@@ -18,13 +24,29 @@
     background-color: #007BFF;
     color: white;
     cursor: pointer;
+    width: 170px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.register-form h1 {
+    margin-bottom: 29px;
+}
+
+.form-group label {
+    margin-bottom: 5px;
 }
 
 .register-form label {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
     margin-bottom: 15px;
+    align-items: center;
     width: 100%;
 }
 
@@ -45,6 +67,7 @@
     background-color: #007BFF;
     color: white;
     cursor: pointer;
+    border: 1px solid #ccc;
 }
 
 .register-form input[type="submit"]:hover {
@@ -56,5 +79,31 @@
 }
 
 .radio-label {
-    margin-right: 20px;
+    margin-right: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.radio-label input[type="radio"] {
+    margin-right: 5px;
+}
+
+.social-login {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.social-login p {
+    margin-bottom: 10px;
+}
+
+.social-login a {
+    margin: 0 10px;
+}
+
+.social-login img {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
 }

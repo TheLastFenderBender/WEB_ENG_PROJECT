@@ -6,40 +6,288 @@ const Crew = require('./models/Crew');
 const Flight = require('./models/Flight');
 const Maintenance = require('./models/Maintenance');
 const Booking = require('./models/Booking');
+const passwordValidator = require('password-validator');
+const passwordSchema = new passwordValidator();
 
 // this file contains all of the routes used for the different modules of the project
 
-// Middleware for authenticating using JWT
-function authenticate(req, res, next) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+// ~~~~~~~~~~~~~~~~~~~~~~~ 1.User Panel: ~~~~~~~~~~~~~~~~~~~~~~~
 
-    if (token == null) return res.sendStatus(401); // if there isn't any token
+// Error handling middleware
+router.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something went wrong!');
+});
 
-    jwt.verify(token, 'mySecret', (err, user) => {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(403);
+let AuthenticateUser = async (req, res, next) => {
+    // Get the token from the request headers
+    const token = req.headers.authorization.split(' ')[1];
+
+    if (!token) {
+        return res.status(401).json({ message: 'Unauthorized - Missing token' });
+    }
+
+    try {
+        // Verify the token
+        const decoded = jwt.verify(token, process.env.TOKEN_KEY);
+        const user = await User.findById(decoded.userId);
+
+        if (!user || user.status === 'blocked') {
+            return res.status(401).json({ message: 'Unauthorized - Invalid user or blocked' });
         }
 
-        // Extract user role from JWT payload
-        const { role } = user;
-
-        req.user = user;
-
-        // Check if the user is an admin or superadmin
-        if (role === 'admin' || role === 'superadmin') {
-            req.isAdmin = true;
-        }
-
+        // Attach the decoded user information to the request for later use
+        req.User = decoded;
         next();
-    });
-}
+    } catch (error) {
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ message: 'Unauthorized - Token expired' });
+        }
+        return res.status(401).json({ message: 'Unauthorized - Invalid token' });
+    }
+};
 
-// module.exports = { authenticate };
+// Check role middleware
+const checkRole = (requiredRole) => {
+    return (req, res, next) => {
+        if (req.User && (req.User.role === requiredRole || (requiredRole === 'admin' && req.User.superadmin))) {
+            next();
+        } else {
+            res.status(403).json({ message: 'Permission denied' });
+        }
+    };
+};
+
+passwordSchema
+    .is().min(8)            // Minimum length 8
+    .is().max(100)          // Maximum length 100
+    .has().uppercase()      // Must have uppercase letters
+    .has().lowercase()      // Must have lowercase letters
+    .has().digits()         // Must have digits
+    .has().not().spaces();   // Should not have spaces
+
+
+router.post('/register', async (req, res) => {
+    try {
+        const { name, username, email, password, gender, age, mobileNumber } = req.body;
+
+        // Validate user input
+        if (!name || !username || !email || !password || !gender || !age || !mobileNumber) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        // Additional validation for password match
+        if (password !== req.body.retypePassword) {
+            return res.status(400).json({ message: 'Passwords do not match' });
+        }
+
+        // Validate password against the schema
+        if (!passwordSchema.validate(password)) {
+            return res.status(400).json({ message: 'Password does not meet policy requirements' });
+        }
+
+        // Hash password
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Check if the user already exists in the database
+        const existingUser = await User.findOne({ $or: [{ email }, { username }] });
+
+        if (existingUser) {
+            return res.status(409).json({ message: 'User already exists' });
+        }
+
+        // Create a new user instance
+        const newUser = new User({
+            name,
+            username,
+            email,
+            password: hashedPassword,
+            gender,
+            age,
+            mobileNumber,
+            role: 'user',
+        });
+
+        // Save the user to the database
+        await newUser.save();
+
+        // Create a JWT token for the newly registered user
+        const token = jwt.sign(
+            { userId: newUser._id, email: newUser.email },
+            process.env.TOKEN_KEY,
+            { expiresIn: '2h' }
+        );
+
+        res.status(201).json({
+            user: newUser,
+            token,
+        });
+    } catch (error) {
+        console.error('MongoDB Error:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+// login with JWT-based authentication
+router.post('/login', async (req, res) => {
+    try {
+        const { email, password, role } = req.body;
+
+        // Validate user input
+        if (!email || !password || !role) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        // Check if the user exists in the database
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        // Verify password
+        const passwordMatch = await bcrypt.compare(password, user.password);
+
+        if (!passwordMatch || user.status === 'blocked') {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        // Create a JWT token for the authenticated user
+        const token = jwt.sign(
+            { userId: user._id, email: user.email, role: role || user.role },
+            process.env.TOKEN_KEY,
+            { expiresIn: '2h' }
+        );
+
+        res.status(200).json({
+            user,
+            token,
+        });
+    } catch (error) {
+        console.error('MongoDB Error:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+// Profile Retrieval
+router.get('/profile', AuthenticateUser, async (req, res) => {
+    try {
+        const userId = req.User.userId;
+        const user = await User.findById(userId);
+
+        if (!user || user.status === 'blocked') {
+            return res.status(403).json({ message: 'Forbidden - User not found or blocked' });
+        }
+
+        let response;
+
+        if (req.User.role === 'admin' || req.User.superadmin) {
+            response = { user };
+        } else {
+            response = { user: { username: user.username, email: user.email, role: user.role } };
+        }
+
+        res.status(200).json(response);
+    } catch (error) {
+        console.error('MongoDB Error:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+// Profile Update
+router.put('/profile', AuthenticateUser, checkRole('user'), async (req, res) => {
+    try {
+        const userId = req.User.userId;
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Update user fields based on the request body
+        user.name = req.body.name || user.name;
+        user.username = req.body.username || user.username;
+        user.email = req.body.email || user.email;
+        user.gender = req.body.gender || user.gender;
+        user.age = req.body.age || user.age;
+        user.mobileNumber = req.body.mobileNumber || user.mobileNumber;
+
+        // Only allow certain fields to be updated based on the user's role
+        if (req.User.role === 'admin' || req.User.superadmin) {
+            user.role = req.body.role || user.role;
+            user.blocked = req.body.blocked || user.blocked;
+        }
+
+        await user.save();
+
+        res.status(200).json({ user });
+    } catch (error) {
+        console.error('MongoDB Error:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+// Profile Retrieval by ID
+router.get('/profile/:id', AuthenticateUser, checkRole('admin'), async (req, res) => {
+    try {
+        const userId = req.params.id; // Use the user ID from the route parameter
+        const user = await User.findById(userId);
+
+        if (!user || user.status === 'blocked') {
+            return res.status(403).json({ message: 'Forbidden - User not found or blocked' });
+        }
+
+        let response;
+
+        if (req.User.role === 'admin' || req.User.superadmin) {
+            response = { user };
+        } else {
+            response = { user: { username: user.username, email: user.email, role: user.role } };
+        }
+
+        res.status(200).json(response);
+    } catch (error) {
+        console.error('MongoDB Error:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+// Profile Update by ID
+router.put('/profile/:id', AuthenticateUser, checkRole('admin'), async (req, res) => {
+    try {
+        const userId = req.params.id; // Use the user ID from the route parameter
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Update user fields based on the request body
+        user.name = req.body.name || user.name;
+        user.username = req.body.username || user.username;
+        user.email = req.body.email || user.email;
+        user.gender = req.body.gender || user.gender;
+        user.age = req.body.age || user.age;
+        user.mobileNumber = req.body.mobileNumber || user.mobileNumber;
+
+        // Only allow certain fields to be updated based on the user's role
+        if (req.User.role === 'admin') {
+            user.role = req.body.role || user.role;
+            user.blocked = req.body.blocked || user.blocked;
+        }
+
+        await user.save();
+
+        res.status(200).json({ user });
+    } catch (error) {
+        console.error('MongoDB Error:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
 
 // Route accessible only to admins
-router.get('/admin/dashboard', authenticate, (req, res) => {
+router.get('/admin/dashboard', AuthenticateUser, (req, res) => {
     if (req.isAdmin) {
         res.json({ message: 'Admin dashboard accessible!' });
     } else {
@@ -48,114 +296,6 @@ router.get('/admin/dashboard', authenticate, (req, res) => {
 });
 
 
-// Middleware for authenticating using JWT
-function authenticate(req, res, next) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-
-    if (token == null) return res.sendStatus(401); // if there isn't any token
-
-    jwt.verify(token, 'mySecret', (err, user) => {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(403);
-        }
-        req.user = user;
-        next();
-    });
-}
-
-// ~~~~~~~~~~~~~~~~~~~~~~~ 1.User Panel: ~~~~~~~~~~~~~~~~~~~~~~~
-
-// registration:
-router.post('/register', (req, res) => {
-
-    const newUser = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
-        admin: req.body.admin
-    });
-
-    newUser.save().then((user) => {
-        if (user) {
-            console.log("user saved successfully!");
-            res.json({ message: "user saved successfully!" });
-        }
-        else {
-            console.log("user not saved!");
-            res.json({ message: "user not saved!" });
-        }
-    });
-});
-
-// login with JWT-based authentication:
-router.post('/login', (req, res) => {
-
-    User.findOne({ username: req.body.username, password: req.body.password }).then((user) => {
-        if (user) {
-            if (user.blocked) {
-                res.sendStatus({ message: "You are blocked!" });
-            }
-            const payload = { id: user.id, username: user.username, admin: user.admin };
-            const options = { expiresIn: '1h' };
-            const secret = 'mySecret';
-            const token = jwt.sign(payload, secret, options);
-            res.json({ token: token });
-        }
-        else {
-            res.sendStatus(404);
-        }
-    });
-});
-
-// User profile retrieval
-
-router.get('/user/:id', authenticate, (req, res) => {
-
-    if (!req.user.admin) {
-        return res.sendStatus(403);
-    }
-
-    User.findOne({ username: req.params.id }).then((user) => {
-        if (user) {
-            res.json(user);
-        }
-        else {
-            res.sendStatus(404);
-        }
-    });
-});
-
-// User profile update:
-
-router.put('/user/:id', authenticate, (req, res) => {
-
-    User.findOne({ username: req.params.id }).then((user) => {
-        if (user) {
-            if (user.username != req.user.username && !req.user.admin) {
-                console.log("You are not the owner of this blog!");
-                return res.sendStatus(403);
-            }
-            user.username = req.body.username;
-            user.email = req.body.email;
-            user.password = req.body.password;
-            user.save().then((user) => {
-                if (user) {
-                    console.log("user updated successfully!");
-                    res.json({ message: "user updated successfully!" });
-                }
-                else {
-                    console.log("user not updated!");
-                    res.json({ message: "user not updated!" });
-                }
-            });
-        }
-        else {
-            res.sendStatus(404);
-        }
-    });
-});
 
 // ~~~~~~~~~~~~~~~~~~~~~~~ 2.Admin Panel: ~~~~~~~~~~~~~~~~~~~~~~~
 

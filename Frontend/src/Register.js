@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './Register.css';
 import fbImage from './Images/fb.png';
 import googleImage from './Images/google.png';
+// import { useNavigate } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -52,67 +54,69 @@ const Register = () => {
         <div>
             <form className='register-form' onSubmit={handleSubmit}>
                 <h1>Sign Up</h1>
-                <label>
-                    Name:
+                <div className="form-group">
+                    <label>Name:</label>
                     <input type="text" value={name} onChange={e => setName(e.target.value)} />
-                </label>
-                <label>
-                    Username:
+                </div>
+                <div className="form-group">
+                    <label>Username:</label>
                     <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
-                </label>
-                <label>
-                    Email:
+                </div>
+                <div className="form-group">
+                    <label>Email:</label>
                     <input type="email" value={email} onChange={e => setEmail(e.target.value)} />
-                </label>
-                <label>
-                    Password:
+                </div>
+                <div className="form-group">
+                    <label>Password:</label>
                     <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
-                </label>
-                <label>
-                    Retype Password:
+                </div>
+                <div className="form-group">
+                    <label>Retype Password:</label>
                     <input type="password" value={retypePassword} onChange={e => setRetypePassword(e.target.value)} />
-                </label>
-                <label>
-                    Gender:
+                </div>
+                <div className="form-group">
+                    <label>Gender:</label>
                     <div className="gender-options">
                         <label className="radio-label">
-                            Male
                             <input type="radio" name="gender" value="male" checked={gender === 'male'} onChange={() => setGender('male')} />
+                            Male
                         </label>
                         <label className="radio-label">
-                            Female
+                            
                             <input type="radio" name="gender" value="female" checked={gender === 'female'} onChange={() => setGender('female')} />
+                            Female
                         </label>
                     </div>
-                </label>
-
-                <label>
-                    Age:
+                </div>
+                <div className="form-group">
+                    <label>Age:</label>
                     <input type="text" value={age} onChange={e => setAge(e.target.value)} />
-                </label>
-                {/* <label>
-                    Country Code:
-                    <select value={countryCode} onChange={e => setCountryCode(e.target.value)}>
-                        <option value="+92">+92 (Pakistan)</option>
-                      
-                    </select>
-                </label> */}
-                <label>
-                    Mobile Number:
+                </div>
+                {/* include country code */}
+                {/* <div className="form-group">
+        <label>Country Code:</label>
+        <select value={countryCode} onChange={e => setCountryCode(e.target.value)}>
+            <option value="+92">+92 (Pakistan)</option>
+            {/* Add more options as needed */}
+                {/* </select>
+    </div> */}
+                <div className="form-group">
+                    <label>Mobile Number:</label>
                     <input type="text" value={mobileNumber} onChange={e => setMobileNumber(e.target.value)} />
-                </label>
-                <input type="submit" value="Register" />
-                <p>Already have an account? <a href="/login">Login</a></p>
+                </div>
+                <button type="submit">Register</button>
+                <p style={{ marginTop: '10px' }}>Already have an account?<a href="./login">Login!</a></p>
                 <div className="social-login">
                     <p>Create an Account using</p>
                     <a href="/login-with-facebook">
                         <img src={fbImage} alt="Facebook Icon" />
                     </a>
                     <a href="/login-with-google">
-                        <img src={googleImage} alt="Facebook Icon" />
+                        <img src={googleImage} alt="Google Icon" />
                     </a>
                 </div>
             </form>
+
         </div>
     );
 }
