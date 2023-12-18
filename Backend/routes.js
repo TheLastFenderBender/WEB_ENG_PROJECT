@@ -6,6 +6,7 @@ const Crew = require('./models/Crew');
 const Flight = require('./models/Flight');
 const Maintenance = require('./models/Maintenance');
 const Booking = require('./models/Booking');
+const Feedback = require('./models/Feedback');
 const passwordValidator = require('password-validator');
 const passwordSchema = new passwordValidator();
 
@@ -596,13 +597,19 @@ router.get('/Booking/:paymentStatus', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+router.get('/feedback', async (req, res) => {
+    // get all feedback
+    try {
+        const allFeedback = await Feedback.find();
 
+        res.json(allFeedback);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+
+});
 /*
-    router.get('/feedback', async (req, res) => {
 
-        needs a feedback schema, or retreival when feedback is implemented
-
-    });
 
     router.get('/reports', async (req, res) => {
 
