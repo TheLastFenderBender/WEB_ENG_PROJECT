@@ -15,7 +15,7 @@ import React, { useState } from 'react';
 const FlightManagerPage = () => {
 
     const response = fetch('http://localhost:3000/flights');
-
+    const flights = response.json();
             
 
     return (

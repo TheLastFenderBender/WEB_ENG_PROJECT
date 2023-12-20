@@ -7,6 +7,7 @@ const Flight = require('./models/Flight');
 const Maintenance = require('./models/Maintenance');
 const Booking = require('./models/Booking');
 const Feedback = require('./models/Feedback');
+const Aircraft = require('./models/Aircraft');
 const passwordValidator = require('password-validator');
 const passwordSchema = new passwordValidator();
 
@@ -304,53 +305,81 @@ router.get('/admin/dashboard', AuthenticateUser, (req, res) => {
 // ~~~~~~~~~~~~~~~~~~~~~~~ 3.Flight Management Panel: ~~~~~~~~~~~~~~~~~~~~~~~
 
 // Flight routes
-router.post('/flights', function (req, res) {
+router.post('/flights', async (req, res) => {
     // Add new flight
+    const { aircraftID, departure, destination, date, time, availableSeats } = req.body;
+
+    try {
+        // Check if the aircraftID exists
+        const aircraftExists = await Aircraft.findById(aircraftID);
+        if (!aircraftExists) {
+            return res.status(400).json({ message: 'Aircraft not found' });
+        }
+
+        const newFlight = new Flight({
+            aircraftID,
+            departure,
+            destination,
+            date,
+            time,
+            availableSeats,
+        });
+
+        const savedFlight = await newFlight.save();
+        res.status(201).json(savedFlight);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+
 });
 
-router.put('/flights/:id', function (req, res) {
+router.put('/flights/:id', (req, res) => {
     // Update flight information
 });
 
-router.delete('/flights/:id', function (req, res) {
+router.delete('/flights/:id', (req, res) => {
     // Delete flight
 });
 
-router.get('/flights', function (req, res) {
-    // View flight list
+router.get('/flights', async (req, res) => {
+    // Get all flights
+
+    const flights = await Flight.find();
+    res.json(flights);
+
 });
 
 // Route routes
-router.post('/routes', function (req, res) {
+router.post('/routes', (req, res) => {
     // Add new route
 });
 
-router.put('/routes/:id', function (req, res) {
+router.put('/routes/:id', (req, res) => {
     // Update route information
 });
 
-router.delete('/routes/:id', function (req, res) {
+router.delete('/routes/:id', (req, res) => {
     // Delete route
 });
 
-router.get('/routes', function (req, res) {
+router.get('/routes', (req, res) => {
     // View route list
 });
 
 // Aircraft routes
-router.post('/aircrafts', function (req, res) {
+router.post('/aircrafts', (req, res) => {
     // Add new aircraft
 });
 
-router.put('/aircrafts/:id', function (req, res) {
+router.put('/aircrafts/:id', (req, res) => {
     // Update aircraft information
 });
 
-router.delete('/aircrafts/:id', function (req, res) {
+router.delete('/aircrafts/:id', (req, res) => {
     // Delete aircraft
 });
 
-router.get('/aircrafts', function (req, res) {
+router.get('/aircrafts', (req, res) => {
     // View aircraft list
 });
 
