@@ -10,9 +10,8 @@ const app = express();
 const port = 3000;
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://Umar:SqYDMM4X6Zu364SR@umar.ucbzkh6.mongodb.net/Airline', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://Umar:SqYDMM4X6Zu364SR@umar.ucbzkh6.mongodb.net/Airline');
 mongoose.connection.once('open', () => { console.log('Connected to MongoDB Successfully') });
-
 
 app.use(cors());
 app.use(express.json());

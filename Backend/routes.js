@@ -333,25 +333,71 @@ router.post('/flights', async (req, res) => {
 
 });
 
-router.put('/flights/:id', (req, res) => {
+router.put('/flights/:id', async (req, res) => {
     // Update flight information
+
+    const { id } = req.params;
+    const { aircraftID, departure, destination, date, time, availableSeats } = req.body;
+
+    try {
+        // Check if the flight exists
+        const existingFlight = await Flight.findById(id);
+        if (!existingFlight) {
+            return res.status(404).json({ message: 'Flight not found' });
+        }
+
+        // Check if the aircraftID exists
+        const aircraftExists = await Aircraft.findById(aircraftID);
+        if (!aircraftExists) {
+            return res.status(400).json({ message: 'Aircraft not found' });
+        }
+
+        // Update the flight details
+        existingFlight.aircraftID = aircraftID;
+        existingFlight.departure = departure;
+        existingFlight.destination = destination;
+        existingFlight.date = date;
+        existingFlight.time = time;
+        existingFlight.availableSeats = availableSeats;
+
+        const updatedFlight = await existingFlight.save();
+        res.json(updatedFlight);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
 });
 
-router.delete('/flights/:id', (req, res) => {
+router.delete('/flights/:id', async (req, res) => {
     // Delete flight
+    const { id } = req.params;
+
+    try {
+        const deletedFlight = await Flight.findByIdAndDelete(id);
+
+        if (!deletedFlight) {
+            return res.status(404).json({ message: 'Flight not found' });
+        }
+
+        res.json({ message: 'Flight deleted' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 });
 
 router.get('/flights', async (req, res) => {
     // Get all flights
-
-    const flights = await Flight.find();
-    res.json(flights);
-
+    try {
+        const allFlights = await Flight.find();
+        res.json(allFlights);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 });
 
 // Route routes
 router.post('/routes', (req, res) => {
     // Add new route
+    
 });
 
 router.put('/routes/:id', (req, res) => {
