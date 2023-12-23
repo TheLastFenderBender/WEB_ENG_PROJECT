@@ -313,6 +313,7 @@ router.post('/flights', async (req, res) => {
         // Check if the aircraftID exists
         const aircraftExists = await Aircraft.findById(aircraftID);
         if (!aircraftExists) {
+            console.log('Aircraft not found');
             return res.status(400).json({ message: 'Aircraft not found' });
         }
 
