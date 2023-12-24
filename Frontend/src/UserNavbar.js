@@ -23,7 +23,7 @@ const flightOptions = ['Flight Detail', 'Flight Schedule', 'Flight Status', 'Res
 const bookingOptions = ['Booking Details', 'Book a Flight', 'Payment', 'Cancel Booking'];
 const myTripsOptions = ['Booking History', 'Refunds' , 'Feedback'];
 
-function NavBar() {
+function NavBar({ userName }) {
     const [anchorElFlights, setAnchorElFlights] = React.useState(null);
     const [anchorElBookings, setAnchorElBookings] = React.useState(null);
     const [anchorElMyTrips, setAnchorElMyTrips] = React.useState(null);
@@ -191,7 +191,7 @@ function NavBar() {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="User Avatar" src="/path/to/your/avatar.jpg" />
+                                <Avatar alt="User Avatar" >{userName ? userName.charAt(0) : 'U'} </Avatar>
                             </IconButton>
                         </Tooltip>
                         {/* User menu for settings */}

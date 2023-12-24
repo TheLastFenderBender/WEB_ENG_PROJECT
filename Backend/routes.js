@@ -9,6 +9,7 @@ const Booking = require('./models/Booking');
 const Feedback = require('./models/Feedback');
 const Aircraft = require('./models/Aircraft');
 const passwordValidator = require('password-validator');
+const bcrypt = require('bcrypt');
 const passwordSchema = new passwordValidator();
 
 // this file contains all of the routes used for the different modules of the project
@@ -70,16 +71,19 @@ passwordSchema
 
 
 router.post('/register', async (req, res) => {
+
     try {
-        const { name, username, email, password, gender, age, mobileNumber } = req.body;
+        const { name, username, email, password, gender, age, mobileNumber, retypePassword, firstLetter } = req.body;
 
         // Validate user input
-        if (!name || !username || !email || !password || !gender || !age || !mobileNumber) {
+        if (!name || !username || !email || !password || !gender || !age || !mobileNumber || !retypePassword) {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
+        console.log('Password:', password);
+        console.log('Retype Password:', retypePassword);
         // Additional validation for password match
-        if (password !== req.body.retypePassword) {
+        if (password !== retypePassword) {
             return res.status(400).json({ message: 'Passwords do not match' });
         }
 
@@ -109,6 +113,7 @@ router.post('/register', async (req, res) => {
             age,
             mobileNumber,
             role: 'user',
+            firstLetter,
         });
 
         // Save the user to the database
@@ -297,8 +302,6 @@ router.get('/admin/dashboard', AuthenticateUser, (req, res) => {
     }
 });
 
-
-
 // ~~~~~~~~~~~~~~~~~~~~~~~ 2.Admin Panel: ~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -397,7 +400,7 @@ router.get('/flights', async (req, res) => {
 // Route routes
 router.post('/routes', (req, res) => {
     // Add new route
-    
+
 });
 
 router.put('/routes/:id', (req, res) => {

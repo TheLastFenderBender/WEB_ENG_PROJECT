@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import './Register.css';
 import fbImage from './Images/fb.png';
 import googleImage from './Images/google.png';
-// import { useNavigate } from 'react-router-dom';
-// import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import AuthNavBar from './AuthNavBar'; 
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -16,42 +16,64 @@ const Register = () => {
     // const [countryCode, setCountryCode] = useState('+92'); // Default value for Pakistan
     const [mobileNumber, setMobileNumber] = useState('');
 
-    const handleSubmit = (event) => {
+    const navigate = useNavigate();
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         // Additional validation for password match
         if (password !== retypePassword) {
             console.error('Passwords do not match');
+            alert('Passwords do not match');
             return;
         }
 
-        fetch('http://localhost:3000/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                name,
-                username,
-                email,
-                password,
-                gender,
-                age,
-                // countryCode,
-                mobileNumber,
-            }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
+        // Validate other fields
+        if (!name || !username || !email || !gender || !age || !mobileNumber) {
+            console.error('All fields are required');
+            alert('All fields are required');
+            return;
+        }
+
+        try {
+
+            const firstLetter = name.charAt(0);
+            const response = await fetch('http://localhost:3000/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name,
+                    username,
+                    email,
+                    password,
+                    gender,
+                    age,
+                    mobileNumber,
+                    retypePassword,
+                    firstLetter,
+                }),
             });
+
+            await response.json();
+
+            if (response.status === 409) {
+                alert('User already exists with this username or email');
+                return;
+            }
+
+            navigate('/UserDashBoard');
+        } catch (error) {
+            console.error('Error:', error);
+            // Handle other errors (network, server, etc.) as needed
+        }
+
     };
 
     return (
         <div>
+            <AuthNavBar />
             <form className='register-form' onSubmit={handleSubmit}>
                 <h1>Sign Up</h1>
                 <div className="form-group">
@@ -82,7 +104,7 @@ const Register = () => {
                             Male
                         </label>
                         <label className="radio-label">
-                            
+
                             <input type="radio" name="gender" value="female" checked={gender === 'female'} onChange={() => setGender('female')} />
                             Female
                         </label>
@@ -122,3 +144,4 @@ const Register = () => {
 }
 
 export default Register;
+

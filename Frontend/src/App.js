@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Register from './Register';
 import Login from './Login';
-import SuperAdmin from './SuperAdminPage';
+// import SuperAdmin from './SuperAdminPage';
 import UserDashboard from './UserDashBoard';
 
 function App() {
@@ -9,10 +9,10 @@ function App() {
     <div>
       <Router>
         <Routes>
-          {/* <Route path='/' element={<UserDashboard />} /> */}
           <Route path='/register' element={<Register />} />
-          <Route path='/' element={<Login />} />
-          <Route path='/superadmin' element={<SuperAdmin />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/UserDashBoard' element={<UserDashboard />} />
+          {/* <Route path='/superadmin' element={<SuperAdmin />} /> */}
         </Routes>
       </Router>
     </div>
