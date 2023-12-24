@@ -3,6 +3,7 @@ import Register from './Register';
 import Login from './Login';
 // import SuperAdmin from './SuperAdminPage';
 import UserDashboard from './UserDashBoard';
+import AddFlight from './AddFlight';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/UserDashBoard' element={<UserDashboard />} />
           {/* <Route path='/superadmin' element={<SuperAdmin />} /> */}
+          <Route path='/addflight' element={<AddFlight />} />
         </Routes>
       </Router>
     </div>
