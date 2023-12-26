@@ -5,6 +5,7 @@ import Login from './Login';
 // import UserDashboard from './UserDashBoard';
 import AddFlight from './AddFlight';
 import FlightManagerPage from './FlightManagerPage';
+import AddAircraft from './AddAircraft';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           {/* <Route path='/superadmin' element={<SuperAdmin />} /> */}
           <Route path='/addflight' element={<AddFlight />} />
           <Route path='/flightmanager' element={<FlightManagerPage />} />
+          <Route path='/addaircraft' element={<AddAircraft />} />
         </Routes>
       </Router>
     </div>

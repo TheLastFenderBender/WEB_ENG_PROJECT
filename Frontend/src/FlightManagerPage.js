@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 // Import the SearchBar and FlightGrid components from the previous examples
 import SearchBar from './SearchBar';
 import FlightGrid from './FlightGrid';
-import AddFlightButton from './AddFlightButton';
+import FlightManagerButtons from './FlightManagerButtons';
 
 // Define a function that returns a JSX element
 const FlightManagerPage = () => {
@@ -21,8 +21,8 @@ const FlightManagerPage = () => {
   return (
     <div>
       <SearchBar onSearch={handleSearch} />
-          <FlightGrid flights={flightData} />
-          <AddFlightButton />
+      <FlightGrid flights={flightData} />
+      <FlightManagerButtons />
     </div>
   );
 };
