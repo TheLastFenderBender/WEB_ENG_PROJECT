@@ -1,7 +1,7 @@
 import { react, useState } from 'react';
-import Navbar from './NavBar';
+import Navbar from './SuperAdminNavbar';
 
-const SuperAdminPage = () => {
+export default function SuperAdminPage() {
 
     return (
         <>
@@ -9,5 +9,3 @@ const SuperAdminPage = () => {
         </>
     )
 }
-
-export default SuperAdminPage;
