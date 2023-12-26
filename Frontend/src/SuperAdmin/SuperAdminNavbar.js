@@ -14,7 +14,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import SuperAdminIcon from '@mui/icons-material/AdminPanelSettings';
 
-const pages = ['Crew', 'Maintenance', 'Flights'];
+const pages = ['Crew', 'Maintenance', 'Flights', 'Payments'];
 const settings = ['Logout'];
 
 function NavBar() {
@@ -41,23 +41,24 @@ function NavBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <SuperAdminIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            SuperAdmin
-          </Typography>
+          <Link to="/superadmin" style={{ color: 'inherit', textDecoration: 'none' }}>
+            <Typography
+              variant="h6"
+              noWrap
+              component="span"
+              sx={{
+                mr: 2,
+                display: { xs: 'none', md: 'flex' },
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none',
+              }}
+            >
+              SuperAdmin
+            </Typography>
+          </Link>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -131,6 +132,10 @@ function NavBar() {
                   </Link>
                 ) : page === 'Flights' ? (
                   <Link to="/flighthistory" style={{ color: 'inherit', textDecoration: 'none' }}>
+                    {page}
+                  </Link>
+                ) : page === 'Payments' ? (
+                  <Link to="/paymenthistory" style={{ color: 'inherit', textDecoration: 'none' }}>
                     {page}
                   </Link>
                 ) : (

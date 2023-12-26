@@ -5,11 +5,13 @@ import SuperAdmin from './SuperAdmin/SuperAdminPage';
 import Crew from './SuperAdmin/Crew';
 import Maintenance from './SuperAdmin/Maintenance';
 import FlightHistory from './SuperAdmin/FlightHistory';
+import PaymentHistory from './SuperAdmin/PaymentHistory';
 // import UserDashboard from './UserDashBoard';
 import AddFlight from './AddFlight';
 import FlightManagerPage from './FlightManagerPage';
 
 function App() {
+
   return (
     <div>
       <Router>
@@ -17,17 +19,18 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           {/* <Route path='/UserDashBoard' element={<UserDashboard />} /> */}
-
-          {/* <Route path='/superadmin' element={<SuperAdmin></SuperAdmin>} ></Route> */}
-          {/* <Route path='/crew' element={<Crew></Crew>} ></Route> */}
-          {/* <Route path='/maintenance' element={<Maintenance></Maintenance>} ></Route> */}
-          {/* <Route path='/flighthistory' element={<FlightHistory></FlightHistory>} ></Route> */}
+          
+          <Route path='/superadmin' element={<SuperAdmin></SuperAdmin>} ></Route>
+          <Route path='/crew' element={<Crew></Crew>} ></Route>
+          <Route path='/maintenance' element={<Maintenance></Maintenance>} ></Route>
+          <Route path='/flighthistory' element={<FlightHistory></FlightHistory>} ></Route>
+          <Route path='/paymenthistory' element={<PaymentHistory></PaymentHistory>}></Route>
 
           <Route path='/addflight' element={<AddFlight />} />
           <Route path='/flightmanager' element={<FlightManagerPage />} />
-        </Routes>
-      </Router>
-    </div>
+        </Routes >
+      </Router >
+    </div >
   )
 }
 

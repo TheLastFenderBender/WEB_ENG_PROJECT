@@ -1,12 +1,11 @@
-import react, {useState, useEffect} from 'react';
+import react, {useState} from 'react';
 import NavBar from './SuperAdminNavbar';
 
-export default function crewContext() {
+export default function paymentHistory() {
 
     return (
         <>
             <NavBar></NavBar>
-
         </>
     )
 }
