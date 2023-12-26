@@ -1,7 +1,7 @@
 // Import React, lodash and Material-UI components
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { debounce } from 'lodash';
-import { TextField } from '@mui/material';
+import { TextField, Select, MenuItem } from '@mui/material';
 
 // Import the getFlightData function from the previous example
 import getFlightData from './getFlightData';
@@ -11,10 +11,13 @@ const SearchBar = ({ onSearch }) => {
   // Define a state variable for the search input
   const [searchInput, setSearchInput] = useState('');
 
-  // Define a debounced function that takes the search input and invokes the callback function with the flight data
-  const debouncedSearch = debounce((searchInput) => {
-    // Call the getFlightData function with the search input and handle the promise
-    getFlightData(searchInput)
+  // Define a state variable for the selected option
+  const [selectedOption, setSelectedOption] = useState('flight_number');
+
+  // Define a function that takes the search input and the selected option and invokes the callback function with the flight data
+  const search = (searchInput, selectedOption) => {
+    // Call the getFlightData function with the search input and the selected option and handle the promise
+    getFlightData(searchInput, selectedOption)
       .then((response) => {
         // Get the flight data from the response
         const flightData = response.data.data;
@@ -26,19 +29,25 @@ const SearchBar = ({ onSearch }) => {
         // Handle the error
         console.error(error);
       });
-  }, 500); // Set the debounce delay to 500 milliseconds
+  };
 
-  // Define a useEffect hook that runs whenever the search input changes
+  // Create a debounced version of the search function
+  const debouncedSearch = debounce(search, 500);
+
+  // Use useCallback to memoize the debounced function
+  const memoizedDebouncedSearch = useCallback(debouncedSearch, [debouncedSearch]);
+
+  // Define a useEffect hook that runs whenever the search input or the selected option changes
   useEffect(() => {
     // Check if the search input is not empty
     if (searchInput) {
-      // Call the debounced function with the search input
-      debouncedSearch(searchInput);
+      // Call the debounced function with the search input and the selected option
+      memoizedDebouncedSearch(searchInput, selectedOption);
     } else {
       // If the search input is empty, invoke the callback function with an empty array
       onSearch([]);
     }
-  }, [searchInput]); // Set the dependency array to the search input
+  }, [searchInput, selectedOption, onSearch, memoizedDebouncedSearch]); // Add onSearch and memoizedDebouncedSearch to the dependency array
 
   // Define a handler function that updates the search input state
   const handleInputChange = (event) => {
@@ -49,14 +58,34 @@ const SearchBar = ({ onSearch }) => {
     setSearchInput(value);
   };
 
+  // Define a handler function that updates the selected option state
+  const handleOptionChange = (event) => {
+    // Get the value from the event target
+    const value = event.target.value;
+
+    // Set the selected option state to the value
+    setSelectedOption(value);
+  };
+
   // Return the JSX element
   return (
-    <TextField
-      label="Search by flight number"
-      value={searchInput}
-      onChange={handleInputChange}
-      fullWidth
-    />
+    <div className="flex">
+      <TextField
+        label="Search"
+        value={searchInput}
+        onChange={handleInputChange}
+        fullWidth
+      />
+      <Select
+        value={selectedOption}
+        onChange={handleOptionChange}
+      >
+        <MenuItem value="flight_number">Flight Number</MenuItem>
+        <MenuItem value="airline_name">Airline Name</MenuItem>
+        <MenuItem value="departure_airport">Departure Airport</MenuItem>
+        <MenuItem value="arrival_airport">Arrival Airport</MenuItem>
+      </Select>
+    </div>
   );
 };
 

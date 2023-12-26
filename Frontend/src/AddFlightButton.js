@@ -13,7 +13,7 @@ const AddFlightButton = () => {
       variant="contained"
       color="primary"
       component={Link}
-      to="/add-flight"
+      to="/addflight"
     >
       Add New Flight
     </Button>

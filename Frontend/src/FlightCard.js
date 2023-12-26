@@ -5,7 +5,7 @@ import { Card, CardContent, CardActions, Typography, Button } from '@mui/materia
 // Define a function that takes a flight object as a prop and returns a JSX element
 const FlightCard = ({ flight }) => {
   // Destructure the flight object to get the relevant properties
-  const { flight_number, departure, arrival, airline, status } = flight;
+  const { flight: { number: flight_number }, flight_status, departure, arrival, airline } = flight;
 
   // Return the JSX element
   return (
@@ -21,7 +21,7 @@ const FlightCard = ({ flight }) => {
           {airline.name}
         </Typography>
         <Typography variant="body2" component="p">
-          Status: {status}
+          Status: {flight_status}
         </Typography>
       </CardContent>
       <CardActions>
