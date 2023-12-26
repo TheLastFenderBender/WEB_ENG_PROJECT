@@ -1,1 +1,1 @@
-Work on the frontend will start later
+Keep updating the Frontend alongside your Backend to ensure that the code is tested and works for the user.

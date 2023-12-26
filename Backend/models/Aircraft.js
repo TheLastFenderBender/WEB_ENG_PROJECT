@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const aircraftSchema = new mongoose.Schema({
+    aircraftID: {
+        type: Number,
+        required: true,
+    },
     model: {
         type: String,
         required: true,
@@ -12,6 +16,7 @@ const aircraftSchema = new mongoose.Schema({
     active: {
         type: Boolean,
         required: true,
+        default: false
     }
 });
 

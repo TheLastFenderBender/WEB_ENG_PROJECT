@@ -7,8 +7,9 @@ import Maintenance from './SuperAdmin/Maintenance';
 import FlightHistory from './SuperAdmin/FlightHistory';
 import PaymentHistory from './SuperAdmin/PaymentHistory';
 // import UserDashboard from './UserDashBoard';
-import AddFlight from './AddFlight';
-import FlightManagerPage from './FlightManagerPage';
+import AddFlight from './FlightManager/AddFlight';
+import FlightManagerPage from './FlightManager/FlightManagerPage';
+import AddAircraft from './FlightManager/AddAircraft';
 
 function App() {
 
@@ -28,9 +29,10 @@ function App() {
 
           <Route path='/addflight' element={<AddFlight />} />
           <Route path='/flightmanager' element={<FlightManagerPage />} />
-        </Routes >
-      </Router >
-    </div >
+          <Route path='/addaircraft' element={<AddAircraft />} />
+        </Routes>
+      </Router>
+    </div>
   )
 }
 

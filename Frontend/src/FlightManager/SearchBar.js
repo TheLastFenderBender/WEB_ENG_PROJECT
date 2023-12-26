@@ -12,16 +12,13 @@ const SearchBar = ({ onSearch }) => {
   const [searchInput, setSearchInput] = useState('');
 
   // Define a state variable for the selected option
-  const [selectedOption, setSelectedOption] = useState('flight_number');
+  const [selectedOption, setSelectedOption] = useState('flightNumber');
 
   // Define a function that takes the search input and the selected option and invokes the callback function with the flight data
   const search = (searchInput, selectedOption) => {
     // Call the getFlightData function with the search input and the selected option and handle the promise
     getFlightData(searchInput, selectedOption)
-      .then((response) => {
-        // Get the flight data from the response
-        const flightData = response.data.data;
-
+      .then((flightData) => {
         // Invoke the callback function with the flight data
         onSearch(flightData);
       })
@@ -80,10 +77,11 @@ const SearchBar = ({ onSearch }) => {
         value={selectedOption}
         onChange={handleOptionChange}
       >
-        <MenuItem value="flight_number">Flight Number</MenuItem>
-        <MenuItem value="airline_name">Airline Name</MenuItem>
-        <MenuItem value="departure_airport">Departure Airport</MenuItem>
-        <MenuItem value="arrival_airport">Arrival Airport</MenuItem>
+        <MenuItem value="flightNumber">Flight Number</MenuItem>
+        <MenuItem value="airline">Airline Name</MenuItem>
+        <MenuItem value="departure">Departure Airport</MenuItem>
+        <MenuItem value="arrival">Arrival Airport</MenuItem>
+        <MenuItem value="date">Date</MenuItem>
       </Select>
     </div>
   );
