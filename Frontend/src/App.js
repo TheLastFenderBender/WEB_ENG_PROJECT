@@ -6,9 +6,9 @@ import Crew from './SuperAdmin/Crew';
 import Maintenance from './SuperAdmin/Maintenance';
 import FlightHistory from './SuperAdmin/FlightHistory';
 // import UserDashboard from './UserDashBoard';
-import AddFlight from './AddFlight';
-import FlightManagerPage from './FlightManagerPage';
-import AddAircraft from './AddAircraft';
+import AddFlight from './FlightManager/AddFlight';
+import FlightManagerPage from './FlightManager/FlightManagerPage';
+import AddAircraft from './FlightManager/AddAircraft';
 
 function App() {
   return (
