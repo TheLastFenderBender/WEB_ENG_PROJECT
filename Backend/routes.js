@@ -303,7 +303,153 @@ router.get('/admin/dashboard', AuthenticateUser, (req, res) => {
 });
 
 // ~~~~~~~~~~~~~~~~~~~~~~~ 2.Admin Panel: ~~~~~~~~~~~~~~~~~~~~~~~
+// GET route to retrieve all users
+router.get('/getUsers', async (req, res) => {
+    try {
+        const users = await User.find({}); // Fetch all users
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
 
+// DELETE route to delete a user by ID
+router.delete('/deleteUser/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        // Find the user by ID and delete
+        const deletedUser = await User.findByIdAndDelete(id);
+        console.log(deletedUser);
+
+        if (!deletedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ message: 'User deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// PUT route to update user information
+router.put('/updateUser/:id', async (req, res) => {
+    const id = req.params.id;
+    const updatedData = req.body;
+
+    try {
+        // Find the user by ID and update their information
+        const updatedUser = await User.findByIdAndUpdate(id, updatedData, { new: true });
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
+// PATCH route to update the payment status of a booking
+router.patch('/updateBooking/:id', async (req, res) => {
+    const bookingId = req.params.id;
+    const { paymentStatus } = req.body;
+
+    try {
+        // Find the booking by ID and update its payment status
+        const updatedBooking = await Booking.findByIdAndUpdate(
+            bookingId, 
+            { $set: { paymentStatus, updatedAt: new Date() } }, 
+            { new: true }
+        );
+
+        if (!updatedBooking) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
+
+        res.status(200).json(updatedBooking);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
+// Route to generate a report for all bookings
+router.get('/generate-report', async (req, res) => {
+    try {
+      // Fetch all booking records from the database
+      const allBookings = await Booking.find();
+  
+      // Transform the data as needed for the report
+      const reportData = allBookings.map((booking) => {
+        return {
+          bookingId: booking._id,
+          userId: booking.userId,
+          flightId: booking.flightId,
+          seatNumber: booking.seatNumber,
+          bookingStatus: booking.status,
+          paymentStatus: booking.paymentStatus,
+          createdAt: booking.createdAt,
+          updatedAt: booking.updatedAt,
+          // Add additional fields as needed
+        };
+      });
+  
+      // Respond with the generated report data
+      res.json(reportData);
+    } catch (error) {
+      console.error('Error generating report:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
+
+
+  // PATCH route to update the status of a refund request
+  router.patch('/updateRefund/:refundId', async (req, res) => {
+      const refundId = req.params.refundId;
+      const { status } = req.body;
+  
+      try {
+          // Validate status
+          if (!['pending', 'approved', 'denied'].includes(status)) {
+              return res.status(400).json({ message: 'Invalid status' });
+          }
+  
+          // Find the refund request by ID and update its status
+          const updatedRefund = await Refund.findByIdAndUpdate(
+              refundId, 
+              { $set: { status, updatedAt: new Date() } }, 
+              { new: true }
+          );
+  
+          if (!updatedRefund) {
+              return res.status(404).json({ message: 'Refund request not found' });
+          }
+  
+          res.status(200).json(updatedRefund);
+      } catch (error) {
+          res.status(500).json({ message: error.message });
+      }
+  });
+
+// DELETE route to delete a refund request by ID
+router.delete('/deleteRefund/:refundId', async (req, res) => {
+    const refundId = req.params.refundId;
+
+    try {
+        // Find the refund request by ID and delete
+        const deletedRefund = await Refund.findByIdAndDelete(refundId);
+
+        if (!deletedRefund) {
+            return res.status(404).json({ message: 'Refund request not found' });
+        }
+
+        res.status(200).json({ message: 'Refund request deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
 
 // ~~~~~~~~~~~~~~~~~~~~~~~ 3.Flight Management Panel: ~~~~~~~~~~~~~~~~~~~~~~~
 
