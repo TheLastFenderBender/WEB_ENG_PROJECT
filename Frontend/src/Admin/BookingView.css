@@ -1,0 +1,90 @@
+/* BookingView.css */
+
+/* Apply a bit of spacing and center the content */
+.booking-view-container {
+    margin: 20px auto;
+    min-width: 1000px;
+    margin-left:10px;
+}
+
+/* Style the heading */
+.booking-view-heading {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Style the table */
+.booking-view-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.booking-view-table th,
+.booking-view-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.booking-view-table th {
+    background-color: #fff;
+}
+
+/* Style the buttons */
+.BookingViewCancelButton {
+    margin-right: 5px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color:  #bd3b34;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.BookingViewUpdateButton {
+    margin-right: 5px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+.BookingViewProcessButton {
+    margin-right: 5px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.BookingViewUpdateButton:hover {
+    background-color: #aaeaac;
+}
+.BookingViewCancelButton:hover {
+    background-color:#df8580;
+}
+.BookingViewProcessButton:hover {
+    background-color: #aaeaac;
+}
+
+/* Style the modal */
+.booking-view-modal {
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px;
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

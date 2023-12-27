@@ -303,6 +303,37 @@ router.get('/admin/dashboard', AuthenticateUser, (req, res) => {
     }
 });
 
+
+router.get('/flights/search', async (req, res) => {
+    try {
+        const { origin, destination, departureDate } = req.query;
+        // const { origin, destination, departureDate, returnDate, flightClass } = req.query;
+
+        // Ensure that all parameters are present before performing the search
+        if (!origin || !destination || !departureDate) {
+            return res.status(400).json({ message: 'Missing search parameters' });
+        }
+
+        // Perform the search based on the provided parameters
+        const flights = await Flight.find({
+            departure: origin,
+            arrival: destination,
+            date: new Date(departureDate),
+            // origin,
+            // destination,
+            // departureDate,
+            // returnDate,
+            // flightClass,
+        });
+
+        // Return the matched flights
+        res.json(flights);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
 // ~~~~~~~~~~~~~~~~~~~~~~~ 2.Admin Panel: ~~~~~~~~~~~~~~~~~~~~~~~
 // GET route to retrieve all users
 router.get('/getUsers', async (req, res) => {
@@ -946,6 +977,34 @@ router.get('/feedback', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 
+});
+
+// counting routes for superadminpage
+router.get('/crew/count', async (req, res) => {
+    try {
+        const crewCount = await Crew.countDocuments();
+        res.json({ count: crewCount });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+router.get('/maintenance/count', async (req, res) => {
+    try {
+        const maintenanceCount = await Maintenance.countDocuments();
+        res.json({ count: maintenanceCount });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+router.get('/flights/count', async (req, res) => {
+    try {
+        const flightCount = await Flight.countDocuments();
+        res.json({ count: flightCount });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 });
 /*
 

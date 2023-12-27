@@ -1,0 +1,52 @@
+.mainContainer{
+    display: flex;
+}
+.sidebarAdmin{
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+    background-color: #007BFF;
+    min-height: 100vh;
+    width: 300px;
+}
+
+.heading{
+    font-family: 'monospace';
+    font-weight: 700;
+    font-size: larger;
+    letter-spacing: '.3rem';
+    color: white;
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+
+.buttonContainer{
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.buttonDiv {
+    font-family: 'monospace';
+    font-weight: 700;
+    font-size: larger;
+    letter-spacing: '.3rem';
+    color: white;
+    margin-top: 40px;
+    cursor: pointer; /* Makes it clear that these are clickable */
+    padding: 10px; /* Adds some padding for better visual appeal */
+    border-radius: 5px; /* Optional: Rounds the corners */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effect */
+}
+
+.buttonDiv:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+    color: #fff; /* Change text color on hover if needed */
+}
+.miniContiner{
+    margin-top: 100px;
+    margin-left: 200px;
+}

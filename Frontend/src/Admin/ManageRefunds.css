@@ -1,0 +1,59 @@
+/* ManageRefunds.css */
+
+/* Apply a bit of spacing and center the content */
+.manage-refunds-container {
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+/* Style the heading */
+.manage-refunds-heading {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+/* Style the buttons */
+.manage-refunds-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+}
+
+.manage-refunds-buttons button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.manage-refunds-buttons button:hover {
+    background-color: #45a049;
+}
+
+/* Style the selected button */
+.manage-refunds-buttons button.active {
+    background-color: #008CBA;
+}
+
+/* Style the content container */
+.manage-refunds-content {
+    max-width: 600px;
+    margin-left: 10px;
+}
+
+/* Additional styles for the active button */
+.manage-refunds-buttons button.active {
+    background-color: #006400; /* Change to the desired color for the active button */
+    color: #ffffff; /* Change to the desired text color for the active button */
+}
+
+.manage-refunds-buttons button:hover {
+    background-color: #aaeaac; /* Change to the desired hover color */
+    color: #ffffff; /* Change to the desired text color on hover */
+}

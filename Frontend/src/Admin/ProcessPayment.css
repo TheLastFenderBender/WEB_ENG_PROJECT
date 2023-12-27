@@ -1,0 +1,44 @@
+/* ProcessPayment.css */
+
+/* Apply a bit of spacing and center the content */
+.process-payment-container {
+    margin: 20px auto;
+    max-width: 400px;
+}
+
+/* Style the heading */
+.process-payment-heading {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Style the label and input field */
+.process-payment-label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.process-payment-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Style the button */
+.process-payment-button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.process-payment-button:hover {
+    background-color: #45a049;
+}

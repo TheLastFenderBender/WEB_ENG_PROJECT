@@ -12,7 +12,11 @@ import FlightManagerPage from './FlightManager/FlightManagerPage';
 import AddAircraft from './FlightManager/AddAircraft';
 import AddRoute from './FlightManager/AddRoute';
 import UpdateFlight from './FlightManager/UpdateFlight';
+import AdminPage from './Admin/AdminPage';
+import NewUser from  './Admin/NewUser';
+import AdminCreateBooking from './Admin/AdminCreateBooking';
 import Footer from './Footer';
+
 
 function App() {
 
@@ -35,6 +39,11 @@ function App() {
           <Route path='/flightmanager' element={<FlightManagerPage />} />
           <Route path='/addaircraft' element={<AddAircraft />} />
           <Route path='/addroute' element={<AddRoute />} />
+          
+          
+        <Route path='/AdminPage' element={<AdminPage />} />
+        <Route path='/NewUser' element={<NewUser />} />
+        <Route path='/AdminCreateBooking' element={<AdminCreateBooking />} />
         </Routes>
       </Router>
 
