@@ -6,15 +6,21 @@ import Crew from './SuperAdmin/Crew';
 import Maintenance from './SuperAdmin/Maintenance';
 import FlightHistory from './SuperAdmin/FlightHistory';
 import PaymentHistory from './SuperAdmin/PaymentHistory';
-// import UserDashboard from './UserDashBoard';
+import UserDashboard from './UserDashBoard';
 import AddFlight from './FlightManager/AddFlight';
 import FlightManagerPage from './FlightManager/FlightManagerPage';
 import AddAircraft from './FlightManager/AddAircraft';
-import AdminPage from './Admin/AdminPage';
-import NewUser from  './Admin/NewUser';
-import AdminCreateBooking from './Admin/AdminCreateBooking';
-import Footer from './Footer';
-
+import FlightResult from './FlightResults'; 
+import BookFlight from './BookFlight';
+import FinalBooking from './FinalBooking';
+import ReviewPopup from './ReviewPopup';
+import SeatSelection from './SeatSelection';
+import TripSummary from './TripSummary';
+import AdminPage from './AdminPage';
+import NewUser from './NewUser';
+import UserPayment from './UserPayment';
+// import AdminCreateBooking from './AdminCreateBooking';
+// import Footer from './Footer';
 
 function App() {
 
@@ -22,10 +28,23 @@ function App() {
     <div>
       <Router>
         <Routes>
-          <Route path='/register' element={<Register />} />
+          <Route path='/' element={<Register />} />
           <Route path='/login' element={<Login />} />
-          {/* <Route path='/UserDashBoard' element={<UserDashboard />} /> */}
-          
+          <Route path='/UserDashBoard' element={<UserDashboard />} />
+          <Route path='/FlightResults' element={<FlightResult />} />
+
+          <Route path='/BookFlight' element={<BookFlight />} />
+          <Route path='/FinalBooking' element={<FinalBooking />} />
+          <Route path='/ReviewPopup' element={<ReviewPopup />} />
+
+          <Route path='/SeatSelection' element={<SeatSelection />} />
+          <Route path='/TripSummary' element={<TripSummary />} />
+
+          <Route path='/UserPayment' element={<UserPayment />} />
+
+
+
+
           <Route path='/superadmin' element={<SuperAdmin></SuperAdmin>} ></Route>
           <Route path='/crew' element={<Crew></Crew>} ></Route>
           <Route path='/maintenance' element={<Maintenance></Maintenance>} ></Route>
@@ -39,11 +58,11 @@ function App() {
           
         <Route path='/AdminPage' element={<AdminPage />} />
         <Route path='/NewUser' element={<NewUser />} />
-        <Route path='/AdminCreateBooking' element={<AdminCreateBooking />} />
+        {/* <Route path='/AdminCreateBooking' element={<AdminCreateBooking />} /> */}
         </Routes>
       </Router>
 
-      <Footer></Footer>
+      {/* <Footer></Footer> */}
     </div>
   )
 }
