@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './BookingComponent.css';
 import './SearchFlight.css';
+import { useNavigate } from 'react-router-dom'; 
 
 
 const SearchFlight = () => {
@@ -15,12 +16,36 @@ const SearchFlight = () => {
     const [flightClass, setFlightClass] = useState('economy');
     const [showPassengerClass, setShowPassengerClass] = useState(false);
 
+    const navigate = useNavigate();
+
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        // Construct the request body...
-        // Make the API call...
-        // Handle response...
+        
+        try {
+            const response = await fetch(`/flights/search?origin=${origin}&destination=${destination}&departureDate=${departureDate}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data); 
+                navigate('/flightresults');
+            } else {
+                // Handle error responses
+                console.log('Failed to fetch flights. Please try again.');
+            }
+        } catch (error) {
+            // Handle fetch or other errors
+            console.error('Error:', error);
+        }
+        
+        
+     
     };
+    
 
 
     const handleIncrement = (type) => {

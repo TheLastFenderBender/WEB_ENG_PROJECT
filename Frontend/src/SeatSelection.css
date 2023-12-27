@@ -1,0 +1,84 @@
+/* SeatSelection.css */
+
+.seat-selection {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    margin-left:470px;
+}
+
+h2 {
+    margin-bottom: 40px;
+    margin-top:40px;
+    text-align: center;
+}
+
+.seat-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    /* Adjust column count as needed */
+    gap: 10px;
+    
+    margin-bottom: 20px;
+}
+
+/* Arrange seats in respective rows */
+.seat-row:nth-child(1) .seat {
+    grid-row: 1;
+}
+
+.seat-row:nth-child(2) .seat {
+    grid-row: 2;
+}
+
+.seat-row:nth-child(3) .seat {
+    grid-row: 3;
+}
+
+.seat-row:nth-child(4) .seat {
+    grid-row: 4;
+}
+
+.seat-row:nth-child(5) .seat {
+    grid-row: 5;
+}
+
+.seat {
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    user-select: none;
+    /* Additional styles */
+    width: 40px;
+    /* Adjust width as needed */
+    height: 40px;
+    /* Adjust height as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.seat:hover {
+    background-color: #f0f0f0;
+}
+
+.selected-seat {
+    margin-top: 20px;
+    text-align:center;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width:300px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
