@@ -852,6 +852,34 @@ router.get('/feedback', async (req, res) => {
     }
 
 });
+
+// counting routes for superadminpage
+router.get('/crew/count', async (req, res) => {
+    try {
+        const crewCount = await Crew.countDocuments();
+        res.json({ count: crewCount });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+router.get('/maintenance/count', async (req, res) => {
+    try {
+        const maintenanceCount = await Maintenance.countDocuments();
+        res.json({ count: maintenanceCount });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+router.get('/flights/count', async (req, res) => {
+    try {
+        const flightCount = await Flight.countDocuments();
+        res.json({ count: flightCount });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
 /*
 
 
