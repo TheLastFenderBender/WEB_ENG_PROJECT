@@ -10,7 +10,11 @@ import PaymentHistory from './SuperAdmin/PaymentHistory';
 import AddFlight from './FlightManager/AddFlight';
 import FlightManagerPage from './FlightManager/FlightManagerPage';
 import AddAircraft from './FlightManager/AddAircraft';
+import AdminPage from './Admin/AdminPage';
+import NewUser from  './Admin/NewUser';
+import AdminCreateBooking from './Admin/AdminCreateBooking';
 import Footer from './Footer';
+
 
 function App() {
 
@@ -31,6 +35,11 @@ function App() {
           <Route path='/addflight' element={<AddFlight />} />
           <Route path='/flightmanager' element={<FlightManagerPage />} />
           <Route path='/addaircraft' element={<AddAircraft />} />
+          
+          
+        <Route path='/AdminPage' element={<AdminPage />} />
+        <Route path='/NewUser' element={<NewUser />} />
+        <Route path='/AdminCreateBooking' element={<AdminCreateBooking />} />
         </Routes>
       </Router>
 
