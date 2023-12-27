@@ -302,6 +302,37 @@ router.get('/admin/dashboard', AuthenticateUser, (req, res) => {
     }
 });
 
+
+router.get('/flights/search', async (req, res) => {
+    try {
+        const { origin, destination, departureDate } = req.query;
+        // const { origin, destination, departureDate, returnDate, flightClass } = req.query;
+
+        // Ensure that all parameters are present before performing the search
+        if (!origin || !destination || !departureDate) {
+            return res.status(400).json({ message: 'Missing search parameters' });
+        }
+
+        // Perform the search based on the provided parameters
+        const flights = await Flight.find({
+            departure: origin,
+            arrival: destination,
+            date: new Date(departureDate),
+            // origin,
+            // destination,
+            // departureDate,
+            // returnDate,
+            // flightClass,
+        });
+
+        // Return the matched flights
+        res.json(flights);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
 // ~~~~~~~~~~~~~~~~~~~~~~~ 2.Admin Panel: ~~~~~~~~~~~~~~~~~~~~~~~
 // GET route to retrieve all users
 router.get('/getUsers', async (req, res) => {

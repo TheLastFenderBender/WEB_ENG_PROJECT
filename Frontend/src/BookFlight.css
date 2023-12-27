@@ -1,0 +1,60 @@
+/* CSS for BookFlight component */
+
+/* Style for the main container */
+.book-flight-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Style for the flight details container */
+.flight-details {
+    width: 50%;
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-right: 10px;
+}
+
+/* Style for the class selection container */
+.class-selection {
+    width: 40%;
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+
+/* Style for the buttons in the flight details */
+.flight-details button {
+    margin: 5px;
+    padding: 8px 12px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+/* Style for the selected flight and class information */
+.selected-info {
+    margin-top: 20px;
+}
+
+/* Add additional styles as needed */
+
+/* CSS for the pop-up */
+.popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
