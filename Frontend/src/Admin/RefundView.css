@@ -1,0 +1,56 @@
+/* RefundView.css */
+
+/* Apply a bit of spacing and center the content */
+.refund-view-container {
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+/* Style the heading */
+.refund-view-heading {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Style the table */
+.refund-view-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.refund-view-table th,
+.refund-view-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.refund-view-table th {
+    background-color: #fff;
+}
+
+/* Style the select and buttons */
+.refund-view-select,
+.refund-view-button {
+    margin-right: 10px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.refund-view-select {
+    width: 100px;
+}
+
+.refund-view-button {
+    background-color: #4CAF50;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.refund-view-button:hover {
+    background-color: #45a049;
+}
