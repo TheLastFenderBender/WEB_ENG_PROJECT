@@ -4,12 +4,17 @@ const flightSchema = new mongoose.Schema({
     flightNumber: {
         type: Number,
         required: true,
+        unique: true,
     },
     airline: {
         type: String,
         required: true,
     },
     aircraftID: {
+        type: Number,
+        required: true,
+    },
+    routeID: {
         type: Number,
         required: true,
     },

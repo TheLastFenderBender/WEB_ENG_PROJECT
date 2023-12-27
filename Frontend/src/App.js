@@ -10,6 +10,8 @@ import PaymentHistory from './SuperAdmin/PaymentHistory';
 import AddFlight from './FlightManager/AddFlight';
 import FlightManagerPage from './FlightManager/FlightManagerPage';
 import AddAircraft from './FlightManager/AddAircraft';
+import AddRoute from './FlightManager/AddRoute';
+import UpdateFlight from './FlightManager/UpdateFlight';
 import Footer from './Footer';
 
 function App() {
@@ -29,8 +31,10 @@ function App() {
           <Route path='/paymenthistory' element={<PaymentHistory></PaymentHistory>}></Route>
 
           <Route path='/addflight' element={<AddFlight />} />
+          <Route path='/updateflight' element={<UpdateFlight />} />
           <Route path='/flightmanager' element={<FlightManagerPage />} />
           <Route path='/addaircraft' element={<AddAircraft />} />
+          <Route path='/addroute' element={<AddRoute />} />
         </Routes>
       </Router>
 

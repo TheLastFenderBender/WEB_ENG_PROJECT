@@ -26,6 +26,14 @@ const FlightManagerButtons = () => {
       >
         Add New Aircraft
       </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        component={Link}
+        to="/addroute"
+      >
+        Add New Route
+      </Button>
     </>
   );
 };
