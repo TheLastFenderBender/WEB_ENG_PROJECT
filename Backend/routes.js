@@ -525,27 +525,31 @@ router.put('/flights/:id', async (req, res) => {
     // Update flight information
 
     const { id } = req.params;
-    const { flightNumber, airline, aircraftID, departure, arrival, date, time, availableSeats } = req.body;
+    const { flightNumber, airline, aircraftID, routeID, departure, arrival, date, time, availableSeats } = req.body;
 
     try {
         // Check if the flight exists
         const existingFlight = await Flight.findOne({flightNumber: id});
         if (!existingFlight) {
-            alert('Flight not found');
             return res.status(404).json({ message: 'Flight not found' });
         }
 
         // Check if the aircraftID exists
         const aircraftExists = await Aircraft.findOne({aircraftID: aircraftID});
         if (!aircraftExists) {
-            alert('Aircraft not found');
             return res.status(400).json({ message: 'Aircraft not found' });
+        }
+
+        const routeExists = await Route.findOne({ routeID: routeID });
+        if (!routeExists) {
+            return res.status(400).json({ message: 'Route not found' });
         }
 
         // Update the flight details
         existingFlight.flightNumber = flightNumber;
         existingFlight.airline = airline;
         existingFlight.aircraftID = aircraftID;
+        existingFlight.routeID = routeID;
         existingFlight.departure = departure;
         existingFlight.arrival = arrival;
         existingFlight.date = date;
@@ -553,7 +557,6 @@ router.put('/flights/:id', async (req, res) => {
         existingFlight.availableSeats = availableSeats;
 
         const updatedFlight = await existingFlight.save();
-        alert('Flight updated successfully');
         res.json(updatedFlight);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -561,18 +564,13 @@ router.put('/flights/:id', async (req, res) => {
 });
 
 router.delete('/flights/:id', async (req, res) => {
-    // Delete flight
     const { id } = req.params;
 
     try {
-        const deletedFlight = await Flight.findOne({flightNumber: id});
-
-        if (!deletedFlight) {
-            return res.status(404).json({ message: 'Flight not found' });
-        }
-        alert('Flight deleted successfully');
+        await Flight.deleteOne({flightNumber: id});
         res.json({ message: 'Flight deleted' });
     } catch (error) {
+        console.log('error:', error);
         res.status(500).json({ message: error.message });
     }
 });
@@ -639,24 +637,18 @@ router.put('/routes/:id', async (req, res) => {
 });
 
 router.delete('/routes/:id', async (req, res) => {
-    // Delete route
     const { id } = req.params;
 
     try {
-        const deletedRoute = await Route.findOne({ routeID: id });
-
-        if (!deletedRoute) {
-            return res.status(404).json({ message: 'Route not found' });
-        }
-        alert('Route deleted successfully');
+        await Route.deleteOne({routeID: id});
         res.json({ message: 'Route deleted' });
     } catch (error) {
+        console.log('error:', error);
         res.status(500).json({ message: error.message });
     }
 });
 
 router.get('/routes', async (req, res) => {
-    // View route list
     try {
         const allRoutes = await Route.find();
         res.json(allRoutes);
@@ -707,7 +699,6 @@ router.put('/aircrafts/:id', async (req, res) => {
         existingAircraft.active = active;
 
         const updatedAircraft = await existingAircraft.save();
-        alert('Aircraft updated successfully');
         res.json(updatedAircraft);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -716,12 +707,25 @@ router.put('/aircrafts/:id', async (req, res) => {
 
 });
 
-router.delete('/aircrafts/:id', (req, res) => {
-    // Delete aircraft
+router.delete('/aircrafts/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        await Aircraft.deleteOne({aircraftID: id});
+        res.json({ message: 'Aircraft deleted' });
+    } catch (error) {
+        console.log('error:', error);
+        res.status(500).json({ message: error.message });
+    }
 });
 
-router.get('/aircrafts', (req, res) => {
-    // View aircraft list
+router.get('/aircrafts', async (req, res) => {
+    try {
+        const allAircrafts = await Aircraft.find();
+        res.json(allAircrafts);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 });
 
 

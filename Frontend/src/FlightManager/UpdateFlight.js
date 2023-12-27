@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import './Flight.css';
 import NavBar from '../NavBar';
 
 
 
 const UpdateFlight = () => {
-    const location = useLocation();
+    const { flightNumber } = useParams();
     const [flightData, setFlightData] = useState({
         flightNumber: 0,
         airline: '',
@@ -25,9 +25,8 @@ const UpdateFlight = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(flightData);
         try {
-            const response = await fetch(`http://localhost:3000/flights/${location.state.flightNumber}`, {
+            const response = await fetch(`http://localhost:3000/flights/${flightNumber}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

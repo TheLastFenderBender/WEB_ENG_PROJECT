@@ -1,12 +1,24 @@
 // Import React and Material-UI components
 import React from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardActions, Typography, Button } from '@mui/material';
 
 // Define a function that takes a flight object as a prop and returns a JSX element
 const FlightCard = ({ flight }) => {
   // Destructure the flight object to get the relevant properties
-  const { flightNumber, airline, aircraftID, departure, arrival, date, time, availableSeats } = flight;
+  const { flightNumber, airline, aircraftID, routeID, departure, arrival, date, time, availableSeats } = flight;
+
+  const handleDeleteClick = async () => {
+    try {
+      console.log(flightNumber);
+      const response = await axios.delete(`http://localhost:3000/flights/${flightNumber}`);
+      console.log(response.data);
+      alert("Flight deleted successfully!");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   // Return the JSX element
   return (
@@ -22,6 +34,9 @@ const FlightCard = ({ flight }) => {
           Aircraft: {aircraftID}
         </Typography>
         <Typography color="textSecondary">
+          Route: {routeID}
+        </Typography>
+        <Typography color="textSecondary">
           {departure} - {arrival}
         </Typography>
         <Typography variant="body2" component="p">
@@ -32,9 +47,10 @@ const FlightCard = ({ flight }) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Link to={{ pathname: "/updateflight", state: { flightNumber: flightNumber } }}>
+        <Link to={`/updateflight/${flightNumber}`}>
           <Button size="small" color="secondary">Edit</Button>
         </Link>
+        <Button size="small" color="secondary" onClick={() => handleDeleteClick()}>Delete</Button>
       </CardActions>
     </Card>
   );

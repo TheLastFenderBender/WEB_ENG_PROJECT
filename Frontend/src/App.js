@@ -35,7 +35,7 @@ function App() {
           <Route path='/paymenthistory' element={<PaymentHistory></PaymentHistory>}></Route>
 
           <Route path='/addflight' element={<AddFlight />} />
-          <Route path='/updateflight' element={<UpdateFlight />} />
+          <Route path='/updateflight/:flightNumber' element={<UpdateFlight />} />
           <Route path='/flightmanager' element={<FlightManagerPage />} />
           <Route path='/addaircraft' element={<AddAircraft />} />
           <Route path='/addroute' element={<AddRoute />} />
