@@ -1,0 +1,49 @@
+/* BookingReport.css */
+
+/* Apply spacing and center the content */
+.booking-report-container {
+    margin: 20px auto;
+    min-width: 1000px;
+    margin-left: 10px;
+  }
+  
+  /* Style the heading */
+  .booking-report-heading {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  /* Style the table */
+  .booking-report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+  }
+  
+  .booking-report-table th,
+  .booking-report-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .booking-report-table th {
+    background-color: #fff;
+  }
+  
+  /* Style the modal */
+  .booking-report-modal {
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px;
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  
