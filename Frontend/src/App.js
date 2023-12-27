@@ -10,6 +10,7 @@ import PaymentHistory from './SuperAdmin/PaymentHistory';
 import AddFlight from './FlightManager/AddFlight';
 import FlightManagerPage from './FlightManager/FlightManagerPage';
 import AddAircraft from './FlightManager/AddAircraft';
+import Footer from './Footer';
 
 function App() {
 
@@ -32,6 +33,8 @@ function App() {
           <Route path='/addaircraft' element={<AddAircraft />} />
         </Routes>
       </Router>
+
+      <Footer></Footer>
     </div>
   )
 }
