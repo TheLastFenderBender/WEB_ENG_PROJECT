@@ -1,0 +1,43 @@
+.SAContainer {
+    color: #1976d2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem;
+}
+.SATitle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #064a8f;
+    padding: 3rem;
+}
+.SATitle h1 {
+    font-size: 3rem;
+}
+.cardContainer {
+    display: flex;
+    flex-direction: row;
+}
+.SACard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin: 3rem;
+    box-shadow: 2px 2px 5px #1976d2;
+    height: 20rem;
+    width: 17rem;
+}
+.SACard h3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.6rem;
+    color: white;
+    background-color: #1976d2;
+    width: 100%;
+}
+.SACard p {
+    color: #064a8f;
+}

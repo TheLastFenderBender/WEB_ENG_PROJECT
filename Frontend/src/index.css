@@ -5,6 +5,17 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+   /*
+      Change the value of min-height to adjust how much content fits into the page at a minumum
+      After reaching a certain threshold the Footer component will always remain at the bottom of the page
+      If the Footer is touching your content, there is not enough content on your page
+
+      --> Just Use CSS Margins to push the Footer down (it should reach the below threshold) <--
+   */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column; 
 }
 
 code {
