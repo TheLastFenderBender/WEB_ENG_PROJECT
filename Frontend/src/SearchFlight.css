@@ -1,0 +1,164 @@
+
+
+/* Style for the Booking Tab */
+.booking-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    width: 800px;
+    /* Adjust as needed */
+    /* max-width: 600px; */
+    /* Adjust as needed */
+    margin: 0 auto;
+    text-align: center;
+}
+
+.booking-tab h2 {
+    margin-bottom: 20px;
+}
+
+.booking-tab form>div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    width:750px;
+}
+
+.booking-tab form>div>label {
+    flex: 1;
+    text-align: left;
+    margin-right: 10px;
+}
+
+.booking-tab input[type='text'],
+.booking-tab input[type='date'],
+.booking-tab button {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: calc(50% - 5px);
+    box-sizing: border-box;
+}
+
+
+.booking-tab .passenger-class>div {
+    /* margin-top: 3px; */
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    /* margin-top: 10px; */
+    /* display: none; */
+}
+
+.booking-tab .passenger-class hr {
+    margin: 15px 0;
+}
+
+.booking-tab .passenger-class label {
+    display: flex;
+    align-items: center;
+}
+
+.booking-tab .passenger-class span {
+    /* margin: 0 5px; */
+    font-weight: bold;
+    color: #333;
+}
+
+.booking-tab .passenger-class input[type='radio'] {
+    margin-right: 5px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.booking-tab button[type='submit'] {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    width: 50%;
+    background-color: rgb(67, 158, 194);
+}
+
+.booking-tab .passenger-class button[type='button'] {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.booking-tab .passenger-class {
+    /* margin-top: 2px; */
+    text-align: left;
+}
+
+.booking-tab .passenger-class-button {
+    font-size: 14px;
+    background-color: rgb(67, 158, 194);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 3px;
+    cursor: pointer;
+    width: 150px;
+    margin-top: 20px;
+}
+
+.booking-tab .passenger-class-content {
+    display: none;
+    /* margin-top: 0; */
+    text-align: left;
+    width:500px;
+}
+
+.booking-tab .passenger-class-content.show {
+    display: block;
+}
+
+.booking-tab .passenger-info {
+    display: flex;
+    /* align-items: center; */
+    /* justify-content: space-between; */
+    align-items: center;
+        /* justify-content: flex-start; */
+    margin-bottom: 5px;
+    text-align: left;
+    /* gap: 10px; */
+    /* width:350px; */
+    width: 100%;
+}
+
+.booking-tab .passenger-info button {
+    padding: 4px 8px;
+    font-size: 14px;
+    width:25px;
+    height:25px;
+    /* margin-right: 2px; */
+}
+
+.booking-tab .passenger-info span {
+    font-weight: bold;
+    gap:2px;
+}
+
+.booking-tab .class-selection {
+    display: flex;
+    /* justify-content: space-between; */
+    justify-content: flex-start;
+        gap: 20px;
+}
+
+.booking-tab .class-selection label {
+    flex: 1;
+    /* text-align: center; */
+    margin-right:20px;
+    text-align: left;
+}
+
+.booking-tab .class-selection input[type='radio'] {
+    margin-right: 7px;
+}
