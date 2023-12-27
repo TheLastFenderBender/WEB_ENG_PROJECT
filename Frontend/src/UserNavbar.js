@@ -14,6 +14,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 // import AdbIcon from '@mui/icons-material/Adb';
 import planeImage from './Images/airplane.png';
+import { useNavigate } from 'react-router-dom';
+
 
 const pages = ['Home', 'Flights', 'Bookings', 'My Trips'];
 const settings = ['Profile', 'Logout'];
@@ -24,6 +26,9 @@ const bookingOptions = ['Booking Details', 'Book a Flight', 'Payment', 'Cancel B
 const myTripsOptions = ['Booking History', 'Refunds' , 'Feedback'];
 
 function NavBar({ userName }) {
+
+    const navigate = useNavigate();
+
     const [anchorElFlights, setAnchorElFlights] = React.useState(null);
     const [anchorElBookings, setAnchorElBookings] = React.useState(null);
     const [anchorElMyTrips, setAnchorElMyTrips] = React.useState(null);
@@ -61,6 +66,19 @@ function NavBar({ userName }) {
         setAnchorElUser(null);
     };
 
+    const handleSettings = (setting) => {
+        if (setting === 'Profile') {
+            navigate('/userprofile'); 
+        } else if (setting === 'Logout') {
+            navigate('/login'); 
+        }
+    };
+
+    const handleHome = () => {
+        navigate('/UserDashBoard'); // Redirect to user dashboard (home)
+    };
+
+
     return (
         <AppBar position="static">
             <Container maxWidth="xl">
@@ -96,6 +114,7 @@ function NavBar({ userName }) {
                                     if (page === 'Flights') handleOpenFlightsMenu(event);
                                     else if (page === 'Bookings') handleOpenBookingsMenu(event);
                                     else if (page === 'My Trips') handleOpenMyTripsMenu(event);
+                                    else if (page === 'Home') handleHome();
                                 }}
                             >
                                 {page}
@@ -212,7 +231,9 @@ function NavBar({ userName }) {
                             onClose={handleCloseUserMenu}
                         >
                             {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                <MenuItem key={setting} onClick={() => handleSettings(setting)}>
+                                    {/* <MenuItem key={setting} onClick={handleCloseUserMenu} > */}
+
                                     <Typography textAlign="center">
                                         <Link to={`/${setting.toLowerCase()}`} style={{ color: 'inherit', textDecoration: 'none' }}>
                                             {setting}
