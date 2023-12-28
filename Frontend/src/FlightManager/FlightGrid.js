@@ -1,13 +1,9 @@
-// Import React and Material-UI components
 import React from 'react';
 import { Grid } from '@mui/material';
 
-// Import the FlightCard component from the previous example
 import FlightCard from './FlightCard';
 
-// Define a function that takes an array of flights as a prop and returns a JSX element
 const FlightGrid = ({ flights }) => {
-  // Return the JSX element
   return (
     <>
       <Grid container spacing={3}>
@@ -22,5 +18,4 @@ const FlightGrid = ({ flights }) => {
   );
 };
 
-// Export the component
 export default FlightGrid;

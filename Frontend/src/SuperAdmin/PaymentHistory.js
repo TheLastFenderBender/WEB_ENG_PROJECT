@@ -1,7 +1,7 @@
-import react, {useState} from 'react';
+import React, {useState} from 'react';
 import NavBar from './SuperAdminNavbar';
 
-export default function paymentHistory() {
+export default function PaymentHistory() {
 
     return (
         <>

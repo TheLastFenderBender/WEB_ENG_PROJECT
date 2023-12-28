@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import './Flight.css';
 import NavBar from './NavBar';
 
-const AddRoute = () => {
+const UpdateRoute = () => {
+    const { routeID } = useParams();
     const [routeData, setRouteData] = useState({
         routeID: 0,
         departure: '',
@@ -19,15 +21,15 @@ const AddRoute = () => {
         e.preventDefault();
         console.log(routeData);
         try {
-            const response = await fetch('http://localhost:3000/routes', {
-                method: 'POST',
+            const response = await fetch(`http://localhost:3000/routes/${routeID}`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(routeData)
             });
             const data = await response.json();
-            alert('Route added successfully');
+            alert('Route Updated successfully');
             console.log(data);
         } catch (error) {
             console.error(error);
@@ -93,10 +95,10 @@ const AddRoute = () => {
                         placeholder="Travel Time"
                     />
                 </div>
-                <button type="submit" className="submit-button">Add Route</button>
+                <button type="submit" className="submit-button">Update Route</button>
             </form>
         </>
     );
 };
 
-export default AddRoute;
+export default UpdateRoute;

@@ -4,9 +4,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardActions, Typography, Button } from '@mui/material';
 
-// Define a function that takes a flight object as a prop and returns a JSX element
 const FlightCard = ({ flight }) => {
-  // Destructure the flight object to get the relevant properties
   const { flightNumber, airline, aircraftID, routeID, departure, arrival, date, time, availableSeats } = flight;
 
   const handleDeleteClick = async () => {
@@ -20,7 +18,6 @@ const FlightCard = ({ flight }) => {
     }
   };
 
-  // Return the JSX element
   return (
     <Card>
       <CardContent>
@@ -56,5 +53,4 @@ const FlightCard = ({ flight }) => {
   );
 };
 
-// Export the component
 export default FlightCard;

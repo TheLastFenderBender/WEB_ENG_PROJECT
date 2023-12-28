@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Flight.css';
-import NavBar from '../NavBar';
+import NavBar from './NavBar';
 
 const AddFlight = () => {
     const [flightData, setFlightData] = useState({
@@ -31,6 +31,7 @@ const AddFlight = () => {
                 body: JSON.stringify(flightData)
             });
             const data = await response.json();
+            alert('Flight added successfully');
             console.log(data);
         } catch (error) {
             console.error(error);
