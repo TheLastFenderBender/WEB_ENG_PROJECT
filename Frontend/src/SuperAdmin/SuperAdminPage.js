@@ -1,6 +1,6 @@
-import { react, useState, useEffect } from 'react';
+import { React, useState, useEffect } from 'react';
 import Navbar from './SuperAdminNavbar';
-import './SuperAdminPage.css';
+import './SuperAdminStyles/SuperAdminPage.css';
 
 export default function SuperAdminPage() {
 
@@ -9,18 +9,17 @@ export default function SuperAdminPage() {
     const [flightCount, setFlightCount] = useState(0);
 
     useEffect(() => {
-        // Fetch counts when the component mounts
         const fetchCounts = async () => {
             try {
-                const crewResponse = await fetch('localhost:3000/crew/count');
+                const crewResponse = await fetch('http://localhost:3000/crew/count');
                 const crewData = await crewResponse.json();
                 setCrewCount(crewData.count);
 
-                const maintenanceResponse = await fetch('localhost:3000/maintenance/count');
+                const maintenanceResponse = await fetch('http://localhost:3000/maintenance/count');
                 const maintenanceData = await maintenanceResponse.json();
                 setMaintenanceCount(maintenanceData.count);
 
-                const flightResponse = await fetch('localhost:3000/flights/count');
+                const flightResponse = await fetch('http://localhost:3000/flights/count');
                 const flightData = await flightResponse.json();
                 setFlightCount(flightData.count);
             } catch (error) {

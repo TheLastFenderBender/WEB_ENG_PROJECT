@@ -1,7 +1,7 @@
-import react, {useState} from 'react';
+import React, {useState} from 'react';
 import NavBar from './SuperAdminNavbar';
 
-export default function maintenanceContext() {
+export default function MaintenanceCRUD() {
 
     return (
         <>

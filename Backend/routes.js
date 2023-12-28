@@ -685,27 +685,6 @@ router.put('/crew/:name', async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 });
-router.put('/crew/:name/flightAssignments', async (req, res) => {
-    // Update of flightAssignments only
-    const { name } = req.params;
-    const { flightAssignments } = req.body;
-
-    try {
-        const updatedCrewMember = await Crew.findOneAndUpdate(
-            { name },
-            { flightAssignments },
-            { new: true }
-        );
-
-        if (!updatedCrewMember) {
-            return res.status(404).json({ message: 'Crew member not found' });
-        }
-
-        res.json(updatedCrewMember);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-});
 router.delete('/crew/:name', async (req, res) => {
     // Delete crew member
     // name can be updated to id, need to change in schema
@@ -842,7 +821,7 @@ router.delete('/maintenance/:id', async (req, res) => {
 
 
 // Report and Analytics Routes
-router.get('/flights', async (req, res) => {
+router.get('/flights/history', async (req, res) => {
     /*
         Shows flight history
         Done by sending flights that have date before current date
