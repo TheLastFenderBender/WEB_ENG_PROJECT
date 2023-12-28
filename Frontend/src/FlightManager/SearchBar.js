@@ -73,6 +73,8 @@ const SearchBar = ({ onSearch }) => {
         onChange={handleInputChange}
         fullWidth
       />
+      <br></br>
+      <br></br>
       <Select
         value={selectedOption}
         onChange={handleOptionChange}

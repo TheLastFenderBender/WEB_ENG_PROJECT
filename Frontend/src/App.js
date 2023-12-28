@@ -10,6 +10,7 @@ import UserDashboard from './UserDashBoard';
 import AddFlight from './FlightManager/AddFlight';
 import FlightManagerPage from './FlightManager/FlightManagerPage';
 import AddAircraft from './FlightManager/AddAircraft';
+<<<<<<< HEAD
 import FlightResult from './FlightResults'; 
 import BookFlight from './BookFlight';
 import FinalBooking from './FinalBooking';
@@ -21,6 +22,15 @@ import NewUser from './NewUser';
 import UserPayment from './UserPayment';
 // import AdminCreateBooking from './AdminCreateBooking';
 // import Footer from './Footer';
+=======
+import AddRoute from './FlightManager/AddRoute';
+import UpdateFlight from './FlightManager/UpdateFlight';
+import AdminPage from './Admin/AdminPage';
+import NewUser from  './Admin/NewUser';
+import AdminCreateBooking from './Admin/AdminCreateBooking';
+import Footer from './Footer';
+
+>>>>>>> 6eb02d5756821a7c9ab5a2e02d1958f264566257
 
 function App() {
 
@@ -52,8 +62,10 @@ function App() {
           <Route path='/paymenthistory' element={<PaymentHistory></PaymentHistory>}></Route>
 
           <Route path='/addflight' element={<AddFlight />} />
+          <Route path='/updateflight/:flightNumber' element={<UpdateFlight />} />
           <Route path='/flightmanager' element={<FlightManagerPage />} />
           <Route path='/addaircraft' element={<AddAircraft />} />
+          <Route path='/addroute' element={<AddRoute />} />
           
           
         <Route path='/AdminPage' element={<AdminPage />} />

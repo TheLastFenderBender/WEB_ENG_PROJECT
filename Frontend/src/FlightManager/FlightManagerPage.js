@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import SearchBar from './SearchBar';
 import FlightGrid from './FlightGrid';
 import FlightManagerButtons from './FlightManagerButtons';
+import NavBar from '../NavBar';
 
 // Define a function that returns a JSX element
 const FlightManagerPage = () => {
@@ -20,9 +21,14 @@ const FlightManagerPage = () => {
   // Return the JSX element
   return (
     <div>
+      <NavBar />
+      <br></br>
       <SearchBar onSearch={handleSearch} />
-      <FlightGrid flights={flightData} />
+      <br></br>
       <FlightManagerButtons />
+      <br></br>
+      <br></br>
+      <FlightGrid flights={flightData} />
     </div>
   );
 };

@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import './Flight.css';
 import NavBar from '../NavBar';
 
-const AddFlight = () => {
+
+
+const UpdateFlight = () => {
+    const { flightNumber } = useParams();
     const [flightData, setFlightData] = useState({
         flightNumber: 0,
         airline: '',
@@ -21,10 +25,9 @@ const AddFlight = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(flightData);
         try {
-            const response = await fetch('http://localhost:3000/flights', {
-                method: 'POST',
+            const response = await fetch(`http://localhost:3000/flights/${flightNumber}`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -138,10 +141,10 @@ const AddFlight = () => {
                         placeholder="Available Seats"
                     />
                 </div>
-                <button type="submit" className="submit-button">Add Flight</button>
+                <button type="submit" className="submit-button">Update Flight</button>
             </form>
         </>
     );
 };
 
-export default AddFlight;
+export default UpdateFlight;

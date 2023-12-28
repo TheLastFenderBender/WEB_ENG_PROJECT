@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import './Flight.css';
+import NavBar from '../NavBar';
 
 const AddAircraft = () => {
     const [aircraftData, setAircraftData] = useState({
-        aircraftID: '',
+        aircraftID: 0,
         model: '',
         capacity: 0,
-        active: false
     });
 
     const handleChange = (e) => {
@@ -32,42 +32,45 @@ const AddAircraft = () => {
     };
 
     return (
-        <form className="add-flight-form" onSubmit={handleSubmit}>
-            <div className="input-group">
-                <label htmlFor="aircraftID">Aircraft ID:</label>
-                <input
-                    type="text"
-                    id="aircraftID"
-                    name="aircraftID"
-                    value={aircraftData.aircraftID}
-                    onChange={handleChange}
-                    placeholder="Aircraft ID"
-                />
-            </div>
-            <div className="input-group">
-                <label htmlFor="model">Model:</label>
-                <input
-                    type="text"
-                    id="model"
-                    name="model"
-                    value={aircraftData.model}
-                    onChange={handleChange}
-                    placeholder="model"
-                />
-            </div>
-            <div className="input-group">
-                <label htmlFor="capacity">Capacity:</label>
-                <input
-                    type="number"
-                    id="capacity"
-                    name="capacity"
-                    value={aircraftData.capacity}
-                    onChange={handleChange}
-                    placeholder="Capacity"
-                />
-            </div>
-            <button type="submit" className="submit-button">Add Flight</button>
-        </form>
+        <>
+            <NavBar />
+            <form className="add-flight-form" onSubmit={handleSubmit}>
+                <div className="input-group">
+                    <label htmlFor="aircraftID">Aircraft ID:</label>
+                    <input
+                        type="number"
+                        id="aircraftID"
+                        name="aircraftID"
+                        value={aircraftData.aircraftID}
+                        onChange={handleChange}
+                        placeholder="Aircraft ID"
+                    />
+                </div>
+                <div className="input-group">
+                    <label htmlFor="model">Model:</label>
+                    <input
+                        type="text"
+                        id="model"
+                        name="model"
+                        value={aircraftData.model}
+                        onChange={handleChange}
+                        placeholder="model"
+                    />
+                </div>
+                <div className="input-group">
+                    <label htmlFor="capacity">Capacity:</label>
+                    <input
+                        type="number"
+                        id="capacity"
+                        name="capacity"
+                        value={aircraftData.capacity}
+                        onChange={handleChange}
+                        placeholder="Capacity"
+                    />
+                </div>
+                <button type="submit" className="submit-button">Add Flight</button>
+            </form>
+        </>
     );
 };
 
