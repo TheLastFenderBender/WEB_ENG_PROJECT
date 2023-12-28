@@ -1,16 +1,24 @@
 const mongoose = require('mongoose');
 
-const aircraftSchema = new mongoose.Schema({
-    aircraftID: {
+const routeSchema = new mongoose.Schema({
+    routeID: {
         type: Number,
         required: true,
         unique: true,
     },
-    model: {
+    departure: {
         type: String,
         required: true,
     },
-    capacity: {
+    arrival: {
+        type: String,
+        required: true,
+    },
+    distance: {
+        type: Number,
+        required: true,
+    },
+    travelTime: {
         type: Number,
         required: true,
     },
@@ -21,6 +29,6 @@ const aircraftSchema = new mongoose.Schema({
     }
 });
 
-const Aircraft = mongoose.model('Aircraft', aircraftSchema);
+const Route = mongoose.model('Route', routeSchema);
 
-module.exports = Aircraft;
+module.exports = Route;

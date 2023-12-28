@@ -14,8 +14,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
-const pages = ['Home', 'Create Blog'];
-const settings = ['Feed', 'Logout'];
+const pages = ['Home', 'View Routes', 'View AirCrafts'];
+const settings = ['Logout'];
 
 function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -56,7 +56,7 @@ function NavBar() {
               textDecoration: 'none',
             }}
           >
-            Bloggers Ahoy
+            Avio
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -122,15 +122,19 @@ function NavBar() {
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page === 'Home' ? (
-                  <Link to="/landingPage" style={{ color: 'inherit', textDecoration: 'none' }}>
+                  <Link to="/flightmanager" style={{ color: 'inherit', textDecoration: 'none' }}>
                     {page}
                   </Link>
-                ) : page === 'Create Blog' ? (
-                  <Link to="/createBlog" style={{ color: 'inherit', textDecoration: 'none' }}>
+                ) : page === 'View Routes' ? (
+                  <Link to="/viewroutes" style={{ color: 'inherit', textDecoration: 'none' }}>
                     {page}
                   </Link>
                 ) : (
-                  page
+                  page === 'View AirCrafts' && (
+                    <Link to="/viewaircrafts" style={{ color: 'inherit', textDecoration: 'none' }}>
+                      {page}
+                    </Link>
+                  )
                 )}
               </Button>
             ))}

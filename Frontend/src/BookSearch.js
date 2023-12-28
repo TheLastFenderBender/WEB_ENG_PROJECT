@@ -50,23 +50,17 @@ const BookSearch = ({ onSearchParamsChange, onFlightTypeChange, onFlightsFetch }
             origin,
             destination,
             departureDate,
-            returnDate,
-            tripType,
-            flightClass,
+            // returnDate,
+            // tripType,
+            // flightClass,
         };
 
+        const params = new URLSearchParams(searchParams);
 
-    // const queryParams = new URLSearchParams({
-    //     origin,
-    //     destination,
-    //     departureDate,
-    //     returnDate,
-    //     flightClass,
-    // });
 
         try {
-            const response = await fetch(`/flights/search?${searchParams}`, {
-            // const response = await fetch(`/flights/search?origin=${origin}&destination=${destination}&departureDate=${departureDate}&returnDate=${returnDate}&flightClass=${flightClass}`, {
+            // Fetch flights based on user input using the backend route '/flights/search'
+            const response = await fetch(`/flights/search?${params}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -77,32 +71,30 @@ const BookSearch = ({ onSearchParamsChange, onFlightTypeChange, onFlightsFetch }
                 const contentType = response.headers.get('content-type');
                 if (contentType && contentType.indexOf('application/json') !== -1) {
                     const data = await response.json();
-                    onFlightsFetch(data); // Update flights in the parent component
+
+                    // Update state with the fetched flights
+                    setFlights(data);
+
+                    // Send the fetched flight data to the parent component (BookFlight)
+                    onFlightsFetch(data);
                 } else {
                     throw new Error('Response is not in JSON format');
                 }
-                // const data = await response.json();
-                // setFetchedFlights(data); 
-                // onFlightsFetch(data);
-                // // Do something with the fetched flight data (set state, etc.)
-                // console.log(data); // Example: Set state with fetched flight data
             } else {
-                // Handle error responses
                 console.log('Failed to fetch flights. Please try again.');
             }
         } catch (error) {
-            // Handle fetch or other errors
             console.error('Error:', error);
         }
 
 
-        // Send searchParams back to the parent component (BookFlight)
-        onSearchParamsChange(searchParams);
-        await fetchFlights();
-        onFlightTypeChange(tripType);
-        onFlightsFetch(fetchedFlights);
-
+        // onSearchParamsChange(searchParams);
+        // await fetchFlights();
+        // onFlightTypeChange(tripType);
+        // onFlightsFetch(fetchedFlights);
     };
+       
+
 
     const handleSelectFlight = (flight, isDeparture) => {
         if (isDeparture) {

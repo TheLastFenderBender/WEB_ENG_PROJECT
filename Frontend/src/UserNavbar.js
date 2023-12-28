@@ -17,36 +17,38 @@ import planeImage from './Images/airplane.png';
 import { useNavigate } from 'react-router-dom';
 
 
-const pages = ['Home', 'Flights', 'Bookings', 'My Trips'];
+const pages = ['Home', 'Flights', 'Book', 'My Trips'];
 const settings = ['Profile', 'Logout'];
 // ... (previous imports)
 
-const flightOptions = ['Flight Detail', 'Flight Schedule', 'Flight Status', 'Reserve Seat', 'Seat Reservation'];
-const bookingOptions = ['Booking Details', 'Book a Flight', 'Payment', 'Cancel Booking'];
+// const flightOptions = ['Flight Detail', 'Flight Schedule', 'Flight Status', 'Reserve Seat', 'Seat Reservation'];
+// const bookingOptions = ['Book a Flight', 'Payment', 'Cancel Booking'];
 const myTripsOptions = ['Booking History', 'Refunds' , 'Feedback'];
 
 function NavBar({ userName }) {
 
     const navigate = useNavigate();
 
-    const [anchorElFlights, setAnchorElFlights] = React.useState(null);
+    // const [anchorElFlights, setAnchorElFlights] = React.useState(null);
     const [anchorElBookings, setAnchorElBookings] = React.useState(null);
     const [anchorElMyTrips, setAnchorElMyTrips] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-    const handleOpenFlightsMenu = (event) => {
-        setAnchorElFlights(event.currentTarget);
-    };
+    // const handleOpenFlightsMenu = (event) => {
+    //     setAnchorElFlights(event.currentTarget);
+    // };
 
-    const handleCloseFlightsMenu = () => {
-        setAnchorElFlights(null);
-    };
+    // const handleCloseFlightsMenu = () => {
+    //     setAnchorElFlights(null);
+    // };
+   
 
-    const handleOpenBookingsMenu = (event) => {
+    const handleOpenBookMenu = (event) => {
+        // setAnchorElFlights(null);
         setAnchorElBookings(event.currentTarget);
     };
 
-    const handleCloseBookingsMenu = () => {
+    const handleCloseBookMenu = () => {
         setAnchorElBookings(null);
     };
 
@@ -78,6 +80,12 @@ function NavBar({ userName }) {
         navigate('/UserDashBoard'); // Redirect to user dashboard (home)
     };
 
+    const handleBookOption = () => {
+        // if (option === 'Book a Flight') {
+            // Handle 'Book a Flight' click, navigate or render the SearchFlight component
+            navigate('/BookFlight'); // Navigate to the book flight page
+        // }
+    };
 
     return (
         <AppBar position="static">
@@ -111,8 +119,9 @@ function NavBar({ userName }) {
                                 key={page}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                                 onClick={(event) => {
-                                    if (page === 'Flights') handleOpenFlightsMenu(event);
-                                    else if (page === 'Bookings') handleOpenBookingsMenu(event);
+                                    // if (page === 'Flights') handleOpenFlightsMenu(event);
+                                    // else 
+                                    if (page === 'Book') handleBookOption();
                                     else if (page === 'My Trips') handleOpenMyTripsMenu(event);
                                     else if (page === 'Home') handleHome();
                                 }}
@@ -123,7 +132,7 @@ function NavBar({ userName }) {
                     </Box>
 
                     {/* Flight options dropdown */}
-                    <Menu
+                    {/* <Menu
                         sx={{ mt: '45px' }}
                         id="menu-flights"
                         anchorEl={anchorElFlights}
@@ -148,7 +157,36 @@ function NavBar({ userName }) {
                                 </Typography>
                             </MenuItem>
                         ))}
+                    </Menu> */}
+
+                    {/* Book options dropdown */}
+                    <Menu
+                        sx={{ mt: '45px' }}
+                        id="menu-bookings"
+                        anchorEl={anchorElBookings}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        open={Boolean(anchorElBookings)}
+                        onClose={handleCloseBookMenu}
+                    >
+                        {/* {bookingOptions.map((option) => (
+                            <MenuItem key={option} onClick={() => handleBookOption(option)}>
+                                <Typography textAlign="center">
+                                    <Link to={`/${option.toLowerCase().replace(/\s+/g, '-')}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                                        {option}
+                                    </Link>
+                                </Typography>
+                            </MenuItem>
+                        ))} */}
                     </Menu>
+
 
                     {/* Booking options dropdown */}
                     <Menu
@@ -165,17 +203,17 @@ function NavBar({ userName }) {
                             horizontal: 'right',
                         }}
                         open={Boolean(anchorElBookings)}
-                        onClose={handleCloseBookingsMenu}
+                        onClose={handleCloseBookMenu}
                     >
-                        {bookingOptions.map((option) => (
-                            <MenuItem key={option} onClick={handleCloseBookingsMenu}>
+                        {/* {bookingOptions.map((option) => (
+                            <MenuItem key={option} onClick={handleCloseBookMenu}>
                                 <Typography textAlign="center">
                                     <Link to={`/bookings/${option.toLowerCase()}`} style={{ color: 'inherit', textDecoration: 'none' }}>
                                         {option}
                                     </Link>
                                 </Typography>
                             </MenuItem>
-                        ))}
+                        ))} */}
                     </Menu>
 
                     {/* My Trips options dropdown */}
