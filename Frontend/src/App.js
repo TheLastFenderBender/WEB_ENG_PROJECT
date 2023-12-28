@@ -15,7 +15,6 @@ import AddRoute from './FlightManager/AddRoute';
 import UpdateRoute from './FlightManager/UpdateRoute';
 import ViewRoutes from './FlightManager/ViewRoutes';
 import AddAircraft from './FlightManager/AddAircraft';
-<<<<<<< HEAD
 import FlightResult from './FlightResults'; 
 import BookFlight from './BookFlight';
 import FinalBooking from './FinalBooking';
@@ -26,16 +25,12 @@ import AdminPage from './AdminPage';
 import NewUser from './NewUser';
 import UserPayment from './UserPayment';
 // import AdminCreateBooking from './AdminCreateBooking';
-// import Footer from './Footer';
-=======
 import UpdateAircraft from './FlightManager/UpdateAircraft';
 import ViewAircrafts from './FlightManager/ViewAircrafts';
 import AdminPage from './Admin/AdminPage';
 import NewUser from './Admin/NewUser';
-import AdminCreateBooking from './Admin/AdminCreateBooking';
 import Footer from './Footer';
 
->>>>>>> 6eb02d5756821a7c9ab5a2e02d1958f264566257
 
 function App() {
 
