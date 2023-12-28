@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './App.css';
 import Register from './Register';
 import Login from './Login';
 import SuperAdmin from './SuperAdmin/SuperAdminPage';
@@ -8,12 +9,16 @@ import FlightHistory from './SuperAdmin/FlightHistory';
 import PaymentHistory from './SuperAdmin/PaymentHistory';
 // import UserDashboard from './UserDashBoard';
 import AddFlight from './FlightManager/AddFlight';
-import FlightManagerPage from './FlightManager/FlightManagerPage';
-import AddAircraft from './FlightManager/AddAircraft';
-import AddRoute from './FlightManager/AddRoute';
 import UpdateFlight from './FlightManager/UpdateFlight';
+import FlightManagerPage from './FlightManager/FlightManagerPage';
+import AddRoute from './FlightManager/AddRoute';
+import UpdateRoute from './FlightManager/UpdateRoute';
+import ViewRoutes from './FlightManager/ViewRoutes';
+import AddAircraft from './FlightManager/AddAircraft';
+import UpdateAircraft from './FlightManager/UpdateAircraft';
+import ViewAircrafts from './FlightManager/ViewAircrafts';
 import AdminPage from './Admin/AdminPage';
-import NewUser from  './Admin/NewUser';
+import NewUser from './Admin/NewUser';
 import AdminCreateBooking from './Admin/AdminCreateBooking';
 import Footer from './Footer';
 
@@ -21,13 +26,13 @@ import Footer from './Footer';
 function App() {
 
   return (
-    <div>
+    <div className='app-container'>
       <Router>
         <Routes>
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           {/* <Route path='/UserDashBoard' element={<UserDashboard />} /> */}
-          
+
           <Route path='/superadmin' element={<SuperAdmin></SuperAdmin>} ></Route>
           <Route path='/crew' element={<Crew></Crew>} ></Route>
           <Route path='/maintenance' element={<Maintenance></Maintenance>} ></Route>
@@ -37,17 +42,21 @@ function App() {
           <Route path='/addflight' element={<AddFlight />} />
           <Route path='/updateflight/:flightNumber' element={<UpdateFlight />} />
           <Route path='/flightmanager' element={<FlightManagerPage />} />
-          <Route path='/addaircraft' element={<AddAircraft />} />
           <Route path='/addroute' element={<AddRoute />} />
-          
-          
-        <Route path='/AdminPage' element={<AdminPage />} />
-        <Route path='/NewUser' element={<NewUser />} />
-        <Route path='/AdminCreateBooking' element={<AdminCreateBooking />} />
+          <Route path='/updateroute/:routeID' element={<UpdateRoute />} />
+          <Route path='/viewroutes' element={<ViewRoutes />} />
+          <Route path='/addaircraft' element={<AddAircraft />} />
+          <Route path='/updateaircraft/:aircraftID' element={<UpdateAircraft />} />
+          <Route path='/viewaircrafts' element={<ViewAircrafts />} />
+
+
+          <Route path='/AdminPage' element={<AdminPage />} />
+          <Route path='/NewUser' element={<NewUser />} />
+          <Route path='/AdminCreateBooking' element={<AdminCreateBooking />} />
         </Routes>
       </Router>
 
-      <Footer></Footer>
+      <Footer className="footer"></Footer>
     </div>
   )
 }

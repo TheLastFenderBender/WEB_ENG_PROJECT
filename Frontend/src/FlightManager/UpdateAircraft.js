@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import './Flight.css';
 import NavBar from './NavBar';
 
 const AddAircraft = () => {
+    const { aircraftID } = useParams();
     const [aircraftData, setAircraftData] = useState({
         aircraftID: 0,
         model: '',
@@ -17,15 +19,15 @@ const AddAircraft = () => {
         e.preventDefault();
         console.log(aircraftData);
         try {
-            const response = await fetch('http://localhost:3000/aircrafts', {
-                method: 'POST',
+            const response = await fetch(`http://localhost:3000/aircrafts/${aircraftID}`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(aircraftData)
             });
             const data = await response.json();
-            alert('Aircraft Added successfully');
+            alert('Aircraft Updated successfully');
             console.log(data);
         } catch (error) {
             console.error(error);
@@ -69,7 +71,7 @@ const AddAircraft = () => {
                         placeholder="Capacity"
                     />
                 </div>
-                <button type="submit" className="submit-button">Add Aircraft</button>
+                <button type="submit" className="submit-button">Update Aircraft</button>
             </form>
         </>
     );

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './Flight.css';
-import NavBar from '../NavBar';
+import NavBar from './NavBar';
 
 
 
@@ -34,6 +34,7 @@ const UpdateFlight = () => {
                 body: JSON.stringify(flightData)
             });
             const data = await response.json();
+            alert('Flight Updated successfully');
             console.log(data);
         } catch (error) {
             console.error(error);
