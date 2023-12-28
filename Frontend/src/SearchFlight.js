@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './BookingComponent.css';
 import './SearchFlight.css';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 
 const SearchFlight = () => {
@@ -20,9 +20,9 @@ const SearchFlight = () => {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        
+
         try {
-            const response = await fetch(`/flights/search?origin=${origin}&destination=${destination}&departureDate=${departureDate}`, {
+            const response = await fetch(`/flights?origin=${origin}&destination=${destination}&departureDate=${departureDate}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -31,8 +31,8 @@ const SearchFlight = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data); 
-                navigate('/flightresults');
+                console.log(data);
+                navigate('/FlightResults');
             } else {
                 // Handle error responses
                 console.log('Failed to fetch flights. Please try again.');
@@ -41,11 +41,11 @@ const SearchFlight = () => {
             // Handle fetch or other errors
             console.error('Error:', error);
         }
-        
-        
-     
+
+
+
     };
-    
+
 
 
     const handleIncrement = (type) => {
@@ -178,10 +178,10 @@ const SearchFlight = () => {
                             <div className="passenger-info">
                                 <label style={{ textAlign: 'left' }}>
                                     Adults (12+ years)</label>
-                                <span style={{dsplay:'inline-block'}}>
+                                <span style={{ dsplay: 'inline-block' }}>
                                     <button style={{ marginRight: '15px', marginLeft: '52px', padding: '4px 8px', fontSize: '14px' }} onClick={() => handleDecrement('adults')}>-</button>
                                     {adults}</span>
-                                   <span> <button style={{ marginLeft:'15px', padding: '4px 8px', fontSize: '14px' }} onClick={() => handleIncrement('adults')}>+</button>
+                                <span> <button style={{ marginLeft: '15px', padding: '4px 8px', fontSize: '14px' }} onClick={() => handleIncrement('adults')}>+</button>
                                 </span>
                             </div>
                             <div className="passenger-info">

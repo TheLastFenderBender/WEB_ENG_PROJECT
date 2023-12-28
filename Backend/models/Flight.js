@@ -38,6 +38,53 @@ const flightSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+
+    flightType: {
+        type: String,
+        enum: ['one-way', 'return'],
+        required: true,
+    },
+    flightClass: {
+        type: String,
+        enum: ['economy', 'business'],
+        required: true,
+    },
+    returnDeparture: {
+        type: String,
+        required: function () {
+            return this.flightType === 'return'; // Required only for return flights
+        },
+    },
+    returnArrival: {
+        type: String,
+        required: function () {
+            return this.flightType === 'return'; // Required only for return flights
+        },
+    },
+    returnDate: {
+        type: Date,
+        required: function () {
+            return this.flightType === 'return'; // Required only for return flights
+        },
+    },
+
+    timeDuration: { // Adding time duration for the flight
+        type: String,
+        required: true,
+    },
+    oneWayPrice: { // Price for one-way flight
+        type: Number,
+        required: function () {
+            return this.flightType === 'one-way';
+        },
+    },
+    returnPrice: { // Price for return flight
+        type: Number,
+        required: function () {
+            return this.flightType === 'return';
+        },
+    },
+
 });
 
 const Flight = mongoose.model('Flight', flightSchema);

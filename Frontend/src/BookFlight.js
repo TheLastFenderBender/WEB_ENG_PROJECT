@@ -2,220 +2,128 @@ import React, { useState } from 'react';
 import NavBar from './UserNavbar';
 import BookSearch from './BookSearch';
 import FlightSelectionPopup from './FlightSelectionPopup';
+import FlightDetail from './FlightDetail';
 import './BookFlight.css';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
+const BookFlight = () => {
 
-
-const BookFlight = (displayedFlights) => {
-
-
-    const navigate = useNavigate();
-
-    const [showPopup, setShowPopup] = useState(false); // State to manage the pop-up display
-    const [selectedFlight, setSelectedFlight] = useState(null); // State to hold selected flight information
-
-    const [searchParams, setSearchParams] = useState({
-        origin: '',
-        destination: '',
-        departureDate: '',
-        returnDate: '',
-        tripType: 'one-way',
-        // other parameters...
-    });
-
-    // Function to handle selection of return flight
-    const handleReturnFlightSelection = (selectedClass, flightId) => {
-        const flight = displayedFlights.find((flight) => flight.id === flightId);
-        const flightInfo = `Flight ${flightId}: ${flight.departureInfo} - ${flight.arrivalInfo}`;
-        setSelectedFlight({ flightInfo, selectedClass }); // Set selected flight information
-
-
-        setShowPopup(true); 
-    };
-
-    // Function to handle confirmation of selected flight
-    const handleConfirmation = () => {
-        // If selectedFlight is not null and it's a return trip, navigate to the final booking page
-        if (selectedFlight && currentFlightType === 'return') {
-            // Log the details for now
-            console.log('Selected Flight:', selectedFlight);
-
-            // Reset states
-            setShowPopup(false);
-            setSelectedFlight(null);
-
-            // Redirect to the final booking page
-            navigate('/FinalBooking'); // Replace 'FinalBooking' with your actual screen name
-        } else {
-            // For other cases, just close the popup and reset the states
-            setShowPopup(false);
-            setSelectedFlight(null);
-        }
-        
-    };
-    // const [displayedFlights, setDisplayedFlights] = useState([]); // State to hold displayed flights
-
-
-    const handleFlightsFetch = (fetchedFlights) => {
-        setDisplayedFlights(fetchedFlights); // Set fetched flights to be displayed
-    };
-
-    // Dummy flight data (replace this with actual flight data)
-    const flights = [
-        {
-            id: 1,
-            departureInfo: 'Flight 1 Departure - Destination - Date',
-            arrivalInfo: 'Flight 1 Arrival - Destination - Date',
-            date: 'Date 1',
-        },
-        {
-            id: 2,
-            departureInfo: 'Flight 2 Departure - Destination - Date',
-            arrivalInfo: 'Flight 2 Arrival - Destination - Date',
-            date: 'Date 2',
-        },
-        // Add more flight objects as needed
-    ];
-    const [currentFlightType, setCurrentFlightType] = useState('one-way'); // State to hold current flight type
-
-    const handleFlightTypeChange = (flightType) => {
-        setCurrentFlightType(flightType); // Update flight type based on selection
-    };
-
-    // Function to filter flights based on departure date
-    const filterFlightsByDate = (flights, date) => {
-        return flights.filter((flight) => flight.date === date);
-    };
-
-    // Dummy flight data for the entered date (replace this with filtered data)
-    const flightsForEnteredDate = filterFlightsByDate(flights, searchParams.departureDate);
-
-
-    const handleSearchParamsChange = (newSearchParams) => {
-        setSearchParams(newSearchParams);
-    };
-
-    // Inside the BookFlight component
-
-    const [selectedFlightInfo, setSelectedFlightInfo] = useState('');
+    const [flights, setFlights] = useState([]);
+    const [searchPerformed, setSearchPerformed] = useState(false);
+    const [selectedFlight, setSelectedFlight] = useState(null);
     const [selectedClass, setSelectedClass] = useState('');
+    const [showFlightDetail, setShowFlightDetail] = useState(false);
 
-    // Function to handle class selection for a specific flight
-    const handleClassSelection = (selectedClass, flightId) => {
-        // Here, you might update the state with the selected class and flight information
-        // For instance:
-        setSelectedClass(selectedClass);
-        // Retrieve and set the flight information for the selected flight
-        const selectedFlight = displayedFlights.find(flight => flight.id === flightId);
-        setSelectedFlightInfo(`Flight ${flightId}: ${selectedFlight.departureInfo} - ${selectedFlight.arrivalInfo}`);
-        // Perform any additional actions related to class and flight selection
+
+    // Function to fetch flights based on search criteria
+    const searchFlights = async (searchParams) => {
+        const queryParams = new URLSearchParams(searchParams).toString();
+        const url = `http://localhost:3000/flights/search?${queryParams}`;
+
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const receivedFlights = data.flights || [];
+                setFlights(receivedFlights);
+                console.log('Fetched data:', data);
+                // setFlights(data);
+                console.log('Flights state after setFlights:', flights);
+                setSearchPerformed(true);
+                console.log('Search performed:', searchPerformed); // Log searchPerformed state
+
+            } else {
+                console.log('Failed to fetch flights. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+
+        // useEffect(() => {
+        //     console.log('Flights:', flights);
+        //     console.log('Search performed:', searchPerformed);
+        // }, [flights, searchPerformed]);
+
+        console.log('Search performed:', searchPerformed); // Log searchPerformed state
+        console.log('Flights:', flights); // Log flights state
+
     };
+
+    const handleFlightSelection = (flight, flightClass) => {
+        setSelectedFlight(flight);
+        setSelectedClass(flightClass);
+    };
+
+    const handleClosePopup = () => {
+        setSelectedFlight(null);
+        setSelectedClass('');
+    };
+
+    const handleFlightDetailsClick = (flight) => {
+        setSelectedFlight(flight);
+        setShowFlightDetail(true);
+    };
+
+    const handleClosePopups = () => {
+        setShowFlightDetail(false);
+        setSelectedFlight(null);
+    };
+
 
 
     return (
         <div>
             <NavBar />
-            <BookSearch
-                onSearchParamsChange={handleSearchParamsChange}
-                onFlightTypeChange={handleFlightTypeChange} // Pass the flight type change handler
-                onFlightsFetch={handleFlightsFetch} // Pass the handler to update flights
-            />
+            <BookSearch onSearch={searchFlights} />
 
-            {/* You can use searchParams here for other purposes if needed */}
+            {/* Display flights or message */}
+            {searchPerformed ? (
+                <div>
+                    <h3>Select your departure flight from {flights[0]?.departure || 'unknown departure'} to {flights[0]?.arrival || 'unknown arrival'}</h3>
+                    <p>Date: {/* Date for which user searched */}</p>
+                    {flights.map((flight, index) => (
+                        <div key={index} className="flight-container">
+                            <div className="left-container">
+                                <div className="row">Flight Number: {flight.flightNumber}</div>
+                                <div className="row">Time: {flight.time}</div>
+                                <div className="row">Available Seats: {flight.availableSeats}</div>
+                                <div className="row">
+                                    <a href="#" onClick={() => handleFlightDetailsClick(flight)}>Flight details</a>
+                                </div>
+                            </div>
+                            <div className="right-container">
+                                <div className="class-box" onClick={() => handleFlightSelection(flight, 'economy')}>
+                                    Economy Class: PKR {flight.oneWayPrice} 
+                                </div>
+                                <div className="class-box" onClick={() => handleFlightSelection(flight, 'business')}>
+                                    Business Class: PKR {flight.returnPrice}
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            ) : null}
 
-            {/* display pop-up if showPopup is true */}
-            {showPopup && (
+            {selectedFlight && selectedClass && (
                 <FlightSelectionPopup
-                    flightInfo={selectedFlight.flightInfo}
-                    selectedClass={selectedFlight.selectedClass}
-                    // price= '300000'
-                    onConfirm={handleConfirmation}
+                    flight={selectedFlight}
+                    flightClass={selectedClass}
+                    onClose={handleClosePopup}
                 />
             )}
 
-            {/* Display Departure and Return flights based on trip type */}
-            {currentFlightType === 'return' && (
-                <div>
-                    {/* Flight details for return type */}
-                    {/* Left container for flight details */}
-                    <div className="flight-details">
-                        <h3>Select your departure flight from {searchParams.origin} to {searchParams.destination}</h3>
-                        <p>Date: {searchParams.departureDate}</p>
-                        {/* Display flights for return type */}
-                        {/* You can add a map function to display flight details */}
-                        {/* flightsForEnteredDate is an array of flights on the entered date */}
-                        {displayedFlights.length > 0 ? (
-                            <div>
-                                {displayedFlights.map((flight) => (
-                                    <div key={flight.id}>
-                                        <p>{flight.departureInfo}</p>
-                                        <p>{flight.arrivalInfo}</p>
-                                        <p>{flight.date}</p>
-                                        {/* Include buttons for economy and business class selection */}
-                                        <div>
-                                            <button onClick={() => handleReturnFlightSelection('economy', flight.id)}>Economy - Price</button>
-                                            <button onClick={() => handleReturnFlightSelection('business', flight.id)}>Business - Price</button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <p>No flights available on the entered date for return.</p>
-                        )}
-                    </div>
-                    {/* Right container for class selection */}
-                    <div className="class-selection">
-                        {/* You can include any additional information or design here */}
-                        {/* This section can display the selected flight details */}
-                        {/* You might use state to store the selected flight and class */}
-                        {/* For instance: */}
-                        <p>Selected Flight: {selectedFlightInfo}</p>
-                        <p>Selected Class: {selectedClass}</p>
-                    </div>
-                </div>
+            {showFlightDetail && (
+                <FlightDetail
+                    flightDetails={selectedFlight}
+                    onClose={handleClosePopups}
+                />
             )}
-
-            {currentFlightType === 'one-way' && (
-                <div>
-                    {/* Flight details for one-way type */}
-                    {/* Left container for flight details */}
-                    <div className="flight-details">
-                        <h3>Select your departure flight from {searchParams.origin} to {searchParams.destination}</h3>
-                        <p>Date: {searchParams.departureDate}</p>
-                        {/* Display flights for one-way type */}
-                        {displayedFlights.length > 0 ? (
-                            <div>
-                                {displayedFlights.map((flight) => (
-                                    <div key={flight.id}>
-                                        <p>{flight.departureInfo}</p>
-                                        <p>{flight.arrivalInfo}</p>
-                                        <p>{flight.date}</p>
-                                        {/* Include buttons for economy and business class selection */}
-                                        <div>
-                                            <button onClick={() => handleClassSelection('economy', flight.id)}>Economy - Price</button>
-                                            <button onClick={() => handleClassSelection('business', flight.id)}>Business - Price</button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <p>No one-way flights available on the entered date.</p>
-                        )}
-                    </div>
-                    {/* Right container for class selection */}
-                    <div className="class-selection">
-                        {/* You can include any additional information or design here */}
-                        {/* This section can display the selected flight details */}
-                        {/* You might use state to store the selected flight and class */}
-                        {/* For instance: */}
-                        <p>Selected Flight: {selectedFlightInfo}</p>
-                        <p>Selected Class: {selectedClass}</p>
-                    </div>
-                </div>
-            )}
-
-
         </div>
     );
 };

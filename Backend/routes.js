@@ -12,6 +12,8 @@ const Route = require('./models/Route');
 const passwordValidator = require('password-validator');
 const bcrypt = require('bcrypt');
 const passwordSchema = new passwordValidator();
+const mongoose = require('mongoose');
+
 
 // this file contains all of the routes used for the different modules of the project
 
@@ -303,81 +305,121 @@ router.get('/admin/dashboard', AuthenticateUser, (req, res) => {
     }
 });
 
-
 router.get('/flights/search', async (req, res) => {
     try {
-        const { origin, destination, departureDate } = req.query;
-        // const { origin, destination, departureDate, returnDate, flightClass } = req.query;
+        const { departure, arrival, date } = req.query;
 
+        // console.log('Received parameters:', departure, arrival, date);
         // Ensure that all parameters are present before performing the search
-        if (!origin || !destination || !departureDate) {
+        if (!departure || !arrival || !date) {
             return res.status(400).json({ message: 'Missing search parameters' });
         }
 
+        // const searchDate = new Date(date);
         // Perform the search based on the provided parameters
         const flights = await Flight.find({
-            departure: origin,
-            arrival: destination,
-            date: new Date(departureDate),
-        
-            // returnDate,
-            // flightClass,
+            departure,
+            arrival,
+            date: new Date(date),
+            // date: { $gte: searchDate, $lt: new Date(searchDate.getTime() + 24 * 60 * 60 * 1000) }, 
         });
 
-        // Add optional parameters if they exist
-        // if (returnDate) {
-        //     query.returnDate = new Date(returnDate);
-        // }
-        // if (flightClass) {
-        //     query.flightClass = flightClass;
-        // }
-
-        // const flights = await Flight.find(query);
+        console.log('Received parameters:', departure, arrival, date);
 
         // Return the matched flights
-        res.json(flights);
+        res.json({ flights });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
 
-// Create a new route to book a flight
-router.post('/bookflight', async (req, res) => {
-    // Logic to handle booking the selected flight(s)
-    // Receive the details of the flight the user is trying to book
-    // Perform necessary operations like storing the booking information in the database
-});
+// Route to get flight details by flight ID
+router.get('/flights/:id', async (req, res) => {
+    const { id } = req.params;
+    
 
-// Route for booking a flight
-router.post('/flights/book', async (req, res) => {
     try {
-        const { userId, flightId, seatNumber } = req.body;
-
-        // Validate if all necessary fields are present
-        if (!userId || !flightId || !seatNumber) {
-            return res.status(400).json({ message: 'Missing booking parameters' });
+        const isValidObjectId = mongoose.Types.ObjectId.isValid(id);
+        if (!isValidObjectId) {
+            return res.status(400).json({ message: 'Invalid flight ID format' });
         }
 
-        // Create a new booking
-        const newBooking = new Booking({
-            userId,
-            flightId,
-            seatNumber,
-            status: 'booked', // Default status is booked
-            paymentStatus: 'pending', // Default payment status is pending
-            // You can include createdAt and updatedAt timestamps here if needed
-        });
+        console.log('Fetching flight with ID:', id);
+        const flight = await Flight.findById(id);
+        console.log('Flight found:', flight);
+        if (!flight) {
+            console.log('Flight not found');
+            return res.status(404).json({ message: 'Flight not found' });
+        }
 
-        // Save the booking to the database
-        await newBooking.save();
-
-        res.status(201).json({ message: 'Flight booked successfully', booking: newBooking });
+        res.json(flight);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error('Error fetching flight:', error);
+        res.status(500).json({ message: 'Error fetching flight', error: error.message });
     }
 });
 
 
+// // Route to create a new booking
+// router.post('/bookflight', async (req, res) => {
+//     try {
+//         // Extract necessary data from the request body
+//         const { userId, flightId, seatNumber } = req.body;
+
+//         // Create a new booking using the Booking model
+//         const newBooking = await Booking.create({
+//             userId,
+//             flightId,
+//             seatNumber,
+//             // You can set default values for other fields here
+//         });
+
+//         // Respond with the newly created booking
+//         res.status(201).json({ booking: newBooking });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: 'Could not book the flight' });
+//     }
+// });
+
+// Flight Booking
+router.post('/bookings', async (req, res) => {
+    try {
+        // Create a new booking
+        const newBooking = await Booking.create(req.body);
+        res.status(201).json(newBooking);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// Cancel Booking
+router.delete('/bookings/:bookingId', async (req, res) => {
+    const { bookingId } = req.params;
+    try {
+        // Delete the specific booking by ID
+        await Booking.findByIdAndDelete(bookingId);
+        res.status(200).json({ message: 'Booking canceled successfully' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// Feedback Submission
+router.post('/bookings/:bookingId/feedback', async (req, res) => {
+    const { bookingId } = req.params;
+    try {
+        // Create feedback for a specific booking
+        const newFeedback = await Feedback.create({
+            bookingId,
+            feedbackText: req.body.feedbackText,
+            rating: req.body.rating,
+        });
+        res.status(201).json(newFeedback);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
 
 // ~~~~~~~~~~~~~~~~~~~~~~~ 2.Admin Panel: ~~~~~~~~~~~~~~~~~~~~~~~
 // GET route to retrieve all users

@@ -1,141 +1,38 @@
 import React, { useState } from 'react';
 import './BookingComponent.css';
 import './SearchFlight.css';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
+const BookSearch = ({ onSearch }) => {
 
-const BookSearch = ({ onSearchParamsChange, onFlightTypeChange, onFlightsFetch }) => {
-    const [origin, setOrigin] = useState('');
-    const [destination, setDestination] = useState('');
+    const [departure, setDeparture] = useState('');
+    const [arrival, setArrival] = useState('');
     const [departureDate, setDepartureDate] = useState('');
     const [returnDate, setReturnDate] = useState('');
+    const [flightClass, setFlightClass] = useState('');
     const [tripType, setTripType] = useState('one-way');
     const [adults, setAdults] = useState(0);
     const [children, setChildren] = useState(0);
     const [infants, setInfants] = useState(0);
-    const [flightClass, setFlightClass] = useState('economy');
     const [showPassengerClass, setShowPassengerClass] = useState(false);
-
-    // Sample flight data (Replace this with actual flight data from an API call or database)
-    const [flights, setFlights] = useState([]);
-    const [selectedDepartureFlight, setSelectedDepartureFlight] = useState(null);
-    const [selectedArrivalFlight, setSelectedArrivalFlight] = useState(null);
-
-    const [fetchedFlights, setFetchedFlights] = useState([]);
-
-    // Function to fetch flights based on user input
-    const fetchFlights = async () => {
-        // Simulated API call or database query
-        const fetchedFlights = [
-            {
-                id: 1,
-                departureInfo: 'Flight 1 Departure - Destination - Date',
-                arrivalInfo: 'Flight 1 Arrival - Destination - Date',
-                date: 'Date 1',
-            },
-            {
-                id: 2,
-                departureInfo: 'Flight 2 Departure - Destination - Date',
-                arrivalInfo: 'Flight 2 Arrival - Destination - Date',
-                date: 'Date 2',
-            },
-            // Add more flight objects as needed
-        ];
-        setFlights(fetchedFlights);
-    };
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
+
         const searchParams = {
-            origin,
-            destination,
-            departureDate,
+            departure,
+            arrival,
+            date: departureDate,
             // returnDate,
-            // tripType,
             // flightClass,
+            // tripType,
+            // adults,
+            // children,
+            // infants,
         };
 
-        const params = new URLSearchParams(searchParams);
-
-
-        try {
-            // Fetch flights based on user input using the backend route '/flights/search'
-            const response = await fetch(`/flights/search?${params}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            if (response.ok) {
-                const contentType = response.headers.get('content-type');
-                if (contentType && contentType.indexOf('application/json') !== -1) {
-                    const data = await response.json();
-
-                    // Update state with the fetched flights
-                    setFlights(data);
-
-                    // Send the fetched flight data to the parent component (BookFlight)
-                    onFlightsFetch(data);
-                } else {
-                    throw new Error('Response is not in JSON format');
-                }
-            } else {
-                console.log('Failed to fetch flights. Please try again.');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-
-
-        // onSearchParamsChange(searchParams);
-        // await fetchFlights();
-        // onFlightTypeChange(tripType);
-        // onFlightsFetch(fetchedFlights);
+        onSearch(searchParams);
     };
-       
-
-
-    const handleSelectFlight = (flight, isDeparture) => {
-        if (isDeparture) {
-            setSelectedDepartureFlight(flight);
-            // Perform any additional actions or fetch related arrival flights
-        } else {
-            setSelectedArrivalFlight(flight);
-            // Additional actions for arrival flight selection
-        }
-    };
-
-    const navigate = useNavigate();
-
-    // const handleFormSubmit = async (e) => {
-    //     e.preventDefault();
-    //     try {
-    //         const response = await fetch('api/flight/search', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify(requestBody)
-    //         });
-
-    //         if (response.ok) {
-    //             const data = await response.json();
-    //             // Update state to store the fetched flight data
-    //             setFlightResults(data);
-    //     navigate('/flightresults');
-    //         } else {
-    //             // Handle error responses
-    //             setError('Failed to fetch flights. Please try again.');
-    //         }
-    //     } catch (error) {
-    //         // Handle fetch or other errors
-    //         setError('Something went wrong. Please try again later.');
-    //         console.error('Error:', error);
-    //     }
-    // };
-
-
 
     const handleIncrement = (type) => {
         switch (type) {
@@ -198,16 +95,16 @@ const BookSearch = ({ onSearchParamsChange, onFlightTypeChange, onFlightsFetch }
                         <label>From:</label>
                         <input
                             type="text"
-                            value={origin}
-                            onChange={(e) => setOrigin(e.target.value)}
-                            placeholder="Origin"
+                            value={departure}
+                            onChange={(e) => setDeparture(e.target.value)}
+                            placeholder="Departure"
                         />
                         <label>To:</label>
                         <input
                             type="text"
-                            value={destination}
-                            onChange={(e) => setDestination(e.target.value)}
-                            placeholder="Destination"
+                            value={arrival}
+                            onChange={(e) => setArrival(e.target.value)}
+                            placeholder="Arrival"
                         />
                         <label>Departure:</label>
                         <input
@@ -222,16 +119,16 @@ const BookSearch = ({ onSearchParamsChange, onFlightTypeChange, onFlightsFetch }
                         <label>From:</label>
                         <input
                             type="text"
-                            value={origin}
-                            onChange={(e) => setOrigin(e.target.value)}
-                            placeholder="Origin"
+                            value={departure}
+                            onChange={(e) => setDeparture(e.target.value)}
+                            placeholder="Departure"
                         />
                         <label>To:</label>
                         <input
                             type="text"
-                            value={destination}
-                            onChange={(e) => setDestination(e.target.value)}
-                            placeholder="Destination"
+                            value={arrival}
+                            onChange={(e) => setArrival(e.target.value)}
+                            placeholder="Arrival"
                         />
                         <label>Departure:</label>
                         <input
@@ -317,20 +214,6 @@ const BookSearch = ({ onSearchParamsChange, onFlightTypeChange, onFlightsFetch }
                 </div>
                 <button type="submit">Search Flights</button>
             </form>
-
-            {/* Add condition to display the flights if available */}
-            {/* {flights.length > 0 && (
-                <div>
-                    <h3>Select your departure flight from Origin to Destination</h3>
-                    <ul>
-                        {flights.map((flight) => (
-                            <li key={flight.id} onClick={() => handleSelectFlight(flight, true)}>
-                                {flight.departureInfo} - {flight.arrivalInfo} - {flight.date}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )} */}
         </div>
     );
 };
