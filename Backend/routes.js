@@ -319,12 +319,20 @@ router.get('/flights/search', async (req, res) => {
             departure: origin,
             arrival: destination,
             date: new Date(departureDate),
-            // origin,
-            // destination,
-            // departureDate,
+        
             // returnDate,
             // flightClass,
         });
+
+        // Add optional parameters if they exist
+        // if (returnDate) {
+        //     query.returnDate = new Date(returnDate);
+        // }
+        // if (flightClass) {
+        //     query.flightClass = flightClass;
+        // }
+
+        // const flights = await Flight.find(query);
 
         // Return the matched flights
         res.json(flights);
@@ -332,6 +340,43 @@ router.get('/flights/search', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+
+// Create a new route to book a flight
+router.post('/bookflight', async (req, res) => {
+    // Logic to handle booking the selected flight(s)
+    // Receive the details of the flight the user is trying to book
+    // Perform necessary operations like storing the booking information in the database
+});
+
+// Route for booking a flight
+router.post('/flights/book', async (req, res) => {
+    try {
+        const { userId, flightId, seatNumber } = req.body;
+
+        // Validate if all necessary fields are present
+        if (!userId || !flightId || !seatNumber) {
+            return res.status(400).json({ message: 'Missing booking parameters' });
+        }
+
+        // Create a new booking
+        const newBooking = new Booking({
+            userId,
+            flightId,
+            seatNumber,
+            status: 'booked', // Default status is booked
+            paymentStatus: 'pending', // Default payment status is pending
+            // You can include createdAt and updatedAt timestamps here if needed
+        });
+
+        // Save the booking to the database
+        await newBooking.save();
+
+        res.status(201).json({ message: 'Flight booked successfully', booking: newBooking });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~ 2.Admin Panel: ~~~~~~~~~~~~~~~~~~~~~~~
