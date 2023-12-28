@@ -7,7 +7,8 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-const BookFlight = () => {
+const BookFlight = (displayedFlights) => {
+
 
     const navigate = useNavigate();
 
@@ -29,9 +30,8 @@ const BookFlight = () => {
         const flightInfo = `Flight ${flightId}: ${flight.departureInfo} - ${flight.arrivalInfo}`;
         setSelectedFlight({ flightInfo, selectedClass }); // Set selected flight information
 
-        // Logic to fetch price for the selected flight and class, update 'price' state
 
-        setShowPopup(true); // Show the pop-up
+        setShowPopup(true); 
     };
 
     // Function to handle confirmation of selected flight
@@ -54,7 +54,7 @@ const BookFlight = () => {
         }
         
     };
-    const [displayedFlights, setDisplayedFlights] = useState([]); // State to hold displayed flights
+    // const [displayedFlights, setDisplayedFlights] = useState([]); // State to hold displayed flights
 
 
     const handleFlightsFetch = (fetchedFlights) => {
