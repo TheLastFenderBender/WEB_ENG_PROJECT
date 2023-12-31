@@ -1264,12 +1264,12 @@ router.get('/flights/history', async (req, res) => {
     }
 });
 
-router.get('/booking/history', async (req, res) => {
+router.get('/payment/history', async (req, res) => {
     // get Payment history of all users
     try {
-        const completedBookings = await Booking.find({ paymentStatus: 'completed' });
+        const completedPayments = await Payment.find({ paymentStatus: 'completed' });
 
-        res.json(completedBookings);
+        res.json(completedPayments);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

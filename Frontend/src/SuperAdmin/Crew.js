@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from './SuperAdminNavbar';
 import './SuperAdminStyles/Crew.css';
+import './SuperAdminStyles/SuperAdminPage.css';
 
 export default function CrewCRUD() {
 
@@ -15,11 +16,14 @@ export default function CrewCRUD() {
             } catch (error) {
                 console.error('Error fetching crew members: ', error);
             }
-
         }
-
+        fetchCrewMembers();
 
     }, []);
+
+
+    const handleShowForm = () => {};
+    const handCloseForm = () => {};
 
     return (
         <>

@@ -28,7 +28,32 @@ export default function FlightHistory() {
                 <h3>View Previous Completed Flights</h3>
             </div>
             <div className='flightHContainer'>
-
+                <table className='flightHTable'>
+                    <th>
+                        <td>Flight No.</td>
+                        <td>Airline</td>
+                        <td>AirCraft ID</td>
+                        <td>Departure</td>
+                        <td>Arrival</td>
+                        <td>Date</td>
+                        <td>Flight Type</td>
+                        <td>Status</td>
+                    </th>
+                    {
+                        flights.map((flight) => {
+                            <tr>
+                                <td>{flight.flighNumber}</td>
+                                <td>{flight.airline}</td>
+                                <td>{flight.aircraftID}</td>
+                                <td>{flight.departure}</td>
+                                <td>{flight.arrival}</td>
+                                <td>{flight.date}</td>
+                                <td>{flight.flightType}</td>
+                                <td>{flight.status}</td>
+                            </tr>
+                        })
+                    }
+                </table>
             </div>
         </>
     )
