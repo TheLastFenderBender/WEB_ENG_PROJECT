@@ -22,6 +22,9 @@ export default function FlightHistory() {
     return (
         <>
             <NavBar></NavBar>
+            <div className='flightContainer'>
+
+            </div>
         </>
     )
 }

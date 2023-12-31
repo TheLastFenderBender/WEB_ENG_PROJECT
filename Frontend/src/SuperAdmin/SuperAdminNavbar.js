@@ -14,7 +14,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import SuperAdminIcon from '@mui/icons-material/AdminPanelSettings';
 
-const pages = ['Crew', 'Maintenance', 'Flights', 'Payments'];
+const pages = ['Crew', 'Maintenance', 'Flights', 'Payments', 'Feedback'];
 const settings = ['Logout'];
 
 function NavBar() {

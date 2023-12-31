@@ -336,7 +336,7 @@ router.get('/flights/search', async (req, res) => {
 // Route to get flight details by flight ID
 router.get('/flights/:id', async (req, res) => {
     const { id } = req.params;
-    
+
 
     try {
         const isValidObjectId = mongoose.Types.ObjectId.isValid(id);
@@ -478,8 +478,8 @@ router.patch('/updateBooking/:id', async (req, res) => {
     try {
         // Find the booking by ID and update its payment status
         const updatedBooking = await Booking.findByIdAndUpdate(
-            bookingId, 
-            { $set: { paymentStatus, updatedAt: new Date() } }, 
+            bookingId,
+            { $set: { paymentStatus, updatedAt: new Date() } },
             { new: true }
         );
 
@@ -497,60 +497,60 @@ router.patch('/updateBooking/:id', async (req, res) => {
 // Route to generate a report for all bookings
 router.get('/generate-report', async (req, res) => {
     try {
-      // Fetch all booking records from the database
-      const allBookings = await Booking.find();
-  
-      // Transform the data as needed for the report
-      const reportData = allBookings.map((booking) => {
-        return {
-          bookingId: booking._id,
-          userId: booking.userId,
-          flightId: booking.flightId,
-          seatNumber: booking.seatNumber,
-          bookingStatus: booking.status,
-          paymentStatus: booking.paymentStatus,
-          createdAt: booking.createdAt,
-          updatedAt: booking.updatedAt,
-          // Add additional fields as needed
-        };
-      });
-  
-      // Respond with the generated report data
-      res.json(reportData);
+        // Fetch all booking records from the database
+        const allBookings = await Booking.find();
+
+        // Transform the data as needed for the report
+        const reportData = allBookings.map((booking) => {
+            return {
+                bookingId: booking._id,
+                userId: booking.userId,
+                flightId: booking.flightId,
+                seatNumber: booking.seatNumber,
+                bookingStatus: booking.status,
+                paymentStatus: booking.paymentStatus,
+                createdAt: booking.createdAt,
+                updatedAt: booking.updatedAt,
+                // Add additional fields as needed
+            };
+        });
+
+        // Respond with the generated report data
+        res.json(reportData);
     } catch (error) {
-      console.error('Error generating report:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
+        console.error('Error generating report:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
-  });
+});
 
 
-  // PATCH route to update the status of a refund request
-  router.patch('/updateRefund/:refundId', async (req, res) => {
-      const refundId = req.params.refundId;
-      const { status } = req.body;
-  
-      try {
-          // Validate status
-          if (!['pending', 'approved', 'denied'].includes(status)) {
-              return res.status(400).json({ message: 'Invalid status' });
-          }
-  
-          // Find the refund request by ID and update its status
-          const updatedRefund = await Refund.findByIdAndUpdate(
-              refundId, 
-              { $set: { status, updatedAt: new Date() } }, 
-              { new: true }
-          );
-  
-          if (!updatedRefund) {
-              return res.status(404).json({ message: 'Refund request not found' });
-          }
-  
-          res.status(200).json(updatedRefund);
-      } catch (error) {
-          res.status(500).json({ message: error.message });
-      }
-  });
+// PATCH route to update the status of a refund request
+router.patch('/updateRefund/:refundId', async (req, res) => {
+    const refundId = req.params.refundId;
+    const { status } = req.body;
+
+    try {
+        // Validate status
+        if (!['pending', 'approved', 'denied'].includes(status)) {
+            return res.status(400).json({ message: 'Invalid status' });
+        }
+
+        // Find the refund request by ID and update its status
+        const updatedRefund = await Refund.findByIdAndUpdate(
+            refundId,
+            { $set: { status, updatedAt: new Date() } },
+            { new: true }
+        );
+
+        if (!updatedRefund) {
+            return res.status(404).json({ message: 'Refund request not found' });
+        }
+
+        res.status(200).json(updatedRefund);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
 
 // DELETE route to delete a refund request by ID
 router.delete('/deleteRefund/:refundId', async (req, res) => {
@@ -628,13 +628,13 @@ router.put('/flights/:id', async (req, res) => {
 
     try {
         // Check if the flight exists
-        const existingFlight = await Flight.findOne({flightNumber: id});
+        const existingFlight = await Flight.findOne({ flightNumber: id });
         if (!existingFlight) {
             return res.status(404).json({ message: 'Flight not found' });
         }
 
         // Check if the aircraftID exists
-        const aircraftExists = await Aircraft.findOne({aircraftID: aircraftID});
+        const aircraftExists = await Aircraft.findOne({ aircraftID: aircraftID });
         if (!aircraftExists) {
             return res.status(400).json({ message: 'Aircraft not found' });
         }
@@ -677,7 +677,7 @@ router.delete('/flights/:id', async (req, res) => {
     await route.save();
 
     try {
-        await Flight.deleteOne({flightNumber: id});
+        await Flight.deleteOne({ flightNumber: id });
         res.json({ message: 'Flight deleted' });
     } catch (error) {
         console.log('error:', error);
@@ -750,7 +750,7 @@ router.delete('/routes/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        await Route.deleteOne({routeID: id});
+        await Route.deleteOne({ routeID: id });
         res.json({ message: 'Route deleted' });
     } catch (error) {
         console.log('error:', error);
@@ -810,7 +810,7 @@ router.put('/aircrafts/:id', async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-    
+
 
 });
 
@@ -818,7 +818,7 @@ router.delete('/aircrafts/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        await Aircraft.deleteOne({aircraftID: id});
+        await Aircraft.deleteOne({ aircraftID: id });
         res.json({ message: 'Aircraft deleted' });
     } catch (error) {
         console.log('error:', error);
@@ -1038,7 +1038,17 @@ router.get('/flights/history', async (req, res) => {
         const currentDate = new Date();
 
         const flightHistory = await Flight.find({
-            date: { $lt: currentDate },
+            $and: [
+                { date: { $lt: currentDate } },
+                {
+                    $expr: {
+                        $lt: [
+                            { $add: ['$date', { $multiply: [1000 * 60 * 60, '$timeDuration'] }] },
+                            currentDate,
+                        ],
+                    },
+                },
+            ],
         });
 
         res.json(flightHistory);
@@ -1047,7 +1057,7 @@ router.get('/flights/history', async (req, res) => {
     }
 });
 
-router.get('/booking/:paymentStatus', async (req, res) => {
+router.get('/booking/history', async (req, res) => {
     // get Payment history of all users
     try {
         const completedBookings = await Booking.find({ paymentStatus: 'completed' });
@@ -1090,7 +1100,22 @@ router.get('/maintenance/count', async (req, res) => {
 
 router.get('/flights/count', async (req, res) => {
     try {
-        const flightCount = await Flight.countDocuments();
+        const currentDate = new Date();
+
+        const flightCount = await Flight.countDocuments({
+            $and: [
+                { date: { $lt: currentDate } },
+                {
+                    $expr: {
+                        $lt: [
+                            { $add: ['$date', { $multiply: [1000 * 60 * 60, '$timeDuration'] }] },
+                            currentDate,
+                        ],
+                    },
+                },
+            ],
+        });
+
         res.json({ count: flightCount });
     } catch (error) {
         res.status(500).json({ message: error.message });

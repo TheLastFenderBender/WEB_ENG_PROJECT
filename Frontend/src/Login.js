@@ -109,7 +109,7 @@ const Login = () => {
                             <button type="submit">Login</button>
                         </div>
                         <div>
-                            <p>Not a member yet? <a href="./register">Sign up</a></p>
+                            <p>Not a member yet? <a href="/">Sign up</a></p>
                         </div>
                         <div className="social-login">
                             <p>Or login with</p>
