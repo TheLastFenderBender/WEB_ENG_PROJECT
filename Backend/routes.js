@@ -13,6 +13,7 @@ const passwordValidator = require('password-validator');
 const bcrypt = require('bcrypt');
 const passwordSchema = new passwordValidator();
 const mongoose = require('mongoose');
+const Payment = require('./models/Payment');
 
 
 // this file contains all of the routes used for the different modules of the project
@@ -131,6 +132,7 @@ router.post('/register', async (req, res) => {
 
         res.status(201).json({
             user: newUser,
+            userId: newUser.userId,
             token,
         });
     } catch (error) {
@@ -173,6 +175,7 @@ router.post('/login', async (req, res) => {
         res.status(200).json({
             user,
             token,
+            userId,
         });
     } catch (error) {
         console.error('MongoDB Error:', error);
@@ -333,19 +336,13 @@ router.get('/flights/search', async (req, res) => {
     }
 });
 
-// Route to get flight details by flight ID
-router.get('/flights/:id', async (req, res) => {
-    const { id } = req.params;
-    
+router.get('/flights/:flightNumber', async (req, res) => {
+    const { flightNumber } = req.params;
 
     try {
-        const isValidObjectId = mongoose.Types.ObjectId.isValid(id);
-        if (!isValidObjectId) {
-            return res.status(400).json({ message: 'Invalid flight ID format' });
-        }
+        console.log('Fetching flight with flightNumber:', flightNumber);
+        const flight = await Flight.findOne({ flightNumber });
 
-        console.log('Fetching flight with ID:', id);
-        const flight = await Flight.findById(id);
         console.log('Flight found:', flight);
         if (!flight) {
             console.log('Flight not found');
@@ -359,40 +356,250 @@ router.get('/flights/:id', async (req, res) => {
     }
 });
 
-
-// // Route to create a new booking
-// router.post('/bookflight', async (req, res) => {
-//     try {
-//         // Extract necessary data from the request body
-//         const { userId, flightId, seatNumber } = req.body;
-
-//         // Create a new booking using the Booking model
-//         const newBooking = await Booking.create({
-//             userId,
-//             flightId,
-//             seatNumber,
-//             // You can set default values for other fields here
-//         });
-
-//         // Respond with the newly created booking
-//         res.status(201).json({ booking: newBooking });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ error: 'Could not book the flight' });
-//     }
-// });
-
-// Flight Booking
-router.post('/bookings', async (req, res) => {
+// Route to handle submitting feedback
+router.post('/feedback', async (req, res) => {
     try {
-        // Create a new booking
-        const newBooking = await Booking.create(req.body);
-        res.status(201).json(newBooking);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+        const { description, rating, userID, flightNumber } = req.body;
+        // const { description, fromUser, bookingId, rating } = req.body;
+
+        console.log('Received data:', req.body);
+
+        // Create a new feedback instance using the Feedback model
+        const newFeedback = new Feedback({
+            description,
+            rating,
+            userID,
+            flightNumber,
+        });
+
+        await newFeedback.save();
+
+        res.status(201).json({ message: 'Feedback submitted successfully' });
+    } catch (error) {
+        console.error('Error submitting feedback:', error);
+        res.status(500).json({ error: 'Internal server error' });
     }
 });
 
+router.get('/routes/:routeID', async (req, res) => {
+    const { routeID } = req.params;
+
+    try {
+        const route = await Route.findOne({ routeID });
+        console.log('routeid: ', routeID);
+        console.log('route: ', route);
+        if (!route) {
+            return res.status(404).json({ message: 'Route not found' });
+        }
+
+        return res.status(200).json(route);
+    } catch (error) {
+        console.error('Error fetching route:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+// Endpoint to get user details by ID
+router.get('/users/:userId', async (req, res) => {
+    try {
+        // const userId = req.params.userId;
+       
+        const userId = parseInt(req.params.userId);
+        console.log('userid: ', userId);
+        // Assuming your User model has a method to find a user by ID
+        const user = await User.findOne({ userId: userId });
+        console.log('userid: ', userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Modify this response to fit your user data structure
+        res.status(200).json({
+            userId: userId,
+            username: user.username,
+        });
+    } catch (error) {
+        console.error('Error fetching user details:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// // Route to get flight details by flight ID
+// router.get('/flights/:flightNumber', async (req, res) => {
+//     const { flightNumber } = req.params;
+
+//     try {
+//         // const isValidObjectId = mongoose.Types.ObjectId.isValid(flightNumber);
+//         // if (!isValidObjectId) {
+//         //     console.log('Invalid flight ID format');
+//         //     return res.status(400).json({ message: 'Invalid flight ID format' });
+//         // }
+
+//         console.log('Fetching flight with ID:', flightNumber);
+//         const flight = await Flight.findById(flightNumber);
+//         console.log('Flight found:', flight);
+//         if (!flight) {
+//             console.log('Flight not found');
+//             return res.status(404).json({ message: 'Flight not found' });
+//         }
+
+//         res.json(flight);
+//     } catch (error) {
+//         console.error('Error fetching flight:', error);
+//         res.status(500).json({ message: 'Error fetching flight', error: error.message });
+//     }
+// });
+
+
+// Function to get the correct price based on flight class
+const getFlightPrice = (flightClass, prices) => {
+    return flightClass === 'economy' ? prices.economy : prices.business;
+};
+
+
+// Route to create a new booking
+router.post('/bookflight', async (req, res) => {
+    try {
+        // Extract necessary data from the request body
+        const { userId, flightNumber, seatNumber } = req.body;
+        const userDetails = await User.findOne({ userId: userId });
+        const flightDetails = await Flight.findOne({ flightNumber: flightNumber });
+
+
+
+        // Create a new booking using the Booking model
+        const newBooking = await Booking.create({
+            userId: userDetails.userId, // Assuming userId is the unique identifier for User
+            flightNumber: flightDetails.flightNumber,
+            seatNumber,
+            flightDetails: {
+                airline: flightDetails.airline,
+                departure: flightDetails.departure,
+                arrival: flightDetails.arrival,
+                aircraftID: flightDetails.aircraftID,
+                routeID: flightDetails.routeID,
+                date: flightDetails.date,
+                time: flightDetails.time,
+                duration: flightDetails.duration,
+                availableSeats: flightDetails.availableSeats,
+                price: getFlightPrice(flightDetails.flightClass, flightDetails.prices),
+            },
+        });
+        // Generate the booking number
+        const lastBooking = await Booking.findOne({}, {}, { sort: { 'bookingNumber': -1 } });
+        const bookingNumber = lastBooking ? lastBooking.bookingNumber + 1 : 1;
+
+        // Update the booking with the generated booking number
+        newBooking.bookingNumber = bookingNumber;
+
+        // Decrease the available seats count in the Flight model
+        await Flight.findOneAndUpdate(
+            { flightNumber },
+            { $inc: { availableSeats: -1 } }, // Reduce available seats count by 1
+            { new: true }
+        );
+
+        // Respond with the newly created booking
+        res.status(201).json({ booking: newBooking, bookingNumber });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Could not book the flight' });
+    }
+});
+
+// Route to fetch booking details based on bookingNumber
+router.get('/bookings/:bookingNumber', async (req, res) => {
+    try {
+        const { bookingNumber } = req.params;
+
+        // Find the booking details using the Booking model
+        const bookingDetails = await Booking.findOne({ bookingNumber });
+
+        if (!bookingDetails) {
+            return res.status(404).json({ error: 'Booking not found' });
+        }
+
+        res.status(200).json(bookingDetails);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Could not fetch booking details' });
+    }
+});
+
+// Route to update booking status and payment status
+router.put('/bookings/:bookingNumber', async (req, res) => {
+    const { bookingNumber } = req.params;
+
+    try {
+        // Find the booking based on the booking number
+        const booking = await Booking.findOne({ bookingNumber });
+
+        if (!booking) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
+
+        // Update booking status and payment status
+        booking.bookingStatus = 'confirmed';
+        booking.paymentStatus = 'completed';
+
+        // Save the updated booking details
+        await booking.save();
+
+        res.status(200).json({ message: 'Booking status and payment status updated successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Failed to update booking status and payment status' });
+    }
+});
+
+// Route to store payment details
+router.post('/storepayment', async (req, res) => {
+    try {
+        const {
+            cardType,
+            cardNumber,
+            cardExpiry,
+            cvv,
+            nameOnCard,
+            // Other payment details you want to store in the database
+        } = req.body;
+
+
+        // Retrieve booking details based on bookingNumber
+        const booking = await Booking.findOne({ bookingNumber: req.body.bookingNumber });
+       
+
+        if (!booking) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
+
+        // Extract payment amount from booking details
+        const paymentAmount = booking.flightDetails.price;
+
+
+        // Create a new instance of your Payment model
+        const newPayment = new Payment({
+            cardType,
+            cardNumber,
+            cardExpiry,
+            cvv,
+            nameOnCard,
+            amount: paymentAmount, // Assign the payment amount from the booking
+            status: 'completed', 
+        });
+
+        // Save the payment details to the database
+        await newPayment.save();
+
+        res.status(201).json({ message: 'Payment details stored successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Failed to store payment details' });
+    }
+});
+
+//===========================
 // Cancel Booking
 router.delete('/bookings/:bookingId', async (req, res) => {
     const { bookingId } = req.params;
@@ -478,8 +685,8 @@ router.patch('/updateBooking/:id', async (req, res) => {
     try {
         // Find the booking by ID and update its payment status
         const updatedBooking = await Booking.findByIdAndUpdate(
-            bookingId, 
-            { $set: { paymentStatus, updatedAt: new Date() } }, 
+            bookingId,
+            { $set: { paymentStatus, updatedAt: new Date() } },
             { new: true }
         );
 
@@ -497,60 +704,60 @@ router.patch('/updateBooking/:id', async (req, res) => {
 // Route to generate a report for all bookings
 router.get('/generate-report', async (req, res) => {
     try {
-      // Fetch all booking records from the database
-      const allBookings = await Booking.find();
-  
-      // Transform the data as needed for the report
-      const reportData = allBookings.map((booking) => {
-        return {
-          bookingId: booking._id,
-          userId: booking.userId,
-          flightId: booking.flightId,
-          seatNumber: booking.seatNumber,
-          bookingStatus: booking.status,
-          paymentStatus: booking.paymentStatus,
-          createdAt: booking.createdAt,
-          updatedAt: booking.updatedAt,
-          // Add additional fields as needed
-        };
-      });
-  
-      // Respond with the generated report data
-      res.json(reportData);
+        // Fetch all booking records from the database
+        const allBookings = await Booking.find();
+
+        // Transform the data as needed for the report
+        const reportData = allBookings.map((booking) => {
+            return {
+                bookingId: booking._id,
+                userId: booking.userId,
+                flightId: booking.flightId,
+                seatNumber: booking.seatNumber,
+                bookingStatus: booking.status,
+                paymentStatus: booking.paymentStatus,
+                createdAt: booking.createdAt,
+                updatedAt: booking.updatedAt,
+                // Add additional fields as needed
+            };
+        });
+
+        // Respond with the generated report data
+        res.json(reportData);
     } catch (error) {
-      console.error('Error generating report:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
+        console.error('Error generating report:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
-  });
+});
 
 
-  // PATCH route to update the status of a refund request
-  router.patch('/updateRefund/:refundId', async (req, res) => {
-      const refundId = req.params.refundId;
-      const { status } = req.body;
-  
-      try {
-          // Validate status
-          if (!['pending', 'approved', 'denied'].includes(status)) {
-              return res.status(400).json({ message: 'Invalid status' });
-          }
-  
-          // Find the refund request by ID and update its status
-          const updatedRefund = await Refund.findByIdAndUpdate(
-              refundId, 
-              { $set: { status, updatedAt: new Date() } }, 
-              { new: true }
-          );
-  
-          if (!updatedRefund) {
-              return res.status(404).json({ message: 'Refund request not found' });
-          }
-  
-          res.status(200).json(updatedRefund);
-      } catch (error) {
-          res.status(500).json({ message: error.message });
-      }
-  });
+// PATCH route to update the status of a refund request
+router.patch('/updateRefund/:refundId', async (req, res) => {
+    const refundId = req.params.refundId;
+    const { status } = req.body;
+
+    try {
+        // Validate status
+        if (!['pending', 'approved', 'denied'].includes(status)) {
+            return res.status(400).json({ message: 'Invalid status' });
+        }
+
+        // Find the refund request by ID and update its status
+        const updatedRefund = await Refund.findByIdAndUpdate(
+            refundId,
+            { $set: { status, updatedAt: new Date() } },
+            { new: true }
+        );
+
+        if (!updatedRefund) {
+            return res.status(404).json({ message: 'Refund request not found' });
+        }
+
+        res.status(200).json(updatedRefund);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
 
 // DELETE route to delete a refund request by ID
 router.delete('/deleteRefund/:refundId', async (req, res) => {
@@ -628,13 +835,13 @@ router.put('/flights/:id', async (req, res) => {
 
     try {
         // Check if the flight exists
-        const existingFlight = await Flight.findOne({flightNumber: id});
+        const existingFlight = await Flight.findOne({ flightNumber: id });
         if (!existingFlight) {
             return res.status(404).json({ message: 'Flight not found' });
         }
 
         // Check if the aircraftID exists
-        const aircraftExists = await Aircraft.findOne({aircraftID: aircraftID});
+        const aircraftExists = await Aircraft.findOne({ aircraftID: aircraftID });
         if (!aircraftExists) {
             return res.status(400).json({ message: 'Aircraft not found' });
         }
@@ -677,7 +884,7 @@ router.delete('/flights/:id', async (req, res) => {
     await route.save();
 
     try {
-        await Flight.deleteOne({flightNumber: id});
+        await Flight.deleteOne({ flightNumber: id });
         res.json({ message: 'Flight deleted' });
     } catch (error) {
         console.log('error:', error);
@@ -750,7 +957,7 @@ router.delete('/routes/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        await Route.deleteOne({routeID: id});
+        await Route.deleteOne({ routeID: id });
         res.json({ message: 'Route deleted' });
     } catch (error) {
         console.log('error:', error);
@@ -810,7 +1017,7 @@ router.put('/aircrafts/:id', async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-    
+
 
 });
 
@@ -818,7 +1025,7 @@ router.delete('/aircrafts/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        await Aircraft.deleteOne({aircraftID: id});
+        await Aircraft.deleteOne({ aircraftID: id });
         res.json({ message: 'Aircraft deleted' });
     } catch (error) {
         console.log('error:', error);

@@ -51,10 +51,14 @@ const Login = () => {
                     alert('User does not exist or invalid credentials.');
                     return;
                 }
-                localStorage.removeItem('token');
-                localStorage.setItem('token', data.token);
                 //console.log(data.token);
                 localStorage.setItem('email', email);
+                localStorage.removeItem('token');
+                localStorage.removeItem('userId');
+
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('userId', data.userId); 
+
 
                 navigate('/UserDashBoard');
             })
