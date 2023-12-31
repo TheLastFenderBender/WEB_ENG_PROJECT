@@ -21,8 +21,6 @@ import FinalBooking from './FinalBooking';
 import ReviewPopup from './ReviewPopup';
 import SeatSelection from './SeatSelection';
 import TripSummary from './TripSummary';
-import AdminPage from './AdminPage';
-import NewUser from './NewUser';
 import UserPayment from './UserPayment';
 // import AdminCreateBooking from './AdminCreateBooking';
 import UpdateAircraft from './FlightManager/UpdateAircraft';
