@@ -1,0 +1,30 @@
+/* UserProfile.css */
+.user-profile-container {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    /* Top for UserNavbar, Bottom for main layout */
+    height: 100vh;
+    /* Full height of the viewport */
+}
+
+.main-container {
+    display: grid;
+    grid-template-columns: 75% 1fr;
+    /* 75% for content-left, 25% for sidebar-right */
+    gap: 20px;
+    /* Adjust the gap between the sections */
+    height: 100%;
+    /* Full height of the main container */
+}
+
+.content-left {
+    background-color: lightblue;
+    /* Example background color for content-left */
+    /* Other styles for the left content */
+}
+
+.sidebar-right {
+    background-color: lightgreen;
+    /* Example background color for sidebar-right */
+    /* Other styles for the right sidebar */
+}
