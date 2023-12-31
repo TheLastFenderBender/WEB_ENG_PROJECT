@@ -17,6 +17,7 @@ const ReviewPopup = () => {
         navigate('/FinalBooking'); // Navigate back to the FinalBooking page
     };
 
+    
     return (
         <div>
                <NavBar/>
