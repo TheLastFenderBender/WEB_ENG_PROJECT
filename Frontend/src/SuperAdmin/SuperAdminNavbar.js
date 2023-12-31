@@ -14,7 +14,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import SuperAdminIcon from '@mui/icons-material/AdminPanelSettings';
 
-const pages = ['Crew', 'Maintenance', 'Flights', 'Payments'];
+const pages = ['Crew', 'Maintenance', 'Flights', 'Payments', 'Feedback'];
 const settings = ['Logout'];
 
 function NavBar() {
@@ -136,6 +136,10 @@ function NavBar() {
                   </Link>
                 ) : page === 'Payments' ? (
                   <Link to="/paymenthistory" style={{ color: 'inherit', textDecoration: 'none' }}>
+                    {page}
+                  </Link>
+                ) : page === 'Feedback' ? (
+                  <Link to="/feedback" style={{ color: 'inherit', textDecoration: 'none' }}>
                     {page}
                   </Link>
                 ) : (

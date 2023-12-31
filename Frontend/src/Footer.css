@@ -9,14 +9,15 @@
     padding: 0;
     box-shadow: 2px 2px 10px black;
 }
+.footerComp1 {
+    padding-top: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+}
 #planeLogo {
     height: 3rem;
     width: 3rem;
-}
-.footerComp1 {
-    padding-top: 0.5rem;
-    display: flex;
-    flex-direction: row;
 }
 .footerComp2 {
     display: flex;

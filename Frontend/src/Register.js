@@ -5,7 +5,7 @@ import googleImage from './Images/google.png';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthNavBar from './AuthNavBar';
 // import { useHistory } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
+// import { createBrowserHistory } from 'history';
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -18,7 +18,7 @@ const Register = () => {
     // const [countryCode, setCountryCode] = useState('+92'); // Default value for Pakistan
     const [mobileNumber, setMobileNumber] = useState('');
     var userId = 0;
-    const history = createBrowserHistory();
+    // const history = createBrowserHistory();
 
     const navigate = useNavigate();
 

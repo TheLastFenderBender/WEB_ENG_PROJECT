@@ -1245,7 +1245,17 @@ router.get('/flights/history', async (req, res) => {
         const currentDate = new Date();
 
         const flightHistory = await Flight.find({
-            date: { $lt: currentDate },
+            $and: [
+                { date: { $lt: currentDate } },
+                {
+                    $expr: {
+                        $lt: [
+                            { $add: ['$date', { $multiply: [1000 * 60 * 60, '$timeDuration'] }] },
+                            currentDate,
+                        ],
+                    },
+                },
+            ],
         });
 
         res.json(flightHistory);
@@ -1254,7 +1264,7 @@ router.get('/flights/history', async (req, res) => {
     }
 });
 
-router.get('/booking/:paymentStatus', async (req, res) => {
+router.get('/booking/history', async (req, res) => {
     // get Payment history of all users
     try {
         const completedBookings = await Booking.find({ paymentStatus: 'completed' });
@@ -1297,7 +1307,22 @@ router.get('/maintenance/count', async (req, res) => {
 
 router.get('/flights/count', async (req, res) => {
     try {
-        const flightCount = await Flight.countDocuments();
+        const currentDate = new Date();
+
+        const flightCount = await Flight.countDocuments({
+            $and: [
+                { date: { $lt: currentDate } },
+                {
+                    $expr: {
+                        $lt: [
+                            { $add: ['$date', { $multiply: [1000 * 60 * 60, '$timeDuration'] }] },
+                            currentDate,
+                        ],
+                    },
+                },
+            ],
+        });
+
         res.json({ count: flightCount });
     } catch (error) {
         res.status(500).json({ message: error.message });
