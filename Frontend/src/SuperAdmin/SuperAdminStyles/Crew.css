@@ -5,13 +5,3 @@
     align-items: center;
     margin: 2rem;
 }
-.crewTitle {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #064a8f;
-    padding: 3rem;
-}
-.crewTitle h1 {
-    font-size: 3rem;
-}

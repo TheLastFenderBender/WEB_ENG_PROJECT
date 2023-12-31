@@ -24,24 +24,12 @@ export default function CrewCRUD() {
     return (
         <>
             <NavBar></NavBar>
-            <div className='crewTitle'>
+            <div className='SATitle'>
                 <h1>Crew Operations</h1>
                 <h3>Create, Update or Delete</h3>
             </div>
             <div className='crewContainer'>
-                <div className='tableContainer'>
-                    <table className='crewTable'>
-                        <thead className='tableHeaders'>
-                            <tr>
-                                <td>ID</td>
-                                <td>Name</td>
-                                <td>Position</td>
-                                <td>Assignments</td>
-                                <td>Actions</td>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
+                
             </div>
         </>
     )

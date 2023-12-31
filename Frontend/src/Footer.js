@@ -16,7 +16,7 @@ export default function Footer() {
             <div className="footerContainer">
                 <div className="footerComp1">
                     <img src={planeImage} alt="Avio Logo" id="planeLogo"/>
-                    <h2>A v i o</h2>
+                    <h2 id="titleLogo">A v i o</h2>
                 </div>
                 <div className="footerComp2">
                     <a href="#">About Us</a>

@@ -1,0 +1,7 @@
+.maintenanceContainer {
+    color: #1976d2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem;
+}
