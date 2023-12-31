@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import './Register.css';
 import fbImage from './Images/fb.png';
 import googleImage from './Images/google.png';
-import { useNavigate } from 'react-router-dom';
-import AuthNavBar from './AuthNavBar'; 
+import { useNavigate, Link } from 'react-router-dom';
+import AuthNavBar from './AuthNavBar';
+// import { useHistory } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -15,6 +17,8 @@ const Register = () => {
     const [age, setAge] = useState('');
     // const [countryCode, setCountryCode] = useState('+92'); // Default value for Pakistan
     const [mobileNumber, setMobileNumber] = useState('');
+    var userId = 0;
+    const history = createBrowserHistory();
 
     const navigate = useNavigate();
 
@@ -56,14 +60,25 @@ const Register = () => {
                 }),
             });
 
-            await response.json();
+            const data = await response.json();
+            userId = data.userId;
+            console.log(userId);
 
             if (response.status === 409) {
                 alert('User already exists with this username or email');
                 return;
             }
 
-            navigate('/UserDashBoard');
+            localStorage.removeItem('token');
+            localStorage.removeItem('userId');
+
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('userId', data.userId);
+
+            
+            // window.location.href = `/UserDashboard/${userId}`;
+            navigate(`/UserDashboard`);
+            // history.push(`/UserDashboard/${userId}`);
         } catch (error) {
             console.error('Error:', error);
             // Handle other errors (network, server, etc.) as needed
@@ -126,7 +141,9 @@ const Register = () => {
                     <label>Mobile Number:</label>
                     <input type="text" value={mobileNumber} onChange={e => setMobileNumber(e.target.value)} />
                 </div>
+
                 <button type="submit">Register</button>
+
                 <p style={{ marginTop: '10px' }}>Already have an account?<a href="./login">Login!</a></p>
                 <div className="social-login">
                     <p>Create an Account using</p>

@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
 import UserNavbar from './UserNavbar';
-import './UserPayment.css'; 
-import { useNavigate } from 'react-router-dom';
+import './UserPayment.css';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const UserPayment = () => {
+
+    const { bookingNumber } = useParams();
     const [cardDetails, setCardDetails] = useState({
         cardType: '',
         cardNumber: '',
         cardExpiry: '',
         cvv: '',
         nameOnCard: '',
-        address: '',
-        countryCode: '',
-        city: '',
         agreeTerms: false,
     });
 
     const navigate = useNavigate();
-    const cardTypeOptions = ['Visa', 'MasterCard', 'American Express', 'Discover'];
+    const cardTypeOptions = ['Visa', 'MasterCard', 'American Express'];
     const [paymentSuccess, setPaymentSuccess] = useState(false); // State to manage payment success pop-up
 
     const handleInputChange = (e) => {
@@ -81,18 +80,52 @@ const UserPayment = () => {
         document.body.appendChild(popup);
     };
 
-    const handleConfirmPayment = () => {
-        // Logic to confirm payment
-        // Assuming payment confirmation, setting paymentSuccess to true
-        setPaymentSuccess(true);
+    const handleConfirmPayment = async () => {
+        try {
 
-        // Simulating navigation after payment (replace this with actual navigation logic)
-        setTimeout(() => {
-            setPaymentSuccess(false); // Close the success pop-up after a delay
-            
-            navigate('/UserDashBoard');// Navigate to user dashboard here (use history.push or any navigation method you use)
-            // For example: history.push('/userdashboard');
-        }, 3000); // Close the pop-up after 3 seconds (adjust as needed)
+            const dataToSend = {
+                ...cardDetails,
+                bookingNumber: bookingNumber // assuming bookingNumber is available in the scope
+            };
+
+            // Store payment details
+            const paymentResponse = await fetch('http://localhost:3000/storepayment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(dataToSend), // Sending the payment details
+            });
+
+            // Check if storing payment details was successful
+            if (paymentResponse.ok) {
+                // Update booking/payment status
+                const bookingResponse = await fetch(`http://localhost:3000/bookings/${bookingNumber}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                // Check if updating booking/payment status was successful
+                if (bookingResponse.ok) {
+                    // Both operations succeeded
+                    setPaymentSuccess(true);
+                    navigate('/UserDashboard');
+                } else {
+                    // Handle the scenario when updating booking/payment status fails
+                    // Show an error message or take necessary actions
+                }
+            } else {
+                // Handle the scenario when storing payment details fails
+                // Show an error message or take necessary actions
+            }
+        } catch (error) {
+            // Handle network errors or other exceptions
+            console.error('Error:', error);
+        }
+
+        
     };
 
     return (
@@ -101,7 +134,7 @@ const UserPayment = () => {
             <div style={{ textAlign: 'center', marginTop: '20px' }}>
                 <h2>Payment</h2>
                 <div style={{ border: '1px solid #ccc', padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
-                    
+
                     <h3>Select Your Preferred Payment Method</h3>
                     <div style={{ marginTop: '10px' }}>
                         {/* Dropdown for card type selection */}
@@ -150,27 +183,8 @@ const UserPayment = () => {
                             value={cardDetails.nameOnCard}
                             onChange={handleInputChange}
                         />
-                        <input
-                            type="text"
-                            placeholder="Address"
-                            name="address"
-                            value={cardDetails.address}
-                            onChange={handleInputChange}
-                        />
-                        <input
-                            type="text"
-                            placeholder="Country Code"
-                            name="countryCode"
-                            value={cardDetails.countryCode}
-                            onChange={handleInputChange}
-                        />
-                        <input
-                            type="text"
-                            placeholder="City"
-                            name="city"
-                            value={cardDetails.city}
-                            onChange={handleInputChange}
-                        />
+                       
+                    <br/>
                         <label>
                             <input
                                 type="checkbox"
@@ -178,7 +192,7 @@ const UserPayment = () => {
                                 checked={cardDetails.agreeTerms}
                                 onChange={handleInputChange}
                             />
-                            I agree to the Avio Airways Terms and Conditions of payment.
+                             I agree to the Avio Airways Terms and Conditions of payment.
                         </label>
                     </div>
                     <div style={{ marginTop: '20px' }}>

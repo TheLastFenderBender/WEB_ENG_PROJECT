@@ -1,16 +1,20 @@
 const mongoose = require('mongoose');
 
 const bookingSchema = new mongoose.Schema({
+    bookingNumber: {
+        type: Number,
+        unique: true,
+    },
 
     userId: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Number,
         ref: 'User',
         required: true,
     },
     flightId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Flight',
-        required: true,
+        // required: true,
     },
     seatNumber: {
         type: String,
@@ -36,7 +40,7 @@ const bookingSchema = new mongoose.Schema({
     },
 
     bookingId: mongoose.Schema.Types.ObjectId,
-    flightNumber: String,
+    flightNumber: Number,
     dateOfFlight: Date,
     flightDetails: { 
         airline: String,
@@ -50,6 +54,7 @@ const bookingSchema = new mongoose.Schema({
         duration: String,
         availableSeats: Number,
         price: Number,
+        flightClass: String,
      },
     bookingStatus: {
         type: String,
@@ -70,7 +75,20 @@ const bookingSchema = new mongoose.Schema({
     paymentAmount: Number,
 }, { timestamps: true });
 
-
+// Pre-save middleware to generate a unique booking number
+bookingSchema.pre('save', async function (next) {
+    if (!this.bookingNumber) {
+        try {
+            const lastBooking = await this.constructor.findOne({}, {}, { sort: { 'bookingNumber': -1 } });
+            this.bookingNumber = lastBooking ? lastBooking.bookingNumber + 1 : 1;
+            next();
+        } catch (error) {
+            next(error);
+        }
+    } else {
+        next();
+    }
+});
 
 const Booking = mongoose.model('Booking', bookingSchema);
 

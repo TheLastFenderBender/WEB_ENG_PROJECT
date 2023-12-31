@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import SearchFlight from './SearchFlight';
 import FlightStatus from './FlightStatus';
 import NavBar from './UserNavbar';
 import bgImage from './Images/bgDashboard.jpg';
 import QmImage from './Images/quotation-marks.png'
 import './BookingComponent.css';
+// import { useParams} from 'react-router-dom';
+
 
 const UserDashboard = () => {
     const [userName] = useState('');
     const [activeTab, setActiveTab] = useState('search-flight');
+    // const { userId } = useParams();
 
+    const userId = localStorage.getItem('userId');
+    console.log('new userid ', userId);
+
+    
     // Sample feedback data
     const feedbackData = [
         {
@@ -41,7 +48,7 @@ const UserDashboard = () => {
     return (
         <div>
             {/* Include the NavBar component */}
-            <NavBar userName={userName} />
+            <NavBar userName={userName} userId={userId} />
 
             {/* Image with text */}
             <div style={{ textAlign: 'center', marginTop: '0' }}>

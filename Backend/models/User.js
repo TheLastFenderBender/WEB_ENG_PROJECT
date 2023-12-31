@@ -16,6 +16,22 @@ const userSchema = new mongoose.Schema({
     age: { type: Number },
     countryCode: { type: String },
     mobileNumber: { type: String },
+    userId: { type: Number, unique: true },
+});
+
+// Pre-save middleware to generate a unique userId
+userSchema.pre('save', async function (next) {
+    if (!this.userId) {
+        try {
+            const lastUser = await this.constructor.findOne({}, {}, { sort: { 'userId': -1 } });
+            this.userId = lastUser ? lastUser.userId + 1 : 1;
+            next();
+        } catch (error) {
+            next(error);
+        }
+    } else {
+        next();
+    }
 });
 
 const User = mongoose.model('User', userSchema);

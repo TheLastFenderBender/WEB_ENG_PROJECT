@@ -4,9 +4,11 @@ import BookSearch from './BookSearch';
 import FlightSelectionPopup from './FlightSelectionPopup';
 import FlightDetail from './FlightDetail';
 import './BookFlight.css';
-// import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const BookFlight = () => {
+
+    const { userId } = useParams();
 
     const [flights, setFlights] = useState([]);
     const [searchPerformed, setSearchPerformed] = useState(false);
@@ -99,10 +101,10 @@ const BookFlight = () => {
                             </div>
                             <div className="right-container">
                                 <div className="class-box" onClick={() => handleFlightSelection(flight, 'economy')}>
-                                    Economy Class: PKR {flight.oneWayPrice} 
+                                    Economy Class: PKR {flight.Price} 
                                 </div>
                                 <div className="class-box" onClick={() => handleFlightSelection(flight, 'business')}>
-                                    Business Class: PKR {flight.returnPrice}
+                                    Business Class: PKR {flight.Price}
                                 </div>
                             </div>
                         </div>
@@ -114,6 +116,7 @@ const BookFlight = () => {
                 <FlightSelectionPopup
                     flight={selectedFlight}
                     flightClass={selectedClass}
+                    userId={userId}
                     onClose={handleClosePopup}
                 />
             )}

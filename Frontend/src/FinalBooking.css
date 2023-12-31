@@ -1,71 +1,80 @@
-/* Flight details */
-.flight-details {
-    margin-top: 20px;
+.container {
+    width: 70%;
+    margin: 20px auto;
     border: 1px solid #ccc;
-    padding: 10px;
+    padding: 20px;
 }
 
-/* Class selection */
-.class-selection {
-    margin-top: 20px;
-    border: 1px solid #ccc;
-    padding: 10px;
-}
-
-/* FinalBooking.css */
-/* Styles for FinalBooking component */
-
-/* Center container */
-.center-container {
+.container h3 {
     text-align: center;
-    margin-top: 20px;
 }
 
-/* Trip details */
-.trip-details {
-    font-weight: bold;
+.container p {
     margin-bottom: 10px;
 }
 
-/* Payment Summary, Choose Seat, Review buttons */
-button {
-    margin-top: 10px;
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
+.container a {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.container hr {
+    margin: 15px 0;
+    border: 0;
+    border-top: 1px solid #ccc;
+}
+
+.container button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #0056b3;
-}
+/* FinalBooking.css */
 
-/* Pop-up container */
-.popup-container {
+.review-popup {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;
+    width: 300px;
     padding: 20px;
+    background: #fff;
     border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 9999;
+    z-index: 1000;
 }
 
-.popup-content {
-    text-align: center;
-}
-
-/* Popup link style */
-.popup-link {
-    color: blue;
-    text-decoration: underline;
+.review-popup button.close-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: none;
+    border: none;
+    font-size: 16px;
     cursor: pointer;
+    color:black;
 }
 
-.popup-link:hover {
-    color: #0056b3;
+.review-popup label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.review-popup textarea {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.review-popup input[type='number'] {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.review-popup button {
+    padding: 8px 20px;
+    font-size: 16px;
+    cursor: pointer;
 }

@@ -1,7 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './FlightDetail.css';
 
 const FlightDetail = ({ flightDetails, onClose }) => {
+
+    const [routeDetails, setRouteDetails] = useState(null);
+    // console.log('route id', flightDetails.routeID);
+
+    const fetchRouteDetails = async () => {
+        try {
+            // console.log('flightDetails:', flightDetails);
+            if (flightDetails) {
+                const response = await fetch(`http://localhost:3000/routes/${flightDetails.routeID}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    // console.log('Route details:', data);
+                    setRouteDetails(data);
+                } else {
+                    console.error('Failed to fetch route details');
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching route details:', error);
+        }
+    };
+
+    fetchRouteDetails(); 
+
+
     return (
         <div className="popup-container">
             <div className="popup">
@@ -16,7 +41,7 @@ const FlightDetail = ({ flightDetails, onClose }) => {
                     <p><strong>Date:</strong> {flightDetails.date}</p>
                     <p><strong>Day:</strong> {flightDetails.day}</p>
                     <p><strong>Time:</strong> {flightDetails.time}</p>
-                    <p><strong>Duration:</strong> {flightDetails.duration}</p>
+                    <p><strong>Duration:</strong> {routeDetails ? `${routeDetails.travelTime} hours` : 'Loading...'}</p>
                     <p><strong>Available Seats:</strong> {flightDetails.availableSeats}</p>
                     <p><strong>Price:</strong> {flightDetails.price}</p>
                     {/* Add more details as needed */}

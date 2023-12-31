@@ -50,10 +50,6 @@ const flightSchema = new mongoose.Schema({
         required: true,
     },
     
-    timeDuration: { // Adding time duration for the flight
-        type: String,
-        required: true,
-    },
     prices: {
         economy: {
             type: Number,
@@ -69,6 +65,8 @@ const flightSchema = new mongoose.Schema({
         enum: ['scheduled', 'cancelled', 'postponed'], // Define various status options
         default: 'scheduled', // Set a default status
     },
+
+   
 });
 
 const Flight = mongoose.model('Flight', flightSchema);
