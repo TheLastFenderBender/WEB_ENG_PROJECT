@@ -23,12 +23,13 @@ import ReviewPopup from './ReviewPopup';
 import SeatSelection from './SeatSelection';
 import TripSummary from './TripSummary';
 import UserPayment from './UserPayment';
-// import AdminCreateBooking from './AdminCreateBooking';
+import AdminCreateBooking from './Admin/AdminCreateBooking';
 import UpdateAircraft from './FlightManager/UpdateAircraft';
 import ViewAircrafts from './FlightManager/ViewAircrafts';
 import AdminPage from './Admin/AdminPage';
 import NewUser from './Admin/NewUser';
 import Footer from './Footer';
+
 
 function App() {
 
@@ -72,9 +73,9 @@ function App() {
           <Route path='/viewaircrafts' element={<ViewAircrafts />} />
 
 
-          <Route path='/AdminPage' element={<AdminPage />} />
-          <Route path='/NewUser' element={<NewUser />} />
-          {/*<Route path='/AdminCreateBooking' element={<AdminCreateBooking />} /> */}
+          {/* <Route path='/AdminPage' element={<AdminPage />} />
+          <Route path='/NewUser' element={<NewUser />} /> */}
+          {/* <Route path='/AdminCreateBooking' element={<AdminCreateBooking />} /> */}
         </Routes>
       </Router>
 

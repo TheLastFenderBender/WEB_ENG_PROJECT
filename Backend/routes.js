@@ -777,6 +777,62 @@ router.delete('/deleteRefund/:refundId', async (req, res) => {
     }
 });
 
+
+router.get('/getAdminBookings', async (req, res) => {
+    try {
+        const bookings = await Booking.find({});
+        res.status(200).json(bookings);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+router.put('/AdminBookings/:bookingId', async (req, res) => {
+    const { bookingId } = req.params.bookingId;
+
+    try {
+        // Find the booking based on the booking number
+        const booking = await Booking.findOne({ bookingId });
+
+        if (!booking) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
+
+        // Update booking status and payment status
+        booking.bookingStatus = 'confirmed';
+        booking.paymentStatus = 'completed';
+
+        // Save the updated booking details
+        await booking.save();
+
+        res.status(200).json({ message: 'Booking status and payment status updated successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Failed to update booking status and payment status' });
+    }
+});
+
+// update the seat number of the use
+router.put('/updateBookingSeatAdmin/:bookingId', async (req, res) => {
+    const bookingId = req.params.bookingId;
+    const { seatNumber } = req.body;
+
+    try {
+        const updatedBooking = await Booking.findByIdAndUpdate(
+            bookingId,
+            { seatNumber: seatNumber },
+            { new: true }  // This option returns the document after update was applied
+        );
+
+        if (!updatedBooking) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
+
+        res.status(200).json(updatedBooking);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
 // ~~~~~~~~~~~~~~~~~~~~~~~ 3.Flight Management Panel: ~~~~~~~~~~~~~~~~~~~~~~~
 
 // Flight routes

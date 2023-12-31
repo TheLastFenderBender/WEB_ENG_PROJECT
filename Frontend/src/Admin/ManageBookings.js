@@ -37,7 +37,7 @@ const ManageBookings = () => {
           Create Booking
         </button>
         <button onClick={() => handleButtonClick('generateBookingReports')} className='manage-bookings-content-button'>
-          Generate Booking Reports
+          Booking Report
         </button>
       </div>
 
