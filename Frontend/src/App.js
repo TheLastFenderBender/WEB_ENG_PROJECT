@@ -7,6 +7,7 @@ import Crew from './SuperAdmin/Crew';
 import Maintenance from './SuperAdmin/Maintenance';
 import FlightHistory from './SuperAdmin/FlightHistory';
 import PaymentHistory from './SuperAdmin/PaymentHistory';
+import Feedback from './SuperAdmin/Feedback';
 import UserDashboard from './UserDashBoard';
 import AddFlight from './FlightManager/AddFlight';
 import UpdateFlight from './FlightManager/UpdateFlight';
@@ -58,6 +59,7 @@ function App() {
           <Route path='/maintenance' element={<Maintenance></Maintenance>} ></Route>
           <Route path='/flighthistory' element={<FlightHistory></FlightHistory>} ></Route>
           <Route path='/paymenthistory' element={<PaymentHistory></PaymentHistory>}></Route>
+          <Route path='/feedback' element={<Feedback></Feedback>}></Route>
 
           <Route path='/addflight' element={<AddFlight />} />
           <Route path='/updateflight/:flightNumber' element={<UpdateFlight />} />

@@ -138,6 +138,10 @@ function NavBar() {
                   <Link to="/paymenthistory" style={{ color: 'inherit', textDecoration: 'none' }}>
                     {page}
                   </Link>
+                ) : page === 'Feedback' ? (
+                  <Link to="/feedback" style={{ color: 'inherit', textDecoration: 'none' }}>
+                    {page}
+                  </Link>
                 ) : (
                   page
                 )}
