@@ -27,9 +27,9 @@ import UserPayment from './UserPayment';
 // import AdminCreateBooking from './AdminCreateBooking';
 import UpdateAircraft from './FlightManager/UpdateAircraft';
 import ViewAircrafts from './FlightManager/ViewAircrafts';
-import AdminPage from './Admin/AdminPage';
-import NewUser from './Admin/NewUser';
-import Footer from './Footer';
+// import AdminPage from './Admin/AdminPage';
+// import NewUser from './Admin/NewUser';
+// import Footer from './Footer';
 
 
 function App() {
@@ -42,15 +42,16 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/UserDashBoard' element={<UserDashboard />} />
           <Route path='/FlightResults' element={<FlightResult />} />
+          <Route path='/BookFlight/:userId' element={<BookFlight />} />
+          <Route path="/FinalBooking/:userId/:flightNumber" element={< FinalBooking />} />
 
-          <Route path='/BookFlight' element={<BookFlight />} />
-          <Route path='/FinalBooking' element={<FinalBooking />} />
           <Route path='/ReviewPopup' element={<ReviewPopup />} />
 
-          <Route path='/SeatSelection' element={<SeatSelection />} />
-          <Route path='/TripSummary' element={<TripSummary />} />
+          
+          <Route path='/SeatSelection/:userId/:flightNumber' element={<SeatSelection />} />
+          <Route path='/TripSummary/:bookingNumber' element={<TripSummary />} />
 
-          <Route path='/UserPayment' element={<UserPayment />} />
+          <Route path='/UserPayment/:bookingNumber' element={<UserPayment />} />
 
 
 
@@ -72,13 +73,13 @@ function App() {
           <Route path='/viewaircrafts' element={<ViewAircrafts />} />
 
 
-          <Route path='/AdminPage' element={<AdminPage />} />
-          <Route path='/NewUser' element={<NewUser />} />
+          {/* <Route path='/AdminPage' element={<AdminPage />} />
+          <Route path='/NewUser' element={<NewUser />} /> */}
           {/* <Route path='/AdminCreateBooking' element={<AdminCreateBooking />} /> */}
         </Routes>
       </Router>
 
-      <Footer className="footer"></Footer>
+      {/* <Footer className="footer"></Footer> */}
     </div>
   )
 }

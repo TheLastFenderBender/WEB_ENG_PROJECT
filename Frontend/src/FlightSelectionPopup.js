@@ -10,7 +10,7 @@ const FlightSelectionPopup = ({ flight, flightClass, price, onConfirm, onClose, 
     // const handleConfirm = () => {
     //     if (flight && flight.flightNumber) {
     //         const parsedFlightId = parseInt(flight.flightNumber);
-    //         console.log('Parsed Flight ID in selec:', parsedFlightId);
+            console.log('Parsed Flight ID in selec:', userId);
     //         // console.log('Flight Number:', flight.flightNumber);
     //         // navigate(`/FinalBooking/${flight.flightNumber}`);
     //         // <Link to={`/FinalBooking/${flight.flightNumber}`} ></Link>
@@ -19,6 +19,7 @@ const FlightSelectionPopup = ({ flight, flightClass, price, onConfirm, onClose, 
     //         console.error('Flight or flightNumber is not available.');
     //     }
     // };
+
 
     return (
         <div className="popup-container">

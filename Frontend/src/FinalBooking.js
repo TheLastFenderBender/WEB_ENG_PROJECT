@@ -8,7 +8,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 const FinalBooking = () => {
     const { userId, flightNumber } = useParams();
     const numericUserId = parseInt(userId, 10); // Assuming userId is a string representing an integer
-    // console.log(typeof numericUserId);
+    console.log(typeof numericUserId);
     const navigate = useNavigate();
     const [selectedFlight, setSelectedFlight] = useState(null);
     const [userName, setUserName] = useState('');

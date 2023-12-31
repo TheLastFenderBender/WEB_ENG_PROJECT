@@ -25,7 +25,8 @@ const settings = ['Profile', 'Logout'];
 // const bookingOptions = ['Book a Flight', 'Payment', 'Cancel Booking'];
 const myTripsOptions = ['Booking History', 'Refunds' , 'Feedback'];
 
-function NavBar({ userName }) {
+
+function NavBar({ userName, userId }) {
 
     const navigate = useNavigate();
 
@@ -70,7 +71,7 @@ function NavBar({ userName }) {
 
     const handleSettings = (setting) => {
         if (setting === 'Profile') {
-            navigate('/userprofile'); 
+            navigate(`/userprofile/${userId}`); 
         } else if (setting === 'Logout') {
             navigate('/login'); 
         }
@@ -83,7 +84,7 @@ function NavBar({ userName }) {
     const handleBookOption = () => {
         // if (option === 'Book a Flight') {
             // Handle 'Book a Flight' click, navigate or render the SearchFlight component
-            navigate('/BookFlight'); // Navigate to the book flight page
+        navigate(`/BookFlight/${userId}`); // Navigate to the book flight page
         // }
     };
 
