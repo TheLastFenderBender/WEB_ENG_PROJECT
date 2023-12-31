@@ -9,35 +9,30 @@ const BookingReport = () => {
 
   useEffect(() => {
     // Fetch the booking report data from the server
-    const fetchReportData = async () => {
+    const fetchBookings = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/report/generate-report');
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
+        const response = await fetch('http://localhost:3000/getAdminBookings');
         const data = await response.json();
         setReportData(data);
       } catch (error) {
-        console.error('Fetch report data error:', error);
-        setError('Error fetching report data');
+        console.error('Error fetching bookings:', error);
       }
     };
 
-    fetchReportData();
+    fetchBookings();
   }, []);
+
+ 
 
   return (
     <div className="booking-report-container">
       <h4 className="booking-report-heading">Booking Report</h4>
-      {error && <p>Error: {error}</p>}
       <table className="booking-report-table">
         <thead>
           <tr>
             <th>Booking ID</th>
             <th>User ID</th>
-            <th>Flight ID</th>
+            <th>Flight Number</th>
             <th>Seat Number</th>
             <th>Booking Status</th>
             <th>Payment Status</th>
@@ -48,9 +43,9 @@ const BookingReport = () => {
         <tbody>
           {reportData.map((booking) => (
             <tr key={booking.bookingId}>
-              <td>{booking.bookingId}</td>
+              <td>{booking.bookingNumber}</td>
               <td>{booking.userId}</td>
-              <td>{booking.flightId}</td>
+              <td>{booking.flightNumber}</td>
               <td>{booking.seatNumber}</td>
               <td>{booking.bookingStatus}</td>
               <td>{booking.paymentStatus}</td>

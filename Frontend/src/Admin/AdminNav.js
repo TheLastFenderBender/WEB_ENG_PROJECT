@@ -21,7 +21,7 @@ import ManageBookings from './ManageBookings';
 const pages = ['Manage Users', 'Manage Refunds', 'Manage Bookings'];
 const settings = ['Logout'];
 
-function AdminPage() {
+function AdminNav() {
   const [activeOption, setActiveOption] = useState(''); 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -207,4 +207,4 @@ function AdminPage() {
     </div>
   );
 }
-export default AdminPage;
+export default AdminNav;
