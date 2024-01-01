@@ -1,30 +1,169 @@
 /* UserProfile.css */
-.user-profile-container {
-    display: grid;
-    grid-template-rows: auto 1fr;
-    /* Top for UserNavbar, Bottom for main layout */
-    height: 100vh;
-    /* Full height of the viewport */
+
+/* Main profile container */
+.profile-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
 }
 
-.main-container {
-    display: grid;
-    grid-template-columns: 75% 1fr;
-    /* 75% for content-left, 25% for sidebar-right */
-    gap: 20px;
-    /* Adjust the gap between the sections */
+/* Left side container */
+.left-container {
+    width: 35%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid rgb(11, 118, 160);
+    padding: 50px;
+    margin:10px;
+}
+
+/* Right side container */
+.right-container {
+    width: 60%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid rgb(11, 118, 160);
+    padding-top: 35px;
+    padding-bottom: 45px;
+    padding-right: 15px;
+    margin: 10px;
+    padding-left:20px;
+}
+
+.right-content {
+    margin-left: auto;
+    /* Pushes the button to the right */
+}
+/* Profile image */
+.profile-image {
+    width: 50px;
+    height: 55px;
+    border-radius: 50%;
+    margin-bottom:5px;
+    margin-top:5px;
+    display: 'flex';
+    justify-content: 'center';
+    align-items: 'center';
+    /* Add background-image or custom styling */
+}
+
+/* User details */
+.user-details {
+    margin-top: 20px;
+    display:block;
+}
+
+/* Edit button */
+.edit-button {
+    display: flex;
+    /* justify-content: flex-end; */
+    margin-bottom: 20px;
+    margin-right:0;
+    width:740px;
+    height:55px;
+}
+
+/* Personal details section */
+.personal-details {
+    margin-top: 10px;
+}
+
+/* Contact details */
+.contact-details {
+    margin-top: 10px;
+}
+
+/* Travel documents */
+.travel-documents {
+    margin-top: 10px;
+}
+
+/* Account settings */
+.account-settings {
+    margin-top: 10px;
+}
+
+h2 {
+    margin-bottom: 3px;
+    /* Remove the bottom margin of the heading */
+}
+/* Horizontal line */
+hr {
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin-bottom: 7px;
+    margin-top: 1px;
+}
+
+/* Delete account link */
+.delete-account-link {
+    color: red;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* UserProfile.css */
+
+/* Styles for the pop-up container */
+.popup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
-    /* Full height of the main container */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent black background */
+    z-index: 999;
+    /* Ensure the pop-up is on top of other elements */
 }
 
-.content-left {
-    background-color: lightblue;
-    /* Example background color for content-left */
-    /* Other styles for the left content */
+/* Styles for the pop-up content */
+.popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
 }
 
-.sidebar-right {
-    background-color: lightgreen;
-    /* Example background color for sidebar-right */
-    /* Other styles for the right sidebar */
+/* Style for the close button */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #888;
+}
+
+/* Style for form inputs */
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Style for buttons */
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    background-color: #007bff;
+}
+
+/* Style for cancel button */
+button.cancel {
+    background-color: #ccc;
 }

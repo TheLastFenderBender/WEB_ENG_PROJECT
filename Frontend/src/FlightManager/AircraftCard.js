@@ -1,12 +1,16 @@
-// Import React and Material-UI components
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardActions, Typography, Button } from '@mui/material';
+import { Box } from '@mui/system';
+import FlightIcon from '@mui/icons-material/Flight';
+import ModelIcon from '@mui/icons-material/ModelTraining';
+import PeopleIcon from '@mui/icons-material/People';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const AircraftCard = ({ aircraft }) => {
     const { aircraftID, model, capacity, active } = aircraft;
-
 
     const handleDeleteClick = async () => {
         try {
@@ -27,17 +31,20 @@ const AircraftCard = ({ aircraft }) => {
         <Card>
             <CardContent>
                 <Typography variant="h5" component="h2">
-                    Aircraft: {aircraftID}
+                    <FlightIcon /> Aircraft: {aircraftID}
                 </Typography>
                 <Typography color="textSecondary">
-                    Model: {model}
+                    <ModelIcon /> Model: {model}
                 </Typography>
                 <Typography color="textSecondary">
-                    Capacity: {capacity}
+                    <PeopleIcon /> Capacity: {capacity}
                 </Typography>
-                <Typography variant="body2" component="p">
-                    Active: {active? "Yes" : "No"}
-                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
+                    <Typography variant="body2" component="p">
+                        Active: 
+                    </Typography>
+                    {active ? <CheckCircleIcon color="success" /> : <CancelIcon color="error" />}
+                </Box>
             </CardContent>
             <CardActions>
                 <Link to={`/updateaircraft/${aircraftID}`}>

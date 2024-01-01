@@ -12,11 +12,22 @@ const AddFlight = () => {
         arrival: '',
         date: Date.now(),
         time: '',
-        availableSeats: 0
+        availableSeats: 0,
+        flightType: '',
+        flightClass: '',
+        prices: {
+            economy: 0,
+            business: 0
+        },
+        status: 'scheduled'
     });
 
     const handleChange = (e) => {
-        setFlightData({ ...flightData, [e.target.name]: e.target.value });
+        if (e.target.name === 'economy' || e.target.name === 'business') {
+            setFlightData({ ...flightData, prices: { ...flightData.prices, [e.target.name]: e.target.value } });
+        } else {
+            setFlightData({ ...flightData, [e.target.name]: e.target.value });
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -138,6 +149,37 @@ const AddFlight = () => {
                         onChange={handleChange}
                         placeholder="Available Seats"
                     />
+                </div>
+                <div className="input-group">
+                    <label htmlFor="flightType">Flight Type:</label>
+                    <select id="flightType" name="flightType" value={flightData.flightType} onChange={handleChange}>
+                        <option value="">Select Flight Type</option>
+                        <option value="one-way">One-way</option>
+                    </select>
+                </div>
+                <div className="input-group">
+                    <label htmlFor="flightClass">Flight Class:</label>
+                    <select id="flightClass" name="flightClass" value={flightData.flightClass} onChange={handleChange}>
+                        <option value="">Select Flight Class</option>
+                        <option value="economy">Economy</option>
+                        <option value="business">Business</option>
+                    </select>
+                </div>
+                <div className="input-group">
+                    <label htmlFor="economy">Economy Price:</label>
+                    <input type="number" id="economy" name="economy" value={flightData.prices.economy} onChange={handleChange} placeholder="Economy Price" />
+                </div>
+                <div className="input-group">
+                    <label htmlFor="business">Business Price:</label>
+                    <input type="number" id="business" name="business" value={flightData.prices.business} onChange={handleChange} placeholder="Business Price" />
+                </div>
+                <div className="input-group">
+                    <label htmlFor="status">Status:</label>
+                    <select id="status" name="status" value={flightData.status} onChange={handleChange}>
+                        <option value="scheduled">Scheduled</option>
+                        <option value="cancelled">Cancelled</option>
+                        <option value="postponed">Postponed</option>
+                    </select>
                 </div>
                 <button type="submit" className="submit-button">Add Flight</button>
             </form>
