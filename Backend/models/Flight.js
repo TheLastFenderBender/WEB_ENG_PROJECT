@@ -69,11 +69,11 @@ const flightSchema = new mongoose.Schema({
    
 });
 
-flightSchema.pre('save', async function (next) {
-    if (!this._id) {
+flightSchema.pre('validate', async function (next) {
+    if (!this.flightNumber) {
         try {
-            const lastFlight = await this.constructor.findOne({}, {}, { sort: { '_id': -1 } });
-            this._id = lastFlight ? lastFlight._id + 1 : 1;
+            const lastFlight = await this.constructor.findOne({}, {}, { sort: { 'flightNumber': -1 } });
+            this.flightNumber = lastFlight ? lastFlight.flightNumber + 1 : 1;
             next();
         } catch (error) {
             next(error);

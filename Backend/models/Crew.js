@@ -20,7 +20,7 @@ const crewSchema = new mongoose.Schema({
     }],
 });
 
-crewSchema.pre('save', async function (next) {
+crewSchema.pre('validate', async function (next) {
     if (!this._id) {
         try {
             const lastCrew = await this.constructor.findOne({}, {}, { sort: { '_id': -1 } });

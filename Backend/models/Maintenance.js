@@ -26,7 +26,7 @@ const maintenanceSchema = new mongoose.Schema({
     },
 });
 
-maintenanceSchema.pre('save', async function (next) {
+maintenanceSchema.pre('validate', async function (next) {
     if (!this._id) {
         try {
             const lastMaintenance = await this.constructor.findOne({}, {}, { sort: { '_id': -1 } });

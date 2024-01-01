@@ -960,7 +960,7 @@ router.put('/updateBookingSeatAdmin/:bookingId', async (req, res) => {
 
 // Flight routes
 router.post('/flights', async (req, res) => {
-    const { flightNumber, airline, aircraftID, routeID, departure, arrival, date, time, availableSeats, flightType, flightClass, prices, status } = req.body;
+    const { airline, aircraftID, routeID, departure, arrival, date, time, availableSeats, flightType, flightClass, prices, status } = req.body;
 
     try {
         const aircraftExists = await Aircraft.findOne({ aircraftID: aircraftID });
@@ -969,8 +969,6 @@ router.post('/flights', async (req, res) => {
         } else if (aircraftExists.active === true) {
             return res.status(400).json({ message: 'Aircraft is already active' });
         }
-        aircraftExists.active = true;
-        await aircraftExists.save();
 
         const routeExists = await Route.findOne({ routeID: routeID });
         if (!routeExists) {
@@ -978,11 +976,8 @@ router.post('/flights', async (req, res) => {
         } else if (routeExists.active === true) {
             return res.status(400).json({ message: 'Route is already active' });
         }
-        routeExists.active = true;
-        await routeExists.save();
 
         const newFlight = new Flight({
-            flightNumber,
             airline,
             aircraftID,
             routeID,
@@ -997,6 +992,13 @@ router.post('/flights', async (req, res) => {
             status
         });
         const savedFlight = await newFlight.save();
+
+        aircraftExists.active = true;
+        await aircraftExists.save();
+
+        routeExists.active = true;
+        await routeExists.save();
+
         res.status(201).json(savedFlight);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -1005,7 +1007,7 @@ router.post('/flights', async (req, res) => {
 
 router.put('/flights/:id', async (req, res) => {
     const { id } = req.params;
-    const { flightNumber, airline, aircraftID, routeID, departure, arrival, date, time, availableSeats, flightType, flightClass, prices, status } = req.body;
+    const { airline, aircraftID, routeID, departure, arrival, date, time, availableSeats, flightType, flightClass, prices, status } = req.body;
 
     try {
         const existingFlight = await Flight.findOne({ flightNumber: id });
@@ -1023,7 +1025,6 @@ router.put('/flights/:id', async (req, res) => {
             return res.status(400).json({ message: 'Route not found' });
         }
 
-        existingFlight.flightNumber = flightNumber;
         existingFlight.airline = airline;
         existingFlight.aircraftID = aircraftID;
         existingFlight.routeID = routeID;
@@ -1079,11 +1080,10 @@ router.get('/flights', async (req, res) => {
 // Route routes
 router.post('/routes', async (req, res) => {
     // Add new route
-    const { routeID, departure, arrival, distance, travelTime } = req.body;
+    const { departure, arrival, distance, travelTime } = req.body;
 
     try {
         const newRoute = new Route({
-            routeID,
             departure,
             arrival,
             distance,
@@ -1103,7 +1103,7 @@ router.post('/routes', async (req, res) => {
 router.put('/routes/:id', async (req, res) => {
     // Update route information
     const { id } = req.params;
-    const { routeID, departure, arrival, distance, travelTime } = req.body;
+    const { departure, arrival, distance, travelTime } = req.body;
 
     try {
         // Check if the route exists
@@ -1113,7 +1113,6 @@ router.put('/routes/:id', async (req, res) => {
         }
 
         // Update the route details
-        existingRoute.routeID = routeID;
         existingRoute.departure = departure;
         existingRoute.arrival = arrival;
         existingRoute.distance = distance;
@@ -1151,14 +1150,12 @@ router.get('/routes', async (req, res) => {
 router.post('/aircrafts', async (req, res) => {
     // Add new aircraft
 
-    const { aircraftID, model, capacity, active } = req.body;
+    const { model, capacity } = req.body;
 
     try {
         const newAircraft = new Aircraft({
-            aircraftID,
             model,
             capacity,
-            active,
         });
 
         const savedAircraft = await newAircraft.save();
@@ -1171,7 +1168,7 @@ router.post('/aircrafts', async (req, res) => {
 router.put('/aircrafts/:id', async (req, res) => {
     // Update aircraft information
     const { id } = req.params;
-    const { aircraftID, model, capacity } = req.body;
+    const { model, capacity } = req.body;
 
     try {
         // Check if the aircraft exists
@@ -1181,7 +1178,6 @@ router.put('/aircrafts/:id', async (req, res) => {
         }
 
         // Update the aircraft details
-        existingAircraft.aircraftID = aircraftID;
         existingAircraft.model = model;
         existingAircraft.capacity = capacity;
 

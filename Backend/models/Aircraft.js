@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const aircraftSchema = new mongoose.Schema({
-    // aircraftID: {
-    //     type: Number,
-    //     required: true,
-    //     unique: true,
-    // },
+    aircraftID: {
+        type: Number,
+        required: true,
+        unique: true,
+    },
     model: {
         type: String,
         required: true,
@@ -21,11 +21,11 @@ const aircraftSchema = new mongoose.Schema({
     }
 });
 
-aircraftSchema.pre('save', async function (next) {
-    if (!this._id) {
+aircraftSchema.pre('validate', async function (next) {
+    if (!this.aircraftID) {
         try {
-            const lastAircraft = await this.constructor.findOne({}, {}, { sort: { '_id': -1 } });
-            this._id = lastAircraft ? lastAircraft._id + 1 : 1;
+            const lastAircraft = await this.constructor.findOne({}, {}, { sort: { 'aircraftID': -1 } });
+            this.aircraftID = lastAircraft ? lastAircraft.aircraftID + 1 : 1;
             next();
         } catch (error) {
             next(error);

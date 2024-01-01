@@ -6,7 +6,6 @@ import NavBar from './NavBar';
 const UpdateRoute = () => {
     const { routeID } = useParams();
     const [routeData, setRouteData] = useState({
-        routeID: 0,
         departure: '',
         arrival: '',
         distance: 0,
@@ -40,17 +39,6 @@ const UpdateRoute = () => {
         <>
             <NavBar />
             <form className="add-flight-form" onSubmit={handleSubmit}>
-                <div className="input-group">
-                    <label htmlFor="routeID">Route ID:</label>
-                    <input
-                        type="number"
-                        id="routeID"
-                        name="routeID"
-                        value={routeData.routeID}
-                        onChange={handleChange}
-                        placeholder="Route ID"
-                    />
-                </div>
                 <div className="input-group">
                     <label htmlFor="departure">Departure:</label>
                     <input
