@@ -525,6 +525,19 @@ router.get('/bookings/:bookingNumber', async (req, res) => {
     }
 });
 
+// Route to fetch bookings by userId
+router.get('/:userId', async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        // Find bookings based on the provided userId
+        const bookings = await Booking.find({ userId: parseInt(userId, 10) }).populate('flightId');
+        res.json(bookings);
+    } catch (error) {
+        console.error('Error fetching bookings:', error);
+        res.status(500).json({ error: 'Failed to fetch bookings' });
+    }
+});
 // Route to update booking status and payment status
 router.put('/bookings/:bookingNumber', async (req, res) => {
     const { bookingNumber } = req.params;
@@ -708,17 +721,6 @@ router.delete('/users/:userId', async (req, res) => {
 });
 
 
-//=======================
-// Route to update user profile with travel document information
-router.put('/users/:userId', async (req, res) => {
-    const { userId } = req.params;
-    try {
-        const updatedUser = await User.findByIdAndUpdate(userId, req.body, { new: true });
-        res.json(updatedUser);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
 
 //===========================
 // Cancel Booking

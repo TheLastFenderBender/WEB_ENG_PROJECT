@@ -23,7 +23,7 @@ const settings = ['Profile', 'Logout'];
 
 // const flightOptions = ['Flight Detail', 'Flight Schedule', 'Flight Status', 'Reserve Seat', 'Seat Reservation'];
 // const bookingOptions = ['Book a Flight', 'Payment', 'Cancel Booking'];
-const myTripsOptions = ['Booking History', 'Refunds' , 'Feedback'];
+const myTripsOptions = ['Booking History', 'Booking Details','Refunds' , 'Feedback'];
 
 
 function NavBar({ userName, userId }) {
@@ -81,6 +81,14 @@ function NavBar({ userName, userId }) {
         navigate('/UserDashBoard'); // Redirect to user dashboard (home)
     };
 
+
+    const handleMyTripsOption = (option) => {
+        if (option === 'Booking Details') {
+            navigate(`/BookingDetails/${userId}`); // Navigate to the booking details page
+        } else {
+            // Handle other options if needed
+        }
+    };
     const handleBookOption = () => {
         // if (option === 'Book a Flight') {
             // Handle 'Book a Flight' click, navigate or render the SearchFlight component
@@ -235,7 +243,7 @@ function NavBar({ userName, userId }) {
                         onClose={handleCloseMyTripsMenu}
                     >
                         {myTripsOptions.map((option) => (
-                            <MenuItem key={option} onClick={handleCloseMyTripsMenu}>
+                            <MenuItem key={option} onClick={() => handleMyTripsOption(option)}>
                                 <Typography textAlign="center">
                                     <Link to={`/my-trips/${option.toLowerCase()}`} style={{ color: 'inherit', textDecoration: 'none' }}>
                                         {option}
