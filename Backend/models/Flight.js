@@ -69,6 +69,20 @@ const flightSchema = new mongoose.Schema({
    
 });
 
+flightSchema.pre('save', async function (next) {
+    if (!this._id) {
+        try {
+            const lastFlight = await this.constructor.findOne({}, {}, { sort: { '_id': -1 } });
+            this._id = lastFlight ? lastFlight._id + 1 : 1;
+            next();
+        } catch (error) {
+            next(error);
+        }
+    } else {
+        next();
+    }
+});
+
 const Flight = mongoose.model('Flight', flightSchema);
 
 module.exports = Flight;
