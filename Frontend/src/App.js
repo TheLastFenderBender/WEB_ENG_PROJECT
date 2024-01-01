@@ -23,12 +23,17 @@ import ReviewPopup from './ReviewPopup';
 import SeatSelection from './SeatSelection';
 import TripSummary from './TripSummary';
 import UserPayment from './UserPayment';
-// import AdminCreateBooking from './AdminCreateBooking';
+import AdminCreateBooking from './AdminCreateBooking';
 import UpdateAircraft from './FlightManager/UpdateAircraft';
 import ViewAircrafts from './FlightManager/ViewAircrafts';
-// import AdminPage from './Admin/AdminPage';
-// import NewUser from './Admin/NewUser';
-// import Footer from './Footer';
+import AdminPage from './Admin/AdminPage';
+import NewUser from './Admin/NewUser';
+import Footer from './Footer';
+import UserProfile from './UserProfile';
+import BookingHistory from './BookingHistory';
+import BookingDetails from './BookingDetails';
+
+
 
 
 function App() {
@@ -45,6 +50,7 @@ function App() {
           <Route path="/FinalBooking/:userId/:flightNumber" element={< FinalBooking />} />
           <Route path='/UserProfile/:userId' element={<UserProfile />} />
           <Route path='/BookingHistory/:userId' element={<BookingHistory />} />
+          <Route path='/BookingDetails/:userId' element={<BookingDetails />} />
 
           <Route path='/ReviewPopup' element={<ReviewPopup />} />
 
