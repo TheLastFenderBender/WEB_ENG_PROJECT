@@ -17,6 +17,9 @@ const userSchema = new mongoose.Schema({
     countryCode: { type: String },
     mobileNumber: { type: String },
     userId: { type: Number, unique: true },
+    nationality: { type: String },
+    passportNumber: { type: String },
+    passportExpiry: { type: Date },
 });
 
 // Pre-save middleware to generate a unique userId
