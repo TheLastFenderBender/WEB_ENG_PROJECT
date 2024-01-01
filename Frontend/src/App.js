@@ -23,7 +23,7 @@ import ReviewPopup from './ReviewPopup';
 import SeatSelection from './SeatSelection';
 import TripSummary from './TripSummary';
 import UserPayment from './UserPayment';
-import AdminCreateBooking from './AdminCreateBooking';
+import AdminCreateBooking from './Admin/AdminCreateBooking';
 import UpdateAircraft from './FlightManager/UpdateAircraft';
 import ViewAircrafts from './FlightManager/ViewAircrafts';
 import AdminPage from './Admin/AdminPage';
