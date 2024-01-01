@@ -173,7 +173,6 @@ router.post('/login', async (req, res) => {
         res.status(200).json({
             user,
             token,
-            userId,
         });
     } catch (error) {
         console.error('MongoDB Error:', error);
@@ -379,6 +378,26 @@ router.post('/feedback', async (req, res) => {
     }
 });
 
+// router.post('/bookings/:bookingId/feedback', async (req, res) => {
+//     const { bookingId } = req.params;
+//     const { description, userID, flightNumber, rating } = req.body;
+
+//     try {
+//         const newFeedback = await Feedback.create({
+//             bookingId,
+//             description,
+//             rating,
+//             userID,
+//             flightNumber,
+//         });
+
+//         res.status(201).json(newFeedback);
+//     } catch (err) {
+//         res.status(500).json({ message: err.message });
+//     }
+// });
+
+
 router.get('/routes/:routeID', async (req, res) => {
     const { routeID } = req.params;
 
@@ -525,19 +544,26 @@ router.get('/bookings/:bookingNumber', async (req, res) => {
     }
 });
 
-// Route to fetch bookings by userId
-router.get('/:userId', async (req, res) => {
-    const { userId } = req.params;
-
+// Route to fetch bookings made by a specific user
+router.get('/bookings/user/:userId', async (req, res) => {
     try {
-        // Find bookings based on the provided userId
-        const bookings = await Booking.find({ userId: parseInt(userId, 10) }).populate('flightId');
-        res.json(bookings);
+        const { userId } = req.params;
+
+        // Find all bookings associated with the provided userId
+        const userBookings = await Booking.find({ userId });
+
+        if (!userBookings || userBookings.length === 0) {
+            return res.status(404).json({ error: 'No bookings found for this user' });
+        }
+
+        res.status(200).json(userBookings);
     } catch (error) {
-        console.error('Error fetching bookings:', error);
-        res.status(500).json({ error: 'Failed to fetch bookings' });
+        console.error(error);
+        res.status(500).json({ error: 'Could not fetch user bookings' });
     }
 });
+
+
 // Route to update booking status and payment status
 router.put('/bookings/:bookingNumber', async (req, res) => {
     const { bookingNumber } = req.params;
