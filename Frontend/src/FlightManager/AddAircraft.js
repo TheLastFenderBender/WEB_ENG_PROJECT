@@ -4,7 +4,6 @@ import NavBar from './NavBar';
 
 const AddAircraft = () => {
     const [aircraftData, setAircraftData] = useState({
-        aircraftID: 0,
         model: '',
         capacity: 0,
     });
@@ -36,17 +35,6 @@ const AddAircraft = () => {
         <>
             <NavBar />
             <form className="add-flight-form" onSubmit={handleSubmit}>
-                <div className="input-group">
-                    <label htmlFor="aircraftID">Aircraft ID:</label>
-                    <input
-                        type="number"
-                        id="aircraftID"
-                        name="aircraftID"
-                        value={aircraftData.aircraftID}
-                        onChange={handleChange}
-                        placeholder="Aircraft ID"
-                    />
-                </div>
                 <div className="input-group">
                     <label htmlFor="model">Model:</label>
                     <input

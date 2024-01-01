@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import NavBar from './SuperAdminNavbar';
 import './SuperAdminStyles/Crew.css';
 import './SuperAdminStyles/SuperAdminPage.css';
+import Axios from 'axios';
 
 export default function CrewCRUD() {
 
@@ -11,7 +12,7 @@ export default function CrewCRUD() {
     useEffect(() => {
         const fetchCrewMembers = async () => {
             try {
-                const crewResponse = await fetch('/crew');
+                const crewResponse = await fetch('http://localhost:3000/crew');
                 const crewMemberData = await crewResponse.json();
                 setCrewMembers(crewMemberData);
             } catch (error) {
@@ -29,6 +30,9 @@ export default function CrewCRUD() {
     const handleAddCrew = (e) => {
 
     }
+    const handleUpdateCrew = () => {
+
+    }
     const handleEditCrew = (index) => {
 
     }
@@ -44,6 +48,22 @@ export default function CrewCRUD() {
                 <h3>Create, Update or Delete</h3>
             </div>
             <div className='crewContainer'>
+                <form onSubmit={handleAddCrew}>
+                    <div className='crewFormItem'>
+                        <label>Crew Name: </label>
+                        <input></input>
+                    </div>
+                    <div className='crewFormItem'>
+                        <label>Position: </label>
+                        <input></input>
+                    </div>
+                    <div className='crewFormItem'>
+                        <label>Flight Assignments: </label>
+                        <input></input>
+                    </div>
+                    <button type='submit' className='crewButton btn-primary'>Add</button>
+                    <button type='submit' className='crewButton' onClick={() => {handleUpdateCrew()}}>Update</button>
+                </form>
                 <table>
                     <th>
                         <td>Name</td>

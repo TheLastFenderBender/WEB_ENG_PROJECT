@@ -21,6 +21,20 @@ const aircraftSchema = new mongoose.Schema({
     }
 });
 
+aircraftSchema.pre('validate', async function (next) {
+    if (!this.aircraftID) {
+        try {
+            const lastAircraft = await this.constructor.findOne({}, {}, { sort: { 'aircraftID': -1 } });
+            this.aircraftID = lastAircraft ? lastAircraft.aircraftID + 1 : 1;
+            next();
+        } catch (error) {
+            next(error);
+        }
+    } else {
+        next();
+    }
+});
+
 const Aircraft = mongoose.model('Aircraft', aircraftSchema);
 
 module.exports = Aircraft;

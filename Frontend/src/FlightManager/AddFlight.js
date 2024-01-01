@@ -4,7 +4,6 @@ import NavBar from './NavBar';
 
 const AddFlight = () => {
     const [flightData, setFlightData] = useState({
-        flightNumber: 0,
         airline: '',
         aircraftID: 0,
         routeID: 0,
@@ -53,17 +52,6 @@ const AddFlight = () => {
         <>
             <NavBar />
             <form className="add-flight-form" onSubmit={handleSubmit}>
-                <div className="input-group">
-                    <label htmlFor="flightNumber">Flight Number:</label>
-                    <input
-                        type="number"
-                        id="flightNumber"
-                        name="flightNumber"
-                        value={flightData.flightNumber}
-                        onChange={handleChange}
-                        placeholder="Flight Number"
-                    />
-                </div>
                 <div className="input-group">
                     <label htmlFor="airline">Airline:</label>
                     <input

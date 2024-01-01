@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
 });
 
 // Pre-save middleware to generate a unique userId
-userSchema.pre('save', async function (next) {
+userSchema.pre('validate', async function (next) {
     if (!this.userId) {
         try {
             const lastUser = await this.constructor.findOne({}, {}, { sort: { 'userId': -1 } });

@@ -69,6 +69,20 @@ const flightSchema = new mongoose.Schema({
    
 });
 
+flightSchema.pre('validate', async function (next) {
+    if (!this.flightNumber) {
+        try {
+            const lastFlight = await this.constructor.findOne({}, {}, { sort: { 'flightNumber': -1 } });
+            this.flightNumber = lastFlight ? lastFlight.flightNumber + 1 : 1;
+            next();
+        } catch (error) {
+            next(error);
+        }
+    } else {
+        next();
+    }
+});
+
 const Flight = mongoose.model('Flight', flightSchema);
 
 module.exports = Flight;

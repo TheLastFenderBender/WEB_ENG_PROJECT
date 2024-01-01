@@ -76,7 +76,7 @@ const bookingSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 // Pre-save middleware to generate a unique booking number
-bookingSchema.pre('save', async function (next) {
+bookingSchema.pre('validate', async function (next) {
     if (!this.bookingNumber) {
         try {
             const lastBooking = await this.constructor.findOne({}, {}, { sort: { 'bookingNumber': -1 } });

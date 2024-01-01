@@ -36,6 +36,12 @@ function NavBar() {
     setAnchorElUser(null);
   };
 
+  const pageLinks = {
+    'Home': '/flightmanager',
+    'View Routes': '/viewroutes',
+    'View AirCrafts': '/viewaircrafts'
+  };
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -121,21 +127,9 @@ function NavBar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page === 'Home' ? (
-                  <Link to="/flightmanager" style={{ color: 'inherit', textDecoration: 'none' }}>
-                    {page}
-                  </Link>
-                ) : page === 'View Routes' ? (
-                  <Link to="/viewroutes" style={{ color: 'inherit', textDecoration: 'none' }}>
-                    {page}
-                  </Link>
-                ) : (
-                  page === 'View AirCrafts' && (
-                    <Link to="/viewaircrafts" style={{ color: 'inherit', textDecoration: 'none' }}>
-                      {page}
-                    </Link>
-                  )
-                )}
+                <Link to={pageLinks[page]} style={{ color: 'inherit', textDecoration: 'none' }}>
+                  {page}
+                </Link>
               </Button>
             ))}
           </Box>

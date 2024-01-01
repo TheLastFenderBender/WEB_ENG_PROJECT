@@ -32,7 +32,7 @@ const feedbackSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 // Pre-save middleware to generate a unique ID for feedback
-feedbackSchema.pre('save', async function (next) {
+feedbackSchema.pre('validate', async function (next) {
     if (!this._id) {
         try {
             const lastFeedback = await this.constructor.findOne({}, {}, { sort: { '_id': -1 } });

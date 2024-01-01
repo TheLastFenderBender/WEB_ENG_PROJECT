@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import NavBar from './SuperAdminNavbar';
 import './SuperAdminStyles/FlightHistory.css'
+import Axios from 'axios';
+
 
 export default function FlightHistory() {
 
@@ -9,13 +11,12 @@ export default function FlightHistory() {
     useEffect(() => {
         const fetchFlights = async () => {
             try {
-                const flightResponse = await fetch('/flights/history');
-                const flightData = await flightResponse.json();
-                setFlights(flightData);
+                const flightResponse = await Axios.get('http://localhost:3000/flights/history');
+                setFlights(flightResponse.data);
             } catch (error) {
                 console.error('Error getting flight data: ', error);
             }
-        }
+        };
 
         fetchFlights();
     }, []);

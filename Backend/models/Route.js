@@ -29,6 +29,20 @@ const routeSchema = new mongoose.Schema({
     }
 });
 
+routeSchema.pre('validate', async function (next) {
+    if (!this.routeID) {
+        try {
+            const lastRoute = await this.constructor.findOne({}, {}, { sort: { 'routeID': -1 } });
+            this.routeID = lastRoute ? lastRoute.routeID + 1 : 1;
+            next();
+        } catch (error) {
+            next(error);
+        }
+    } else {
+        next();
+    }
+});
+
 const Route = mongoose.model('Route', routeSchema);
 
 module.exports = Route;
