@@ -173,7 +173,6 @@ router.post('/login', async (req, res) => {
         res.status(200).json({
             user,
             token,
-            userId,
         });
     } catch (error) {
         console.error('MongoDB Error:', error);
@@ -379,6 +378,26 @@ router.post('/feedback', async (req, res) => {
     }
 });
 
+// router.post('/bookings/:bookingId/feedback', async (req, res) => {
+//     const { bookingId } = req.params;
+//     const { description, userID, flightNumber, rating } = req.body;
+
+//     try {
+//         const newFeedback = await Feedback.create({
+//             bookingId,
+//             description,
+//             rating,
+//             userID,
+//             flightNumber,
+//         });
+
+//         res.status(201).json(newFeedback);
+//     } catch (err) {
+//         res.status(500).json({ message: err.message });
+//     }
+// });
+
+
 router.get('/routes/:routeID', async (req, res) => {
     const { routeID } = req.params;
 
@@ -525,9 +544,25 @@ router.get('/bookings/:bookingNumber', async (req, res) => {
     }
 });
 
-// Route to fetch bookings by userId
-// router.get('/:userId', async (req, res) => {
-//     const { userId } = req.params;
+// Route to fetch bookings made by a specific user
+// router.get('/bookings/user/:userId', async (req, res) => {
+//     try {
+        const { userId } = req.params;
+
+        // Find all bookings associated with the provided userId
+        const userBookings = await Booking.find({ userId });
+
+        if (!userBookings || userBookings.length === 0) {
+            return res.status(404).json({ error: 'No bookings found for this user' });
+        }
+
+        res.status(200).json(userBookings);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Could not fetch user bookings' });
+    }
+});
+
 
 //     try {
 //         // Find bookings based on the provided userId
@@ -787,7 +822,8 @@ router.put('/updateUser/:id', async (req, res) => {
 
     try {
         // Find the user by ID and update their information
-        const updatedUser = await User.findByIdAndUpdate(id, updatedData, { new: true });
+        const updatedUser = await User.findByIdAndUpdate(id,
+updatedData, { new: true });
 
         if (!updatedUser) {
             return res.status(404).json({ message: 'User not found' });
@@ -911,11 +947,11 @@ router.get('/getAdminBookings', async (req, res) => {
 });
 
 router.put('/AdminBookings/:bookingId', async (req, res) => {
-    const { bookingId } = req.params.bookingId;
-
+    const bookingId = req.params.bookingId;
     try {
         // Find the booking based on the booking number
-        const booking = await Booking.findOne({ bookingId });
+        const booking = await Booking.findOne({ _id: bookingId });
+        console.log(booking);
 
         if (!booking) {
             return res.status(404).json({ message: 'Booking not found' });
