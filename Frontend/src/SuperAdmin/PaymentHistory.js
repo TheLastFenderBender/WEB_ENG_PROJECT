@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import NavBar from './SuperAdminNavbar';
 import './SuperAdminStyles/PaymentHistory.css';
 import './SuperAdminStyles/SuperAdminPage.css';
+import Axios from 'axios';
+
 
 export default function PaymentHistory() {
 
@@ -10,13 +12,12 @@ export default function PaymentHistory() {
     useEffect(() => {
         const fetchPayments = async () => {
             try {
-                const paymentsResponse = await fetch('/booking/history');
-                const paymentData = await paymentsResponse.json();
-                setPayments(paymentData);
+                const paymentsResponse = await Axios.get('http://localhost:3000/booking/history');
+                setPayments(paymentsResponse.data);
             } catch (error) {
-                console.error('Error fetching paymentshistory: ', error);
+                console.error('Error fetching payments history: ', error);
             }
-        }
+        };
 
         fetchPayments();
     }, []);

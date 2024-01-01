@@ -1,6 +1,8 @@
 import { React, useState, useEffect } from 'react';
 import Navbar from './SuperAdminNavbar';
 import './SuperAdminStyles/SuperAdminPage.css';
+import Axios from 'axios';
+
 
 export default function SuperAdminPage() {
 
@@ -11,17 +13,14 @@ export default function SuperAdminPage() {
     useEffect(() => {
         const fetchCounts = async () => {
             try {
-                const crewResponse = await fetch('http://localhost:3000/crew/count');
-                const crewData = await crewResponse.json();
-                setCrewCount(crewData.count);
+                const crewResponse = await Axios.get('http://localhost:3000/crew/count');
+                setCrewCount(crewResponse.data.count);
 
-                const maintenanceResponse = await fetch('http://localhost:3000/maintenance/count');
-                const maintenanceData = await maintenanceResponse.json();
-                setMaintenanceCount(maintenanceData.count);
+                const maintenanceResponse = await Axios.get('http://localhost:3000/maintenance/count');
+                setMaintenanceCount(maintenanceResponse.data.count);
 
-                const flightResponse = await fetch('http://localhost:3000/flights/count');
-                const flightData = await flightResponse.json();
-                setFlightCount(flightData.count);
+                const flightResponse = await Axios.get('http://localhost:3000/flights/count');
+                setFlightCount(flightResponse.data.count);
             } catch (error) {
                 console.error('Error fetching counts:', error);
             }

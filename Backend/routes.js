@@ -1185,7 +1185,7 @@ router.get('/maintenance', async (req, res) => {
     }
 });
 
-router.get('/maintenance', async (req, res) => {
+router.get('/maintenance/pending', async (req, res) => {
     // Maintenance Schedule, Maintenance that is "PENDING"
     try {
         const pendingMaintenanceList = await Maintenance.find({ status: 'pending' });
@@ -1202,25 +1202,20 @@ router.put('/maintenance/:id', async (req, res) => {
     const { aircraftId, scheduledDate, description, status } = req.body;
 
     try {
-        // Check if the maintenance exists
         const existingMaintenance = await Maintenance.findById(id);
 
         if (!existingMaintenance) {
             return res.status(404).json({ message: 'Maintenance not found' });
         }
-
-        // Check if the maintenance is in 'pending' status
         if (existingMaintenance.status !== 'pending') {
             return res.status(400).json({ message: 'Cannot update maintenance with status other than pending' });
         }
 
-        // Check if the aircraftId exists
         const aircraftExists = await Flight.findById(aircraftId);
         if (!aircraftExists) {
             return res.status(400).json({ message: 'Aircraft not found' });
         }
 
-        // Update the maintenance details
         existingMaintenance.aircraftId = aircraftId;
         existingMaintenance.scheduledDate = scheduledDate;
         existingMaintenance.description = description;
@@ -1242,7 +1237,7 @@ router.post('/maintenance', async (req, res) => {
 
     try {
         // Check if the aircraftId exists
-        const aircraftExists = await Flight.findById(aircraftId);
+        const aircraftExists = await Aircraft.findById(aircraftId);
         if (!aircraftExists) {
             return res.status(400).json({ message: 'Aircraft not found' });
         }

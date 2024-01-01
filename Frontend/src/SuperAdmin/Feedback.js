@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import NavBar from './SuperAdminNavbar';
 import './SuperAdminStyles/Feedback.css';
 import './SuperAdminStyles/SuperAdminPage.css';
+import Axios from 'axios';
+
 
 export default function Feedback() {
 
@@ -10,13 +12,12 @@ export default function Feedback() {
     useEffect(() => {
         const fetchFeedbacks = async () => {
             try {
-                const feedbacksResponse = await fetch('/feedback');
-                const feedbackData = await feedbacksResponse.json();
-                setFeedback(feedbackData);
+                const feedbacksResponse = await Axios.get('http://localhost:3000/feedback');
+                setFeedback(feedbacksResponse.data);
             } catch (error) {
-                console.error("Error fetching feedbacks: ", error);
+                console.error('Error fetching feedbacks: ', error);
             }
-        }
+        };
 
         fetchFeedbacks();
     }, []);
