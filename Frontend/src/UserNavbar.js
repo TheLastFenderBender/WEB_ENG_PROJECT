@@ -71,7 +71,7 @@ function NavBar({ userName, userId }) {
 
     const handleSettings = (setting) => {
         if (setting === 'Profile') {
-            navigate(`/userprofile/${userId}`); 
+            navigate(`/UserProfile/${userId}`); 
         } else if (setting === 'Logout') {
             navigate('/login'); 
         }

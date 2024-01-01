@@ -23,12 +23,12 @@ import ReviewPopup from './ReviewPopup';
 import SeatSelection from './SeatSelection';
 import TripSummary from './TripSummary';
 import UserPayment from './UserPayment';
-// import AdminCreateBooking from './Admin/AdminCreateBooking';
+// import AdminCreateBooking from './AdminCreateBooking';
 import UpdateAircraft from './FlightManager/UpdateAircraft';
 import ViewAircrafts from './FlightManager/ViewAircrafts';
 // import AdminPage from './Admin/AdminPage';
 // import NewUser from './Admin/NewUser';
-import Footer from './Footer';
+// import Footer from './Footer';
 
 
 function App() {
@@ -43,6 +43,8 @@ function App() {
           <Route path='/FlightResults' element={<FlightResult />} />
           <Route path='/BookFlight/:userId' element={<BookFlight />} />
           <Route path="/FinalBooking/:userId/:flightNumber" element={< FinalBooking />} />
+          <Route path='/UserProfile/:userId' element={<UserProfile />} />
+          <Route path='/BookingHistory/:userId' element={<BookingHistory />} />
 
           <Route path='/ReviewPopup' element={<ReviewPopup />} />
 
@@ -73,9 +75,9 @@ function App() {
           <Route path='/viewaircrafts' element={<ViewAircrafts />} />
 
 
-          {/* <Route path='/AdminPage' element={<AdminPage />} />
-          <Route path='/NewUser' element={<NewUser />} /> */}
-          {/* <Route path='/AdminCreateBooking' element={<AdminCreateBooking />} /> */}
+          <Route path='/AdminPage' element={<AdminPage />} />
+          <Route path='/NewUser' element={<NewUser />} /> 
+          <Route path='/AdminCreateBooking' element={<AdminCreateBooking />} />
         </Routes>
       </Router>
 
