@@ -8,6 +8,14 @@ export default function CrewCRUD() {
 
     const [crewMembers, setCrewMembers] = useState([]);
     const [editCrewID, setEditCrewID] = useState();
+    const [formData, setFormData] = useState({
+        name: "",
+        position: "",
+        flightAssignments: ""
+    });
+    const [refresh, setRefresh] = useState(0);
+    const [data, setData] = useState([]);
+    const { name, position, flightAssignments } = formData;
 
     useEffect(() => {
         const fetchCrewMembers = async () => {
@@ -62,15 +70,15 @@ export default function CrewCRUD() {
                         <input></input>
                     </div>
                     <button type='submit' className='crewButton btn-primary'>Add</button>
-                    <button type='submit' className='crewButton' onClick={() => {handleUpdateCrew()}}>Update</button>
+                    <button type='submit' className='crewButton' onClick={() => { handleUpdateCrew() }}>Update</button>
                 </form>
-                <table>
-                    <th>
-                        <td>Name</td>
-                        <td>Position</td>
-                        <td>Flight Assignment</td>
-                        <td>Actions</td>
-                    </th>
+                <table className='crewTable'>
+
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Flight Assignment</th>
+                    <th>Actions</th>
+
                     {
                         crewMembers.map((crew) => {
                             <tr>

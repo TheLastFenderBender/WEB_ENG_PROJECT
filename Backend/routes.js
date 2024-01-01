@@ -526,18 +526,18 @@ router.get('/bookings/:bookingNumber', async (req, res) => {
 });
 
 // Route to fetch bookings by userId
-router.get('/:userId', async (req, res) => {
-    const { userId } = req.params;
+// router.get('/:userId', async (req, res) => {
+//     const { userId } = req.params;
 
-    try {
-        // Find bookings based on the provided userId
-        const bookings = await Booking.find({ userId: parseInt(userId, 10) }).populate('flightId');
-        res.json(bookings);
-    } catch (error) {
-        console.error('Error fetching bookings:', error);
-        res.status(500).json({ error: 'Failed to fetch bookings' });
-    }
-});
+//     try {
+//         // Find bookings based on the provided userId
+//         const bookings = await Booking.find({ userId: parseInt(userId, 10) }).populate('flightId');
+//         res.json(bookings);
+//     } catch (error) {
+//         console.error('Error fetching bookings:', error);
+//         res.status(500).json({ error: 'Failed to fetch bookings' });
+//     }
+// });
 // Route to update booking status and payment status
 router.put('/bookings/:bookingNumber', async (req, res) => {
     const { bookingNumber } = req.params;
@@ -1398,7 +1398,7 @@ router.delete('/maintenance/:id', async (req, res) => {
 
 
 // Report and Analytics Routes
-router.get('/flights/history', async (req, res) => {
+router.get('/flighthistory', async (req, res) => {
     /*
         Shows flight history
         Done by sending flights that have date before current date
@@ -1428,7 +1428,7 @@ router.get('/flights/history', async (req, res) => {
     }
 });
 
-router.get('/payment/history', async (req, res) => {
+router.get('/paymenthistory', async (req, res) => {
     // get Payment history of all users
     try {
         const completedPayments = await Payment.find({ paymentStatus: 'completed' });
@@ -1448,49 +1448,6 @@ router.get('/feedback', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 
-});
-
-// counting routes for superadminpage
-router.get('/crew/count', async (req, res) => {
-    try {
-        const crewCount = await Crew.countDocuments();
-        res.json({ count: crewCount });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-router.get('/maintenance/count', async (req, res) => {
-    try {
-        const maintenanceCount = await Maintenance.countDocuments();
-        res.json({ count: maintenanceCount });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-router.get('/flights/count', async (req, res) => {
-    try {
-        const currentDate = new Date();
-
-        const flightCount = await Flight.countDocuments({
-            $and: [
-                { date: { $lt: currentDate } },
-                {
-                    $expr: {
-                        $lt: [
-                            { $add: ['$date', { $multiply: [1000 * 60 * 60, '$timeDuration'] }] },
-                            currentDate,
-                        ],
-                    },
-                },
-            ],
-        });
-
-        res.json({ count: flightCount });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
 });
 /*
 

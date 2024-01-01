@@ -11,7 +11,7 @@ export default function FlightHistory() {
     useEffect(() => {
         const fetchFlights = async () => {
             try {
-                const flightResponse = await Axios.get('http://localhost:3000/flights/history');
+                const flightResponse = await Axios.get('http://localhost:3000/flighthistory');
                 setFlights(flightResponse.data);
             } catch (error) {
                 console.error('Error getting flight data: ', error);
@@ -30,16 +30,16 @@ export default function FlightHistory() {
             </div>
             <div className='flightHContainer'>
                 <table className='flightHTable'>
-                    <th>
-                        <td>Flight No.</td>
-                        <td>Airline</td>
-                        <td>AirCraft ID</td>
-                        <td>Departure</td>
-                        <td>Arrival</td>
-                        <td>Date</td>
-                        <td>Flight Type</td>
-                        <td>Status</td>
-                    </th>
+
+                        <th>Flight No.</th>
+                        <th>Airline</th>
+                        <th>AirCraft ID</th>
+                        <th>Departure</th>
+                        <th>Arrival</th>
+                        <th>Date</th>
+                        <th>Flight Type</th>
+                        <th>Status</th>
+
                     {
                         flights.map((flight) => {
                             <tr>

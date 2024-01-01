@@ -31,21 +31,19 @@ export default function Feedback() {
             </div>
             <div className='feedbackContainer'>
                 <table className='feedbackTable'>
-                    <th>
-                        <td>#</td>
-                        <td>Description</td>
-                        <td>UserID</td>
-                        <td>BookingID</td>
-                        <td>Flight No.</td>
-                        <td>RATING</td>
-                    </th>
+
+                        <th>#</th>
+                        <th>Details</th>
+                        <th>UserID</th>
+                        <th>BookingID</th>
+                        <th>RATING</th>
+
                     {feedback.map((feedback) => {
                         <tr>
                             <td>{feedback._id}</td>
                             <td>{feedback.description}</td>
                             <td>{feedback.userID}</td>
                             <td>{feedback.bookingID}</td>
-                            <td>{feedback.flightNumber}</td>
                             <td>{feedback.rating}</td>
                         </tr>
                     })}
