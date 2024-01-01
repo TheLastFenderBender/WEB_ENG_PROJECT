@@ -1,14 +1,17 @@
-// Import React and Material-UI components
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardActions, Typography, Button } from '@mui/material';
+import { Box } from '@mui/system';
+import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
+import FlightLandIcon from '@mui/icons-material/FlightLand';
+import CompassCalibrationIcon from '@mui/icons-material/CompassCalibration';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 
-// Define a function that takes a route object as a prop and returns a JSX element
 const RouteCard = ({ route }) => {
-    // Destructure the route object to get the relevant properties
     const { routeID, departure, arrival, distance, travelTime, active } = route;
-
 
     const handleDeleteClick = async () => {
         try {
@@ -25,7 +28,6 @@ const RouteCard = ({ route }) => {
         }
     };
 
-    // Return the JSX element
     return (
         <Card>
             <CardContent>
@@ -33,20 +35,23 @@ const RouteCard = ({ route }) => {
                     Route: {routeID}
                 </Typography>
                 <Typography color="textSecondary">
-                    departure: {departure}
+                    <FlightTakeoffIcon /> Departure: {departure}
                 </Typography>
                 <Typography color="textSecondary">
-                    Arrival: {arrival}
+                    <FlightLandIcon /> Arrival: {arrival}
                 </Typography>
                 <Typography color="textSecondary">
-                    Distance: {distance}
+                    <CompassCalibrationIcon /> Distance: {distance}
                 </Typography>
                 <Typography color="textSecondary">
-                    Travel Time: {travelTime}
+                    <AccessTimeIcon /> Travel Time: {travelTime}
                 </Typography>
-                <Typography variant="body2" component="p">
-                    Active: {active? "Yes" : "No"}
-                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
+                    <Typography variant="body2" component="p">
+                        Active:
+                    </Typography>
+                    {active ? <CheckCircleIcon color="success" /> : <CancelIcon color="error" />}
+                </Box>
             </CardContent>
             <CardActions>
                 <Link to={`/updateroute/${routeID}`}>
@@ -58,5 +63,4 @@ const RouteCard = ({ route }) => {
     );
 };
 
-// Export the component
 export default RouteCard;
