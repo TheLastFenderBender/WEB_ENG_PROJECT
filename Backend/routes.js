@@ -787,7 +787,8 @@ router.put('/updateUser/:id', async (req, res) => {
 
     try {
         // Find the user by ID and update their information
-        const updatedUser = await User.findByIdAndUpdate(id, updatedData, { new: true });
+        const updatedUser = await User.findByIdAndUpdate(id,
+updatedData, { new: true });
 
         if (!updatedUser) {
             return res.status(404).json({ message: 'User not found' });
@@ -911,11 +912,11 @@ router.get('/getAdminBookings', async (req, res) => {
 });
 
 router.put('/AdminBookings/:bookingId', async (req, res) => {
-    const { bookingId } = req.params.bookingId;
-
+    const bookingId = req.params.bookingId;
     try {
         // Find the booking based on the booking number
-        const booking = await Booking.findOne({ bookingId });
+        const booking = await Booking.findOne({ _id: bookingId });
+        console.log(booking);
 
         if (!booking) {
             return res.status(404).json({ message: 'Booking not found' });

@@ -29,7 +29,9 @@ const BookingView = () => {
     try {
       console.log("Save button clicked!");
       closeModal(); // Close the modal after saving
-      const response = await fetch(`http://localhost:3000/updateBookingSeatAdmin/${updatedBooking._id}`, {
+      const response = await
+fetch(`http://localhost:3000/updateBookingSeatAdmin/${updatedBooking._id}`,
+{
   method: 'PUT',
   headers: {
     'Content-Type': 'application/json',
@@ -50,14 +52,16 @@ const BookingView = () => {
 
   const handleCancelBooking = async (bookingId) => {
     try {
-      const response = await fetch(`http://localhost:3000/bookings/${bookingId._id}`, {
+      const response = await
+fetch(`http://localhost:3000/bookings/${bookingId._id}`, {
         method: 'DELETE',
       });
 
       if (response.ok) {
         // Handle successful deletion
         console.log('User deleted successfully');
-        setBookings((prevUsers) => prevUsers.filter((booking) => booking._id !== bookingId));
+        setBookings((prevUsers) => prevUsers.filter((booking) =>
+booking._id !== bookingId));
       } else {
         console.error('Failed to delete user');
         console.log("failed");
@@ -67,19 +71,21 @@ const BookingView = () => {
       console.error('Error deleting user:', error);
     }
   };
-  
+
   const handleUpdateBookingPayment = async (bookingId) => {
-   
+
     try {
-      console.log("Save button clicked!");
-      const response = await fetch(`http://localhost:3000/AdminBookings/${bookingId._id}`, {
+
+      console.log(bookingId._id);
+      const response = await
+fetch(`http://localhost:3000/AdminBookings/${bookingId._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ paymentStatus: "Paid" }),
       });
-    
+
       if (response.ok) {
         // Handle successful update
         console.log('Payment status updated successfully');
@@ -127,8 +133,8 @@ const BookingView = () => {
               <td>{booking.paymentStatus}</td>
               <td>
                 <button className='BookingViewCancelButton' onClick={() => handleCancelBooking(booking)}>Cancel</button>
-                <button className='BookingViewUpdateButton'onClick={() => handleUpdateBooking(booking)}>Update</button>
-                <button className='BookingViewProcessButton' onClick={() => handleUpdateBookingPayment(booking)}>Process Payment</button>
+                <button className='BookingViewUpdateButton' onClick={()=> handleUpdateBooking(booking)}>Update</button>
+                <button className='BookingViewProcessButton' onClick={() => handleUpdateBookingPayment(booking)}>ProcessPayment</button>
               </td>
             </tr>
           ))}

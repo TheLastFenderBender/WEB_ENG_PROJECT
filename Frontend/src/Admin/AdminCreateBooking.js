@@ -4,7 +4,6 @@ import FlightSelectionPopup from '../FlightSelectionPopup';
 import FlightDetail from '../FlightDetail';
 import '../BookFlight.css';
 import { useParams } from 'react-router-dom';
-import AdminNav from './AdminNav';
 
 const AdminCreateBooking = () => {
 
@@ -81,7 +80,6 @@ const AdminCreateBooking = () => {
 
     return (
         <div>
-            <AdminNav />
             <BookSearch onSearch={searchFlights} />
 
             {/* Display flights or message */}
