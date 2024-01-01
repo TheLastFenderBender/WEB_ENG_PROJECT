@@ -960,28 +960,22 @@ router.put('/updateBookingSeatAdmin/:bookingId', async (req, res) => {
 
 // Flight routes
 router.post('/flights', async (req, res) => {
-    // Add new flight
-    const { flightNumber, airline, aircraftID, routeID, departure, arrival, date, time, availableSeats } = req.body;
+    const { flightNumber, airline, aircraftID, routeID, departure, arrival, date, time, availableSeats, flightType, flightClass, prices, status } = req.body;
 
     try {
-        // Check if the aircraftID exists
         const aircraftExists = await Aircraft.findOne({ aircraftID: aircraftID });
         if (!aircraftExists) {
             return res.status(400).json({ message: 'Aircraft not found' });
-        }
-        else if (aircraftExists.active === true) {
+        } else if (aircraftExists.active === true) {
             return res.status(400).json({ message: 'Aircraft is already active' });
         }
         aircraftExists.active = true;
         await aircraftExists.save();
 
-
-        // Check if the routeID exists
         const routeExists = await Route.findOne({ routeID: routeID });
         if (!routeExists) {
             return res.status(400).json({ message: 'Route not found' });
-        }
-        else if (routeExists.active === true) {
+        } else if (routeExists.active === true) {
             return res.status(400).json({ message: 'Route is already active' });
         }
         routeExists.active = true;
@@ -997,29 +991,28 @@ router.post('/flights', async (req, res) => {
             date,
             time,
             availableSeats,
+            flightType,
+            flightClass,
+            prices,
+            status
         });
         const savedFlight = await newFlight.save();
         res.status(201).json(savedFlight);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-
 });
 
 router.put('/flights/:id', async (req, res) => {
-    // Update flight information
-
     const { id } = req.params;
-    const { flightNumber, airline, aircraftID, routeID, departure, arrival, date, time, availableSeats } = req.body;
+    const { flightNumber, airline, aircraftID, routeID, departure, arrival, date, time, availableSeats, flightType, flightClass, prices, status } = req.body;
 
     try {
-        // Check if the flight exists
         const existingFlight = await Flight.findOne({ flightNumber: id });
         if (!existingFlight) {
             return res.status(404).json({ message: 'Flight not found' });
         }
 
-        // Check if the aircraftID exists
         const aircraftExists = await Aircraft.findOne({ aircraftID: aircraftID });
         if (!aircraftExists) {
             return res.status(400).json({ message: 'Aircraft not found' });
@@ -1030,7 +1023,6 @@ router.put('/flights/:id', async (req, res) => {
             return res.status(400).json({ message: 'Route not found' });
         }
 
-        // Update the flight details
         existingFlight.flightNumber = flightNumber;
         existingFlight.airline = airline;
         existingFlight.aircraftID = aircraftID;
@@ -1040,6 +1032,10 @@ router.put('/flights/:id', async (req, res) => {
         existingFlight.date = date;
         existingFlight.time = time;
         existingFlight.availableSeats = availableSeats;
+        existingFlight.flightType = flightType;
+        existingFlight.flightClass = flightClass;
+        existingFlight.prices = prices;
+        existingFlight.status = status;
 
         const updatedFlight = await existingFlight.save();
         res.json(updatedFlight);
@@ -1052,7 +1048,7 @@ router.delete('/flights/:id', async (req, res) => {
     const { id } = req.params;
 
     const flight = await Flight.findOne({ flightNumber: id });
-    const { aircraftID, routeID } = flight;
+    const { aircraftID, routeID, flightType, flightClass, prices, status } = flight;
 
     const aircraft = await Aircraft.findOne({ aircraftID: aircraftID });
     aircraft.active = false;
@@ -1064,7 +1060,7 @@ router.delete('/flights/:id', async (req, res) => {
 
     try {
         await Flight.deleteOne({ flightNumber: id });
-        res.json({ message: 'Flight deleted' });
+        res.json({ message: 'Flight deleted', deletedFlight: { flightType, flightClass, prices, status } });
     } catch (error) {
         console.log('error:', error);
         res.status(500).json({ message: error.message });
@@ -1113,7 +1109,6 @@ router.put('/routes/:id', async (req, res) => {
         // Check if the route exists
         const existingRoute = await Route.findOne({ routeID: id });
         if (!existingRoute) {
-            alert('Route not found');
             return res.status(404).json({ message: 'Route not found' });
         }
 
@@ -1125,7 +1120,6 @@ router.put('/routes/:id', async (req, res) => {
         existingRoute.travelTime = travelTime;
 
         const updatedRoute = await existingRoute.save();
-        alert('Route updated successfully');
         res.json(updatedRoute);
     } catch (error) {
         res.status(400).json({ message: error.message });
