@@ -55,7 +55,7 @@ const UserDashboard = () => {
                 {/* Add your image */}
                 <img src={bgImage} alt="Avio to the sky" style={{ width: '100%', height: '663px' }} />
                 {/* Text */}
-                <h1 style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: 'black' }}>
+                <h1 style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: 'black', letterSpacing: '1rem' }}>
                     Avio, to the sky!
                 </h1>
             </div>
@@ -128,14 +128,7 @@ const UserDashboard = () => {
                         </div>
                     </div>
                 ))}
-            </div>
-
-            {/* Scroll buttons */}
-            <div className="scroll-buttons">
-                <button className="scroll-left">❮</button>
-                <button className="scroll-right">❯</button>
-            </div>
-            
+            </div>            
 
         </div>
        
