@@ -50,7 +50,7 @@ const RefundPage = () => {
 
     const handleConfirmRefund = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/bookings/${bookingNumber}/refund`, {
+            const response = await fetch(`http://localhost:3000/bookings/refund/${bookingNumber}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

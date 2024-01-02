@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
 const refundSchema = new mongoose.Schema({
     bookingNumber: Number, 
@@ -15,4 +16,4 @@ const refundSchema = new mongoose.Schema({
 
 const Refund = mongoose.model('Refund', refundSchema);
 
-module.exports = {  Refund };
+module.exports =  Refund;
