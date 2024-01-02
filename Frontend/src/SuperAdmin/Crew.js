@@ -8,6 +8,14 @@ export default function CrewCRUD() {
 
     const [crewMembers, setCrewMembers] = useState([]);
     const [editCrewID, setEditCrewID] = useState();
+    const [formData, setFormData] = useState({
+        name: "",
+        position: "",
+        flightAssignments: ""
+    });
+    const [refresh, setRefresh] = useState(0);
+    const [data, setData] = useState([]);
+    const { name, position, flightAssignments } = formData;
 
     useEffect(() => {
         const fetchCrewMembers = async () => {
@@ -25,7 +33,7 @@ export default function CrewCRUD() {
 
 
     const handleFormChange = (e) => {
-
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     }
     const handleAddCrew = (e) => {
 
@@ -50,27 +58,27 @@ export default function CrewCRUD() {
             <div className='crewContainer'>
                 <form onSubmit={handleAddCrew}>
                     <div className='crewFormItem'>
-                        <label>Crew Name: </label>
-                        <input></input>
+                        <label htmlFor='name'>Crew Name: </label>
+                        <input type='text' name='name'></input>
                     </div>
                     <div className='crewFormItem'>
-                        <label>Position: </label>
-                        <input></input>
+                        <label htmlFor='pos'>Position: </label>
+                        <input type='text' name='pos'></input>
                     </div>
                     <div className='crewFormItem'>
-                        <label>Flight Assignments: </label>
-                        <input></input>
+                        <label htmlFor='assignments'>Flight Assignments: </label>
+                        <input type='text' name='assignments'></input>
                     </div>
                     <button type='submit' className='crewButton btn-primary'>Add</button>
-                    <button type='submit' className='crewButton' onClick={() => {handleUpdateCrew()}}>Update</button>
+                    <button type='submit' className='crewButton' onClick={() => { handleUpdateCrew() }}>Update</button>
                 </form>
-                <table>
-                    <th>
-                        <td>Name</td>
-                        <td>Position</td>
-                        <td>Flight Assignment</td>
-                        <td>Actions</td>
-                    </th>
+                <table className='crewTable'>
+
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Flight Assignment</th>
+                    <th>Actions</th>
+
                     {
                         crewMembers.map((crew) => {
                             <tr>

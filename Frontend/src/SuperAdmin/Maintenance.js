@@ -7,8 +7,15 @@ import Axios from 'axios';
 export default function MaintenanceCRUD() {
 
     const [maintenances, setMaintenances] = useState([]);
-    const [maintEditID, setEditID] = useState();
-    // const { aircraftID, scheduledDate, description } = formData;
+    const [editMaintID, setEditMaintID] = useState();
+    const [formData, setFormData] = useState({
+        aircraftID: "",
+        scheduledDate: "",
+        description: ""
+    });
+    const [refresh, setRefresh] = useState(0);
+    const [data, setData] = useState([]);
+    const { aircraftID, scheduledDate, description } = formData;
 
 
     useEffect(() => {
@@ -26,7 +33,7 @@ export default function MaintenanceCRUD() {
     }, []);
 
     const handleFormChange = (e) => {
-
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     }
     const handleAddCrew = (e) => {
 
@@ -50,30 +57,30 @@ export default function MaintenanceCRUD() {
                 <h3>Create, Update or Delete</h3>
             </div>
             <div className='maintenanceContainer'>
-            <form onSubmit={handleAddCrew}>
+                <form onSubmit={handleAddCrew}>
                     <div className='maintFormItem'>
-                        <label>Aircraft ID: </label>
-                        <input></input>
+                        <label htmlFor="aircraftID">Aircraft ID: </label>
+                        <input type='text' name='aircraftID'></input>
                     </div>
                     <div className='maintFormItem'>
-                        <label>Schedule Date: </label>
-                        <input></input>
+                        <label htmlFor="scheduleDate">Schedule Date: </label>
+                        <input type='date' name='scheduleDate'></input>
                     </div>
                     <div className='maintFormItem'>
-                        <label>Description: </label>
-                        <input></input>
+                        <label htmlFor="desc">Description: </label>
+                        <input type='text' name='desc'></input>
                     </div>
                     <button type='submit' className='crewButton btn-primary'>Add</button>
-                    <button type='submit' className='crewButton' onClick={() => {handleUpdateCrew()}}>Update</button>
+                    <button type='submit' className='crewButton' onClick={() => { handleUpdateCrew() }}>Update</button>
                 </form>
                 <table className='maintenanceTable'>
-                    <th>
-                        <td>Aircraft ID</td>
-                        <td>Schedule Date</td>
-                        <td>Description</td>
-                        <td>Status</td>
-                        <td>Actions</td>
-                    </th>
+
+                    <th>Aircraft ID</th>
+                    <th>Schedule Date</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+
                     {
                         maintenances.map((maint) => {
                             <tr>
