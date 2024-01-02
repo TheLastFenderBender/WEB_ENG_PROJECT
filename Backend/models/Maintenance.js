@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const maintenanceSchema = new mongoose.Schema({
-    // id: {
-    //     type: Number,
-    //     required: true,
-    //     unique: true
-    // },
+    id: {
+        type: Number,
+        required: true,
+        unique: true
+    },
     aircraftId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Aircraft',
@@ -27,10 +27,10 @@ const maintenanceSchema = new mongoose.Schema({
 });
 
 maintenanceSchema.pre('validate', async function (next) {
-    if (!this._id) {
+    if (!this.id) {
         try {
-            const lastMaintenance = await this.constructor.findOne({}, {}, { sort: { '_id': -1 } });
-            this._id = lastMaintenance ? lastMaintenance._id + 1 : 1;
+            const lastMaintenance = await this.constructor.findOne({}, {}, { sort: { 'id': -1 } });
+            this.id = lastMaintenance ? lastMaintenance.id + 1 : 1;
             next();
         } catch (error) {
             next(error);
