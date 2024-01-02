@@ -845,16 +845,16 @@ router.delete('/users/:userId', async (req, res) => {
 
 //===========================
 // Cancel Booking
-// router.delete('/bookings/:bookingNumber', async (req, res) => {
-//     const { bookingNumber } = req.params;
-//     try {
-//         // Delete the specific booking by ID
-//         await Booking.findByIdAndDelete(bookingNumber);
-//         res.status(200).json({ message: 'Booking canceled successfully' });
-//     } catch (err) {
-//         res.status(500).json({ message: err.message });
-//     }
-// });
+router.delete('/bookings/:bookingNumber', async (req, res) => {
+    const { bookingNumber } = req.params;
+    try {
+        // Delete the specific booking by ID
+        await Booking.findByIdAndDelete(bookingNumber);
+        res.status(200).json({ message: 'Booking canceled successfully' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
 
 // Cancel Booking
 router.delete('/bookings/:bookingNumber', async (req, res) => {
