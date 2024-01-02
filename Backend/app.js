@@ -3,9 +3,12 @@ const router = require('./routes');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+
+
 const app = express();
 const port = 3000;
 require('dotenv').config();
+
 
 // Connect to MongoDB
 mongoose.connect('mongodb+srv://Umar:SqYDMM4X6Zu364SR@umar.ucbzkh6.mongodb.net/Airline');

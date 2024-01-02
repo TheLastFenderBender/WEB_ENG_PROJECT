@@ -131,7 +131,7 @@ const BookingDetails = () => {
                 // setBookings(updatedBookings);
                 // Update the local state or perform any necessary actions upon successful cancellation
                 console.log('Booking cancelled successfully in feych!');
-                navigate(`/Refund/${bookingNumber}`);
+                navigate(`/Refund/${userId}/${bookingNumber}`);
 
                 // For example, update the booking status in the local state if needed
             } else {

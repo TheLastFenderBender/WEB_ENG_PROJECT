@@ -59,8 +59,19 @@ const Login = () => {
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('userId', data.userId); 
 
+                // Redirect based on the selected role
+                if (selectedRole === 'user') {
+                    navigate('/UserDashBoard');
+                } else if (selectedRole === 'admin') {
+                    navigate('/AdminPage');
+                } else if (selectedRole === 'superadmin') {
+                    navigate('/superadmin');
+                }
+                else if (selectedRole === 'flight manager') {
+                    navigate('/flightmanager');
+                }
 
-                navigate('/UserDashBoard');
+                // navigate('/UserDashBoard');
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -83,6 +94,7 @@ const Login = () => {
                             <option value="user">User</option>
                             <option value="admin">Admin</option>
                             <option value="superadmin">Super Admin</option>
+                            <option value="superadmin">Flight Manager</option>
                         </select>
                     </div>
 

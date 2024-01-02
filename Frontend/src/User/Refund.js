@@ -4,8 +4,12 @@ import './Refund.css'; // Import CSS file for styling
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
 
+
 const RefundPage = () => {
-    const { bookingNumber } = useParams();
+    const navigate = useNavigate();
+
+    const { userId, bookingNumber } = useParams();
+    // console.log(bookingNumber);
     const [bookingDetails, setBookingDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [cancellationReason, setCancellationReason] = useState('');
@@ -13,7 +17,7 @@ const RefundPage = () => {
     const [refundMethod, setRefundMethod] = useState('');
     const [additionalComments, setAdditionalComments] = useState('');
 
-
+    // console.log('bookingnunber',bookingDetails.bookingNumber);
     const handleCancellationReason = (reason) => {
         setCancellationReason(reason);
     };
@@ -50,7 +54,7 @@ const RefundPage = () => {
 
     const handleConfirmRefund = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/bookings/${bookingNumber}/refund`, {
+            const response = await fetch(`http://localhost:3000/bookings/refund/${userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -68,6 +72,8 @@ const RefundPage = () => {
             if (!response.ok) {
                 throw new Error('Failed to update payment status');
             }
+            navigate(`/UserDashBoard`);
+
             // else {
             //     try {
             //         const response = await fetch(`http://localhost:3000/bookings/${bookingNumber}/refundPay`, {
@@ -100,6 +106,10 @@ const RefundPage = () => {
 
 
     if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (!bookingDetails) {
         return <div>Loading...</div>;
     }
 
