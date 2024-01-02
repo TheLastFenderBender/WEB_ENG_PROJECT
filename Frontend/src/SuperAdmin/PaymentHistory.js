@@ -50,7 +50,7 @@ export default function PaymentHistory() {
                                     <td>{payment.cardType}</td>
                                     <td>{payment.cardNumber}</td>
                                     <td>{payment.amount}</td>
-                                    <td>{payment.timestamp}</td>
+                                    <td>{payment.timestamp.split('T')[0]}</td>
                                     <td>{payment.status}</td>
                                 </tr>
                             ))

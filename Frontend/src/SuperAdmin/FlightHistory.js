@@ -50,7 +50,7 @@ export default function FlightHistory() {
                                     <td>{flight.aircraftID}</td>
                                     <td>{flight.departure}</td>
                                     <td>{flight.arrival}</td>
-                                    <td>{flight.date}</td>
+                                    <td>{flight.date.split('T')[0]}</td>
                                     <td>{flight.flightType}</td>
                                     <td>{flight.status}</td>
                                 </tr>
