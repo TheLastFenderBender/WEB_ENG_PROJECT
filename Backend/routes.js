@@ -334,6 +334,7 @@ router.get('/flights/search', async (req, res) => {
     }
 });
 
+// change this to /user/flights...
 router.get('/flights/:flightNumber', async (req, res) => {
     const { flightNumber } = req.params;
 
@@ -573,7 +574,7 @@ router.post('/bookings/:bookingNumber/refund', async (req, res) => {
         await newRefund.save();
 
         // Update payment status in the Booking model
-        const updatedBooking = await Booking.findOneAndUpdate(
+        const updatedBooking = await Booking.findOne(
             { bookingNumber },
             { paymentStatus: 'refunded' },
             { new: true }
@@ -583,6 +584,8 @@ router.post('/bookings/:bookingNumber/refund', async (req, res) => {
             throw new Error('Failed to update payment status');
         }
 
+
+        await updatedBooking.save()
         res.json({ message: 'Refund details saved successfully' });
 
     } catch (error) {
@@ -845,16 +848,16 @@ router.delete('/users/:userId', async (req, res) => {
 
 //===========================
 // Cancel Booking
-// router.delete('/bookings/:bookingNumber', async (req, res) => {
-//     const { bookingNumber } = req.params;
-//     try {
-//         // Delete the specific booking by ID
-//         await Booking.findByIdAndDelete(bookingNumber);
-//         res.status(200).json({ message: 'Booking canceled successfully' });
-//     } catch (err) {
-//         res.status(500).json({ message: err.message });
-//     }
-// });
+router.delete('/bookings/:bookingNumber', async (req, res) => {
+    const { bookingNumber } = req.params;
+    try {
+        // Delete the specific booking by ID
+        await Booking.findByIdAndDelete(bookingNumber);
+        res.status(200).json({ message: 'Booking canceled successfully' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
 
 // Cancel Booking
 router.delete('/bookings/:bookingNumber', async (req, res) => {
