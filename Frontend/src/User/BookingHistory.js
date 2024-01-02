@@ -41,7 +41,7 @@ const BookingHistory = () => {
 
 
     const fetchUserDetails = () => {
-        fetch(`http://localhost:3000/users/${userId}`, {
+        fetch(`http://localhost:3000/Users/${userId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ const BookingHistory = () => {
             });
     };
 
-   
+
 
     // Fetch user details and booking history when the component mounts
     React.useEffect(() => {
