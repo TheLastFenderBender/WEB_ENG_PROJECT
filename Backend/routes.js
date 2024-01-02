@@ -545,8 +545,8 @@ router.get('/bookings/:bookingNumber', async (req, res) => {
 });
 
 // Route to fetch bookings made by a specific user
-// router.get('/bookings/user/:userId', async (req, res) => {
-//     try {
+router.get('/bookings/user/:userId', async (req, res) => {
+    try {
         const { userId } = req.params;
 
         // Find all bookings associated with the provided userId
@@ -1467,8 +1467,8 @@ router.get('/flighthistory', async (req, res) => {
 router.get('/paymenthistory', async (req, res) => {
     // get Payment history of all users
     try {
-        const completedPayments = await Payment.find({ paymentStatus: 'completed' });
-
+        const completedPayments = await Payment.find();
+        console.log(completedPayments);
         res.json(completedPayments);
     } catch (error) {
         res.status(500).json({ message: error.message });

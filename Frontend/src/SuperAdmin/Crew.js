@@ -33,7 +33,7 @@ export default function CrewCRUD() {
 
 
     const handleFormChange = (e) => {
-
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     }
     const handleAddCrew = (e) => {
 
@@ -58,16 +58,16 @@ export default function CrewCRUD() {
             <div className='crewContainer'>
                 <form onSubmit={handleAddCrew}>
                     <div className='crewFormItem'>
-                        <label>Crew Name: </label>
-                        <input></input>
+                        <label htmlFor='name'>Crew Name: </label>
+                        <input type='text' name='name'></input>
                     </div>
                     <div className='crewFormItem'>
-                        <label>Position: </label>
-                        <input></input>
+                        <label htmlFor='pos'>Position: </label>
+                        <input type='text' name='pos'></input>
                     </div>
                     <div className='crewFormItem'>
-                        <label>Flight Assignments: </label>
-                        <input></input>
+                        <label htmlFor='assignments'>Flight Assignments: </label>
+                        <input type='text' name='assignments'></input>
                     </div>
                     <button type='submit' className='crewButton btn-primary'>Add</button>
                     <button type='submit' className='crewButton' onClick={() => { handleUpdateCrew() }}>Update</button>

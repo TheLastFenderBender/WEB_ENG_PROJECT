@@ -12,10 +12,13 @@ export default function PaymentHistory() {
     useEffect(() => {
         const fetchPayments = async () => {
             try {
-                const paymentsResponse = await Axios.get('http://localhost:3000/paymenthistory');
-                setPayments(paymentsResponse.data);
+                const paymentsResponse = await Axios.get("http://127.0.0.1:3000/paymenthistory");
+                const paymentdata = PaymentResponse.data;
+                setPayments(paymentdata);
+                console.log(payments);
             } catch (error) {
-                console.error('Error fetching payments history: ', error);
+                //console.error('Error fetching payments history: ', error);
+                console.log(error);
             }
         };
 
@@ -39,8 +42,8 @@ export default function PaymentHistory() {
                         <th>Date</th>
                         <th>Status</th>
                     {
-                        payments.map((payment) => {
-                            <tr>
+                        payments.map((payment, index) => {
+                            <tr key={index}>
                                 <td>{payment.user}</td>
                                 <td>{payment.nameOnCard}</td>
                                 <td>{payment.cardType}</td>
