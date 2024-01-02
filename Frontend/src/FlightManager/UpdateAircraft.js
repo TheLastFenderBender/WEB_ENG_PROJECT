@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './Flight.css';
 import NavBar from './NavBar';
@@ -9,6 +9,24 @@ const AddAircraft = () => {
         model: '',
         capacity: 0,
     });
+
+    useEffect(() => {
+        const getAircraft = async () => {
+            try {
+                const response = await fetch(`http://localhost:3000/aircrafts/${aircraftID}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                setAircraftData(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        getAircraft();
+    }, []);
 
     const handleChange = (e) => {
         setAircraftData({ ...aircraftData, [e.target.name]: e.target.value });

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './Flight.css';
 import NavBar from './NavBar';
@@ -11,6 +11,24 @@ const UpdateRoute = () => {
         distance: 0,
         travelTime: 0,
     });
+
+    useEffect(() => {
+        const getRoute = async () => {
+            try {
+                const response = await fetch(`http://localhost:3000/routes/${routeID}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                setRouteData(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        getRoute();
+    }, []);
 
     const handleChange = (e) => {
         setRouteData({ ...routeData, [e.target.name]: e.target.value });

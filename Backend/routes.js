@@ -1229,10 +1229,22 @@ router.delete('/flights/:id', async (req, res) => {
     }
 });
 
+// Get all Flights:
 router.get('/flights', async (req, res) => {
     try {
         const allFlights = await Flight.find();
         res.json(allFlights);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Get a single Flight:
+router.get('/flights/:id', async (req, res) => {
+    const { id } = req.params;d
+    try {
+        const flight = await Flight.findOne({flightNumber: id});
+        res.json(flight);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -1298,10 +1310,22 @@ router.delete('/routes/:id', async (req, res) => {
     }
 });
 
+// Get all Routes:
 router.get('/routes', async (req, res) => {
     try {
         const allRoutes = await Route.find();
         res.json(allRoutes);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Get a single Route:
+router.get('/routes/:id', async (req, res) => {
+    const { id } = req.params;d
+    try {
+        const route = await Route.findOne({routeID: id});
+        res.json(route);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -1363,10 +1387,22 @@ router.delete('/aircrafts/:id', async (req, res) => {
     }
 });
 
+// Get all Aircrafts:
 router.get('/aircrafts', async (req, res) => {
     try {
         const allAircrafts = await Aircraft.find();
         res.json(allAircrafts);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Get a single Aircraft:
+router.get('/aircrafts/:id', async (req, res) => {
+    const { id } = req.params
+    try {
+        const aircrafts = await Aircraft.findOne({aircraftID: id});
+        res.json(aircrafts);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

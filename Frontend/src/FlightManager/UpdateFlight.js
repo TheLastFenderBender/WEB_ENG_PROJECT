@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './Flight.css';
 import NavBar from './NavBar';
@@ -24,6 +24,24 @@ const UpdateFlight = () => {
         },
         status: 'scheduled'
     });
+
+    useEffect(() => {
+        const getFlight = async () => {
+            try {
+                const response = await fetch(`http://localhost:3000/flights/${flightNumber}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                setFlightData(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        getFlight();
+    }, []);
 
     const handleChange = (e) => {
         if (e.target.name === 'economy' || e.target.name === 'business') {
