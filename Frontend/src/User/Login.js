@@ -51,14 +51,6 @@ const Login = () => {
                     alert('User does not exist or invalid credentials.');
                     return;
                 }
-                //console.log(data.token);
-                // localStorage.setItem('email', email);
-                // localStorage.removeItem('token');
-                
-
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('userId', data.userId); 
-                // localStorage.removeItem('userId');
 
                 // Redirect based on the selected role
                 if (selectedRole === 'user') {
@@ -67,8 +59,7 @@ const Login = () => {
                     navigate('/AdminPage');
                 } else if (selectedRole === 'superadmin') {
                     navigate('/superadmin');
-                }
-                else if (selectedRole === 'flight manager') {
+                } else if (selectedRole === 'flight manager') {
                     navigate('/flightmanager');
                 }
 
@@ -95,7 +86,7 @@ const Login = () => {
                             <option value="user">User</option>
                             <option value="admin">Admin</option>
                             <option value="superadmin">Super Admin</option>
-                            <option value="flightmanager">Flight Manager</option>
+                            <option value="flight manager">Flight Manager</option>
                         </select>
                     </div>
 
