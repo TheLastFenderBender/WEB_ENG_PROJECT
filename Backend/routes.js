@@ -550,8 +550,8 @@ router.post('/bookflight', async (req, res) => {
 });
 
 // Express route handler to update booking with refund details
-router.post('/bookings/refund/:bookingNumber', async (req, res) => {
-    const { bookingNumber } = req.params;
+router.post('/bookings/refund/:userId', async (req, res) => {
+    const { userId } = req.params;
     const {
         refundedAmount,
         refundMethod,
@@ -564,7 +564,7 @@ router.post('/bookings/refund/:bookingNumber', async (req, res) => {
     try {
         // Save refund details to the Refund model
         const newRefund = new Refund({
-            bookingNumber,
+            userId,
             refundedAmount,
             refundMethod,
             comment,
@@ -575,13 +575,15 @@ router.post('/bookings/refund/:bookingNumber', async (req, res) => {
         // Save the new refund data to the database
         const savedRefund = await newRefund.save();
 
+        res.status(201).json({ savedRefund, message: 'Refund details saved successfully' });
 
-        res.status(201).json(savedRefund);
-        res.json({ message: 'Refund details saved successfully' });
+        // res.status(201).json(savedRefund);
+        // res.json({ message: 'Refund details saved successfully' });
 
     } catch (error) {
         console.error('Error saving refund data:', error);
-    } res.status(500).json({ error: 'Failed to save refund details' });
+    }
+    // res.status(500).json({ error: 'Failed to save refund details' });
 });
 
 // Update payment status route

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const refundSchema = new mongoose.Schema({
-    bookingNumber: Number, 
+    userId: Number, 
     refundedAmount: Number,
     refundMethod: String,
     comment: String,
