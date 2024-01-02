@@ -143,6 +143,7 @@ router.post('/register', async (req, res) => {
 
 // login with JWT-based authentication
 router.post('/login', async (req, res) => {
+    console.log('inside log route');
     try {
         const { email, password, role } = req.body;
 
@@ -550,8 +551,8 @@ router.post('/bookflight', async (req, res) => {
 });
 
 // Express route handler to update booking with refund details
-router.post('/bookings/:bookingNumber/refund', async (req, res) => {
-    const { bookingNumber } = req.params;
+router.post('/bookings/refund/:userId', async (req, res) => {
+    const { userId } = req.params;
     const {
         refundedAmount,
         refundMethod,
@@ -564,7 +565,7 @@ router.post('/bookings/:bookingNumber/refund', async (req, res) => {
     try {
         // Save refund details to the Refund model
         const newRefund = new Refund({
-            bookingNumber,
+            userId,
             refundedAmount,
             refundMethod,
             comment,
@@ -572,25 +573,18 @@ router.post('/bookings/:bookingNumber/refund', async (req, res) => {
             refundStatus,
         });
 
-        await newRefund.save();
+        // Save the new refund data to the database
+        const savedRefund = await newRefund.save();
 
-        // Update payment status in the Booking model
-        const updatedBooking = await Booking.findOne(
-            { bookingNumber },
-            { paymentStatus: 'refunded' },
-            { new: true }
-        );
+        res.status(201).json({ savedRefund, message: 'Refund details saved successfully' });
 
-        if (!updatedBooking) {
-            throw new Error('Failed to update payment status');
-        }
-
-
-        await updatedBooking.save()
-        res.json({ message: 'Refund details saved successfully' });
+        // res.status(201).json(savedRefund);
+        // res.json({ message: 'Refund details saved successfully' });
 
     } catch (error) {
-    } res.status(500).json({ error: 'Failed to save refund details' });
+        console.error('Error saving refund data:', error);
+    }
+    // res.status(500).json({ error: 'Failed to save refund details' });
 });
 
 // Update payment status route
@@ -962,7 +956,7 @@ router.put('/updateUser/:id', async (req, res) => {
     try {
         // Find the user by ID and update their information
         const updatedUser = await User.findByIdAndUpdate(id,
-updatedData, { new: true });
+            updatedData, { new: true });
 
         if (!updatedUser) {
             return res.status(404).json({ message: 'User not found' });
@@ -1268,9 +1262,9 @@ router.get('/flights', async (req, res) => {
 
 // Get a single Flight:
 router.get('/flights/:id', async (req, res) => {
-    const { id } = req.params;d
+    const { id } = req.params; d
     try {
-        const flight = await Flight.findOne({flightNumber: id});
+        const flight = await Flight.findOne({ flightNumber: id });
         res.json(flight);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -1349,9 +1343,9 @@ router.get('/routes', async (req, res) => {
 
 // Get a single Route:
 router.get('/routes/:id', async (req, res) => {
-    const { id } = req.params;d
+    const { id } = req.params; d
     try {
-        const route = await Route.findOne({routeID: id});
+        const route = await Route.findOne({ routeID: id });
         res.json(route);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -1428,7 +1422,7 @@ router.get('/aircrafts', async (req, res) => {
 router.get('/aircrafts/:id', async (req, res) => {
     const { id } = req.params
     try {
-        const aircrafts = await Aircraft.findOne({aircraftID: id});
+        const aircrafts = await Aircraft.findOne({ aircraftID: id });
         res.json(aircrafts);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -1453,13 +1447,18 @@ router.get('/crew', async (req, res) => {
 
 router.post('/crew', async (req, res) => {
     // Add new crew member
-    const { name, position, flightAssignments } = req.body;
+    const { name, position, flightAssignment } = req.body;
+
+    const flight = await Flight.findOne({ flightNumber: flightAssignment })
+    if (!flight) {
+        return res.status(400).json({ message: 'Flight not found' });
+    }
 
     try {
         const newCrewMember = new Crew({
             name,
             position,
-            flightAssignments,
+            flightAssignment,
         });
 
         const savedCrewMember = await newCrewMember.save();
@@ -1469,35 +1468,34 @@ router.post('/crew', async (req, res) => {
     }
 });
 
-router.put('/crew/:name', async (req, res) => {
+router.put('/crew/:id', async (req, res) => {
     // Update a crew member
-    // name can be updated to id, need to change in schema
-    const { name } = req.params;
-    const { position, flightAssignments } = req.body;
+    const { id } = req.params;
+    const { name, position, flightAssignment } = req.body;
 
     try {
-        const updatedCrewMember = await Crew.findOneAndUpdate(
-            { name },
-            { position, flightAssignments },
-            { new: true }
-        );
+        const updatedCrewMember = await Crew.findOne(id);
 
         if (!updatedCrewMember) {
             return res.status(404).json({ message: 'Crew member not found' });
         }
 
+        updatedCrewMember.name = name;
+        updatedCrewMember.position = position;
+        updatedCrewMember.flightAssignment = flightAssignment;
+
+        await updatedCrewMember.save();
         res.json(updatedCrewMember);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 });
-router.delete('/crew/:name', async (req, res) => {
+router.delete('/crew/:id', async (req, res) => {
     // Delete crew member
-    // name can be updated to id, need to change in schema
-    const { name } = req.params;
+    const { id } = req.params;
 
     try {
-        const deletedCrewMember = await Crew.findOneAndDelete({ name });
+        const deletedCrewMember = await Crew.deleteOne(id)
 
         if (!deletedCrewMember) {
             return res.status(404).json({ message: 'Crew member not found' });
@@ -1522,24 +1520,13 @@ router.get('/maintenance', async (req, res) => {
     }
 });
 
-router.get('/maintenance/pending', async (req, res) => {
-    // Maintenance Schedule, Maintenance that is "PENDING"
-    try {
-        const pendingMaintenanceList = await Maintenance.find({ status: 'pending' });
-
-        res.json(pendingMaintenanceList);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
 router.put('/maintenance/:id', async (req, res) => {
     // Update details of a specfic maintenance scheduled
     const { id } = req.params;
     const { aircraftId, scheduledDate, description, status } = req.body;
 
     try {
-        const existingMaintenance = await Maintenance.findById(id);
+        const existingMaintenance = await Maintenance.findOne(id);
 
         if (!existingMaintenance) {
             return res.status(404).json({ message: 'Maintenance not found' });
@@ -1570,20 +1557,19 @@ router.post('/maintenance', async (req, res) => {
         Maintenance information will also include its schedule date
         This route covers both the maintenance being created and scheduled
     */
-    const { aircraftId, scheduledDate, description, status } = req.body;
+    const { aircraftID, scheduledDate, description } = req.body;
 
     try {
         // Check if the aircraftId exists
-        const aircraftExists = await Aircraft.findById(aircraftId);
+        const aircraftExists = await Aircraft.findOne(aircraftID);
         if (!aircraftExists) {
             return res.status(400).json({ message: 'Aircraft not found' });
         }
 
         const newMaintenance = new Maintenance({
-            aircraftId,
+            aircraftID,
             scheduledDate,
             description,
-            status,
         });
 
         const savedMaintenance = await newMaintenance.save();
@@ -1598,7 +1584,7 @@ router.delete('/maintenance/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        const maintenanceToDelete = await Maintenance.findById(id);
+        const maintenanceToDelete = await Maintenance.deleteOne(id);
 
         if (!maintenanceToDelete) {
             return res.status(404).json({ message: 'Maintenance not found' });

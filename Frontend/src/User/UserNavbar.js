@@ -23,7 +23,7 @@ const settings = ['Profile', 'Logout'];
 
 // const flightOptions = ['Flight Detail', 'Flight Schedule', 'Flight Status', 'Reserve Seat', 'Seat Reservation'];
 // const bookingOptions = ['Book a Flight', 'Payment', 'Cancel Booking'];
-const myTripsOptions = ['Booking History', 'Booking Details','Refunds' , 'Feedback'];
+const myTripsOptions = [ 'Booking Details'];
 
 
 function NavBar({ userName, userId }) {

@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     admin: { type: Boolean, required: true, default: false },
     superadmin: { type: Boolean, required: true, default: false },
+    flightmanager: { type: Boolean, required: true, default: false },
     blocked: { type: Boolean, required: true, default: false },
     bookingHistory: [{
         type: mongoose.Schema.Types.ObjectId,

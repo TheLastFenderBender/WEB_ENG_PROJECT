@@ -57,7 +57,7 @@ function App() {
           
           <Route path='/SeatSelection/:userId/:flightNumber' element={<SeatSelection />} />
           <Route path='/TripSummary/:bookingNumber' element={<TripSummary />} />
-          <Route path='/Refund/:bookingNumber' element={<Refund />} />
+          <Route path='/Refund/:userId/:bookingNumber' element={<Refund />} />
 
           <Route path='/UserPayment/:bookingNumber' element={<UserPayment />} />
 
