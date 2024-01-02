@@ -184,7 +184,7 @@ const UserProfile = () => {
                         <p><strong>Username:</strong> {user.username}</p>
                         <p><strong>Email:</strong> {user.email}</p>
                         <p><a href="#" onClick={handlePasswordChange}>Change Password?</a></p>
-                        <Link to={`/BookingHistory/${userID}`}>Booking History</Link>
+                        <Link to={`/BookingHistory/${userId}`}>Booking History</Link>
                         {/* <p><a href={`/BookingHistory/${userID}`}>Booking History</a></p> */}
                     </div>
                 </div>

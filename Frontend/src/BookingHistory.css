@@ -1,0 +1,42 @@
+/* BookingHistory.css */
+
+/* Styles for user information section */
+.user-info {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Styles for booking list section */
+.booking-list {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Styles for individual booking rows */
+.booking-rows {
+    display: flex;
+    flex-direction: column;
+}
+
+.booking-row {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Styles for headings */
+h1,
+h2 {
+    text-align: center;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 10px 0;
+}

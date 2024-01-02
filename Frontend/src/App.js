@@ -32,6 +32,7 @@ import Footer from './Footer';
 import UserProfile from './UserProfile';
 import BookingHistory from './BookingHistory';
 import BookingDetails from './BookingDetails';
+import Refund from './Refund';
 
 
 
@@ -57,6 +58,7 @@ function App() {
           
           <Route path='/SeatSelection/:userId/:flightNumber' element={<SeatSelection />} />
           <Route path='/TripSummary/:bookingNumber' element={<TripSummary />} />
+          <Route path='/Refund/:bookingNumber' element={<Refund />} />
 
           <Route path='/UserPayment/:bookingNumber' element={<UserPayment />} />
 

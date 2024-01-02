@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 import './FeedbackPopup.css';
+import { useParams } from 'react-router-dom';
 
 
-const FeedbackPopup = ({ onClose, userId, flightNumber, bookingId }) => {
+
+const FeedbackPopup = ({ onClose }) => {
     const [description, setDescription] = useState('');
+    const { userId, bookingId, flightNumber } = useParams();
     const [rating, setRating] = useState(1);
 
     const handleSubmit = async () => {
+
+        if (!bookingId || !flightNumber) {
+            console.error('Booking ID or Flight Number is missing.');
+            return;
+        }
         // Logic to send feedback data to the server
         try {
             const response = await fetch(`http://localhost:3000/bookings/${bookingId}/feedback`, {
@@ -17,7 +25,6 @@ const FeedbackPopup = ({ onClose, userId, flightNumber, bookingId }) => {
                 body: JSON.stringify({
                     description,
                     userID: userId,
-                    bookingId,
                     flightNumber,
                     rating,
                 }),
