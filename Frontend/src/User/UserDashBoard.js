@@ -2,8 +2,8 @@ import React, { useState ,useEffect} from 'react';
 import SearchFlight from './SearchFlight';
 import FlightStatus from './FlightStatus';
 import NavBar from './UserNavbar';
-import bgImage from './Images/bgDashboard.jpg';
-import QmImage from './Images/quotation-marks.png'
+import bgImage from '../Images/bgDashboard.jpg';
+import QmImage from '../Images/quotation-marks.png'
 import './BookingComponent.css';
 // import { useParams} from 'react-router-dom';
 

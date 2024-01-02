@@ -13,7 +13,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 // import AdbIcon from '@mui/icons-material/Adb';
-import planeImage from './Images/airplane.png';
+import planeImage from '../Images/airplane.png';
 import { useNavigate } from 'react-router-dom';
 
 

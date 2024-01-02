@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Register.css';
-import fbImage from './Images/fb.png';
-import googleImage from './Images/google.png';
+import fbImage from '../Images/fb.png';
+import googleImage from '../Images/google.png';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthNavBar from './AuthNavBar';
 // import { useHistory } from 'react-router-dom';

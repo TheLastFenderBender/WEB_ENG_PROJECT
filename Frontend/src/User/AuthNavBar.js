@@ -1,7 +1,7 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import planeImage from './Images/airplane.png';
+import planeImage from '../Images/airplane.png';
 import Typography from '@mui/material/Typography';
 
 function AuthNavBar() {

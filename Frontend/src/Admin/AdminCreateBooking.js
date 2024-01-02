@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import BookSearch from '../BookSearch';
-import FlightSelectionPopup from '../FlightSelectionPopup';
-import FlightDetail from '../FlightDetail';
-import '../BookFlight.css';
+import BookSearch from '../User/BookSearch';
+import FlightSelectionPopup from '../User/FlightSelectionPopup';
+import FlightDetail from '../User/FlightDetail';
+import '../User/BookFlight.css';
 import { useParams } from 'react-router-dom';
 
 const AdminCreateBooking = () => {

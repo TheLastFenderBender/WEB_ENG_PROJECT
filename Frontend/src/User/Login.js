@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
-import fbImage from './Images/fb.png';
-import googleImage from './Images/google.png';
+import fbImage from '../Images/fb.png';
+import googleImage from '../Images/google.png';
 import { useNavigate } from 'react-router-dom';
 import AuthNavBar from './AuthNavBar';
 

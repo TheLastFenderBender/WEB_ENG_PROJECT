@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import './NewUser.css';
 import { useNavigate } from 'react-router-dom';
-import AuthNavBar from '../AuthNavBar'; 
+import AuthNavBar from '../User/AuthNavBar'; 
 
 const NewUser = () => {
     const [name, setName] = useState('');
