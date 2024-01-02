@@ -4,7 +4,6 @@ import './SuperAdminStyles/PaymentHistory.css';
 import './SuperAdminStyles/SuperAdminPage.css';
 import Axios from 'axios';
 
-
 export default function PaymentHistory() {
 
     const [payments, setPayments] = useState([]);
@@ -13,11 +12,10 @@ export default function PaymentHistory() {
         const fetchPayments = async () => {
             try {
                 const paymentsResponse = await Axios.get("http://127.0.0.1:3000/paymenthistory");
-                const paymentdata = PaymentResponse.data;
+                const paymentdata = paymentsResponse.data;
                 setPayments(paymentdata);
                 console.log(payments);
             } catch (error) {
-                //console.error('Error fetching payments history: ', error);
                 console.log(error);
             }
         };
@@ -34,26 +32,32 @@ export default function PaymentHistory() {
             </div>
             <div className='paymentHContainer'>
                 <table className='paymentHTable'>
-                        <th>User No.</th>
-                        <th>Name</th>
-                        <th>Card Type</th>
-                        <th>Card Number</th>
-                        <th>Amount</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                    {
-                        payments.map((payment, index) => {
-                            <tr key={index}>
-                                <td>{payment.user}</td>
-                                <td>{payment.nameOnCard}</td>
-                                <td>{payment.cardType}</td>
-                                <td>{payment.cardNumber}</td>
-                                <td>{payment.amount}</td>
-                                <td>{payment.timestamp}</td>
-                                <td>{payment.status}</td>
-                            </tr>
-                        })
-                    }
+                    <thead>
+                        <tr>
+                            <th>User No.</th>
+                            <th>Name</th>
+                            <th>Card Type</th>
+                            <th>Card Number</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            payments.map((payment, index) => (
+                                <tr key={index}>
+                                    <td>{payment.user}</td>
+                                    <td>{payment.nameOnCard}</td>
+                                    <td>{payment.cardType}</td>
+                                    <td>{payment.cardNumber}</td>
+                                    <td>{payment.amount}</td>
+                                    <td>{payment.timestamp}</td>
+                                    <td>{payment.status}</td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
                 </table>
             </div>
         </>

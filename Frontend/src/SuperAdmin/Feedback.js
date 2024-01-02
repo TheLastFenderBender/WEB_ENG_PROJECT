@@ -4,7 +4,6 @@ import './SuperAdminStyles/Feedback.css';
 import './SuperAdminStyles/SuperAdminPage.css';
 import Axios from 'axios';
 
-
 export default function Feedback() {
 
     const [feedback, setFeedback] = useState([]);
@@ -12,7 +11,7 @@ export default function Feedback() {
     useEffect(() => {
         const fetchFeedbacks = async () => {
             try {
-                const feedbacksResponse = await Axios.get('http://localhost:3000/feedback');
+                const feedbacksResponse = await Axios.get('http://127.0.0.1:3000/feedback');
                 setFeedback(feedbacksResponse.data);
             } catch (error) {
                 console.error('Error fetching feedbacks: ', error);
@@ -31,25 +30,30 @@ export default function Feedback() {
             </div>
             <div className='feedbackContainer'>
                 <table className='feedbackTable'>
-
-                        <th>#</th>
-                        <th>Details</th>
-                        <th>UserID</th>
-                        <th>BookingID</th>
-                        <th>RATING</th>
-
-                    {feedback.map((feedback) => {
+                    <thead>
                         <tr>
-                            <td>{feedback._id}</td>
-                            <td>{feedback.description}</td>
-                            <td>{feedback.userID}</td>
-                            <td>{feedback.bookingID}</td>
-                            <td>{feedback.rating}</td>
+                            <th>#</th>
+                            <th>Details</th>
+                            <th>UserID</th>
+                            <th>BookingID</th>
+                            <th>RATING</th>
                         </tr>
-                    })}
+                    </thead>
+                    <tbody>
+                        {feedback.map((feedbackItem) => {
+                            return (
+                                <tr key={feedbackItem._id}>
+                                    <td>{feedbackItem._id}</td>
+                                    <td>{feedbackItem.description}</td>
+                                    <td>{feedbackItem.userID}</td>
+                                    <td>{feedbackItem.bookingID}</td>
+                                    <td>{feedbackItem.rating}</td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
                 </table>
             </div>
-
         </>
     )
 }

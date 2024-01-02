@@ -3,7 +3,6 @@ import NavBar from './SuperAdminNavbar';
 import './SuperAdminStyles/FlightHistory.css'
 import Axios from 'axios';
 
-
 export default function FlightHistory() {
 
     const [flights, setFlights] = useState([]);
@@ -11,7 +10,7 @@ export default function FlightHistory() {
     useEffect(() => {
         const fetchFlights = async () => {
             try {
-                const flightResponse = await Axios.get('http://localhost:3000/flighthistory');
+                const flightResponse = await Axios.get('http://127.0.0.1:3000/flighthistory');
                 setFlights(flightResponse.data);
             } catch (error) {
                 console.error('Error getting flight data: ', error);
@@ -30,30 +29,34 @@ export default function FlightHistory() {
             </div>
             <div className='flightHContainer'>
                 <table className='flightHTable'>
-
-                        <th>Flight No.</th>
-                        <th>Airline</th>
-                        <th>AirCraft ID</th>
-                        <th>Departure</th>
-                        <th>Arrival</th>
-                        <th>Date</th>
-                        <th>Flight Type</th>
-                        <th>Status</th>
-
-                    {
-                        flights.map((flight) => {
-                            <tr>
-                                <td>{flight.flighNumber}</td>
-                                <td>{flight.airline}</td>
-                                <td>{flight.aircraftID}</td>
-                                <td>{flight.departure}</td>
-                                <td>{flight.arrival}</td>
-                                <td>{flight.date}</td>
-                                <td>{flight.flightType}</td>
-                                <td>{flight.status}</td>
-                            </tr>
-                        })
-                    }
+                    <thead>
+                        <tr>
+                            <th>Flight No.</th>
+                            <th>Airline</th>
+                            <th>AirCraft ID</th>
+                            <th>Departure</th>
+                            <th>Arrival</th>
+                            <th>Date</th>
+                            <th>Flight Type</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            flights.map((flight) => (
+                                <tr key={flight.flightNumber}>
+                                    <td>{flight.flightNumber}</td>
+                                    <td>{flight.airline}</td>
+                                    <td>{flight.aircraftID}</td>
+                                    <td>{flight.departure}</td>
+                                    <td>{flight.arrival}</td>
+                                    <td>{flight.date}</td>
+                                    <td>{flight.flightType}</td>
+                                    <td>{flight.status}</td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
                 </table>
             </div>
         </>

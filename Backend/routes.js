@@ -1608,24 +1608,12 @@ router.get('/flighthistory', async (req, res) => {
     /*
         Shows flight history
         Done by sending flights that have date before current date
-        Can be improved by showing only flights that have Date + flight duration
-        before the current date
     */
     try {
         const currentDate = new Date();
 
         const flightHistory = await Flight.find({
-            $and: [
-                { date: { $lt: currentDate } },
-                {
-                    $expr: {
-                        $lt: [
-                            { $add: ['$date', { $multiply: [1000 * 60 * 60, '$timeDuration'] }] },
-                            currentDate,
-                        ],
-                    },
-                },
-            ],
+            date: { $lt: currentDate }
         });
 
         res.json(flightHistory);
