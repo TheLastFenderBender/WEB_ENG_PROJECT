@@ -3,21 +3,25 @@ import './RefundView.css'; // Import the CSS module
 
 const RefundView = () => {
   const [refunds, setRefunds] = useState([]);
-  const [selectedRefund, setSelectedRefund] = useState(null);
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState('');
+
+  const fetchRefunds = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/getRefunds');
+      const data = await response.json();
+
+      if (Array.isArray(data)) {
+        setRefunds(data);
+      } else {
+        console.error('Invalid data received from the server:', data);
+      }
+    } catch (error) {
+      console.error('Error fetching refunds:', error);
+    }
+  };
 
   useEffect(() => {
     // Fetch refund records from the backend API
-    const fetchRefunds = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/refunds');
-        const data = await response.json();
-        setRefunds(data);
-      } catch (error) {
-        console.error('Error fetching refunds:', error);
-      }
-    };
-
     fetchRefunds();
   }, []);
 
@@ -29,13 +33,13 @@ const RefundView = () => {
 
       if (response.ok) {
         // Handle successful deletion
-        console.log('User deleted successfully');
-        setRefunds((prevUsers) => prevUsers.filter((refund) => refund._id !== refund));
+        console.log('Refund deleted successfully');
+        setRefunds((prevRefunds) => prevRefunds.filter((item) => item._id !== refund._id));
       } else {
-        console.error('Failed to delete user');
+        console.error('Failed to delete refund');
       }
     } catch (error) {
-      console.error('Error deleting user:', error);
+      console.error('Error deleting refund:', error);
     }
   };
 
@@ -50,11 +54,13 @@ const RefundView = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ refundStatus: status }),
       });
 
       if (response.ok) {
         console.log('Refund status updated successfully');
+        // Fetch refunds again after a successful update
+        fetchRefunds();
       } else {
         console.error('Failed to update refund status');
       }
@@ -82,7 +88,7 @@ const RefundView = () => {
               <td>{refund._id}</td>
               <td>{refund.userId}</td>
               <td>{refund.amount}</td>
-              <td>{refund.status}</td>
+              <td>{refund.refundStatus}</td>
               <td>
                 <select value={status} onChange={handleStatusChange} className="refund-view-select">
                   <option value="pending">Pending</option>

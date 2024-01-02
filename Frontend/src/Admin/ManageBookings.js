@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import BookingView from './BookingView';
-import AdminCreateBooking from './AdminCreateBooking';
 import BookingReport from './BookingReport';
-// import AdminCreateBooking from './AdminCreateBooking'
 import { useNavigate } from 'react-router-dom';
-import styles from './ManageBooking.css'; // Import the CSS module
+import './ManageBooking.css'; // Import the CSS module
 
 const ManageBookings = () => {
   // State to manage the active section in the booking management
@@ -16,10 +14,7 @@ const ManageBookings = () => {
     setActiveSection(section);
   };
 
-  // Function to handle the click on "Create Booking" button
-  const handleButtonCreateBookingClick = () => {
-    navigate('/AdminCreateBooking');
-  };
+  
 
   return (
     <div className='manage-bookings-container'>
@@ -38,10 +33,7 @@ handleButtonClick('updateBookingInformation')}>Update Booking
 Information</button> */}
         {/* <button onClick={() =>
 handleButtonClick('cancelBooking')}>Cancel Booking</button> */}
-        <button onClick={() => handleButtonClick('createBooking')}
-className='manage-bookings-content-button'>
-          Create Booking
-        </button>
+       
         <button onClick={() =>
 handleButtonClick('generateBookingReports')}
 className='manage-bookings-content-button'>
@@ -52,7 +44,6 @@ className='manage-bookings-content-button'>
       {/* Container to display the content based on the active section */}
       <div>
         {activeSection === 'viewBookings' && <BookingView />}
-        {activeSection === 'createBooking' && <AdminCreateBooking />}
         {activeSection === 'generateBookingReports' && <BookingReport />}
       </div>
     </div>
