@@ -34,7 +34,6 @@ export default function PaymentHistory() {
                 <table className='paymentHTable'>
                     <thead>
                         <tr>
-                            <th>User No.</th>
                             <th>Name</th>
                             <th>Card Type</th>
                             <th>Card Number</th>
@@ -47,7 +46,6 @@ export default function PaymentHistory() {
                         {
                             payments.map((payment, index) => (
                                 <tr key={index}>
-                                    <td>{payment.user}</td>
                                     <td>{payment.nameOnCard}</td>
                                     <td>{payment.cardType}</td>
                                     <td>{payment.cardNumber}</td>

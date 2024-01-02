@@ -32,10 +32,8 @@ export default function Feedback() {
                 <table className='feedbackTable'>
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>Details</th>
                             <th>UserID</th>
-                            <th>BookingID</th>
                             <th>RATING</th>
                         </tr>
                     </thead>
@@ -43,10 +41,8 @@ export default function Feedback() {
                         {feedback.map((feedbackItem) => {
                             return (
                                 <tr key={feedbackItem._id}>
-                                    <td>{feedbackItem._id}</td>
                                     <td>{feedbackItem.description}</td>
                                     <td>{feedbackItem.userID}</td>
-                                    <td>{feedbackItem.bookingID}</td>
                                     <td>{feedbackItem.rating}</td>
                                 </tr>
                             );
