@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import NavBar from './SuperAdminNavbar';
 import './SuperAdminStyles/PaymentHistory.css';
 import './SuperAdminStyles/SuperAdminPage.css';
 import Axios from 'axios';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 export default function PaymentHistory() {
 
@@ -31,32 +32,34 @@ export default function PaymentHistory() {
                 <h3>View All Payments Made</h3>
             </div>
             <div className='paymentHContainer'>
-                <table className='paymentHTable'>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Card Type</th>
-                            <th>Card Number</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            payments.map((payment, index) => (
-                                <tr key={index}>
-                                    <td>{payment.nameOnCard}</td>
-                                    <td>{payment.cardType}</td>
-                                    <td>{payment.cardNumber}</td>
-                                    <td>{payment.amount}</td>
-                                    <td>{payment.timestamp.split('T')[0]}</td>
-                                    <td>{payment.status}</td>
-                                </tr>
-                            ))
-                        }
-                    </tbody>
-                </table>
+                <TableContainer component={Paper}>
+                    <Table className='paymentHTable' aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Name</TableCell>
+                                <TableCell>Card Type</TableCell>
+                                <TableCell>Card Number</TableCell>
+                                <TableCell>Amount</TableCell>
+                                <TableCell>Date</TableCell>
+                                <TableCell>Status</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {
+                                payments.map((payment, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell>{payment.nameOnCard}</TableCell>
+                                        <TableCell>{payment.cardType}</TableCell>
+                                        <TableCell>{payment.cardNumber}</TableCell>
+                                        <TableCell>{payment.amount}</TableCell>
+                                        <TableCell>{payment.timestamp.split('T')[0]}</TableCell>
+                                        <TableCell>{payment.status}</TableCell>
+                                    </TableRow>
+                                ))
+                            }
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </div>
         </>
     )

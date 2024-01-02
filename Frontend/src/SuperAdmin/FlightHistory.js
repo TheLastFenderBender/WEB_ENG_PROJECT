@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import NavBar from './SuperAdminNavbar';
-import './SuperAdminStyles/FlightHistory.css'
+import './SuperAdminStyles/FlightHistory.css';
 import Axios from 'axios';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 export default function FlightHistory() {
 
@@ -28,36 +29,38 @@ export default function FlightHistory() {
                 <h3>View Previous Completed Flights</h3>
             </div>
             <div className='flightHContainer'>
-                <table className='flightHTable'>
-                    <thead>
-                        <tr>
-                            <th>Flight No.</th>
-                            <th>Airline</th>
-                            <th>AirCraft ID</th>
-                            <th>Departure</th>
-                            <th>Arrival</th>
-                            <th>Date</th>
-                            <th>Flight Type</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            flights.map((flight) => (
-                                <tr key={flight.flightNumber}>
-                                    <td>{flight.flightNumber}</td>
-                                    <td>{flight.airline}</td>
-                                    <td>{flight.aircraftID}</td>
-                                    <td>{flight.departure}</td>
-                                    <td>{flight.arrival}</td>
-                                    <td>{flight.date.split('T')[0]}</td>
-                                    <td>{flight.flightType}</td>
-                                    <td>{flight.status}</td>
-                                </tr>
-                            ))
-                        }
-                    </tbody>
-                </table>
+                <TableContainer component={Paper}>
+                    <Table className='flightHTable' aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Flight No.</TableCell>
+                                <TableCell>Airline</TableCell>
+                                <TableCell>AirCraft ID</TableCell>
+                                <TableCell>Departure</TableCell>
+                                <TableCell>Arrival</TableCell>
+                                <TableCell>Date</TableCell>
+                                <TableCell>Flight Type</TableCell>
+                                <TableCell>Status</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {
+                                flights.map((flight) => (
+                                    <TableRow key={flight.flightNumber}>
+                                        <TableCell>{flight.flightNumber}</TableCell>
+                                        <TableCell>{flight.airline}</TableCell>
+                                        <TableCell>{flight.aircraftID}</TableCell>
+                                        <TableCell>{flight.departure}</TableCell>
+                                        <TableCell>{flight.arrival}</TableCell>
+                                        <TableCell>{flight.date.split('T')[0]}</TableCell>
+                                        <TableCell>{flight.flightType}</TableCell>
+                                        <TableCell>{flight.status}</TableCell>
+                                    </TableRow>
+                                ))
+                            }
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </div>
         </>
     )

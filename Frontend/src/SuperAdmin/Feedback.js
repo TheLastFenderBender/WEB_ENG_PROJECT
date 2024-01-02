@@ -3,6 +3,7 @@ import NavBar from './SuperAdminNavbar';
 import './SuperAdminStyles/Feedback.css';
 import './SuperAdminStyles/SuperAdminPage.css';
 import Axios from 'axios';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 export default function Feedback() {
 
@@ -29,26 +30,28 @@ export default function Feedback() {
                 <h3>View Feedback from Users</h3>
             </div>
             <div className='feedbackContainer'>
-                <table className='feedbackTable'>
-                    <thead>
-                        <tr>
-                            <th>Details</th>
-                            <th>UserID</th>
-                            <th>RATING</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {feedback.map((feedbackItem) => {
-                            return (
-                                <tr key={feedbackItem._id}>
-                                    <td>{feedbackItem.description}</td>
-                                    <td>{feedbackItem.userID}</td>
-                                    <td>{feedbackItem.rating}</td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                <TableContainer component={Paper}>
+                    <Table className='feedbackTable' aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Details</TableCell>
+                                <TableCell>UserID</TableCell>
+                                <TableCell>RATING</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {feedback.map((feedbackItem) => {
+                                return (
+                                    <TableRow key={feedbackItem._id}>
+                                        <TableCell>{feedbackItem.description}</TableCell>
+                                        <TableCell>{feedbackItem.userID}</TableCell>
+                                        <TableCell>{feedbackItem.rating}</TableCell>
+                                    </TableRow>
+                                );
+                            })}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </div>
         </>
     )
