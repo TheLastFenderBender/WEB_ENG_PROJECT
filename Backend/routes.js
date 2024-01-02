@@ -144,6 +144,8 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     console.log('inside log route');
     try {
+        console.log('insidein try log route');
+
         const { email, password, role } = req.body;
 
         // Validate user input
