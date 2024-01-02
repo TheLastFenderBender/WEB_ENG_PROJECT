@@ -52,12 +52,13 @@ const Login = () => {
                     return;
                 }
                 //console.log(data.token);
-                localStorage.setItem('email', email);
-                localStorage.removeItem('token');
-                localStorage.removeItem('userId');
+                // localStorage.setItem('email', email);
+                // localStorage.removeItem('token');
+                
 
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('userId', data.userId); 
+                // localStorage.removeItem('userId');
 
                 // Redirect based on the selected role
                 if (selectedRole === 'user') {
